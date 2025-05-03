@@ -1,0 +1,44 @@
+name: Stephen Hilton
+image: stephen.png
+bio: Software Engineer at [Terraform Cloud](https://www.terraform.io/).
+
+contacts:
+  - name: GitHub
+    url: https://github.com/stephenhilton
+    image: github.png
+  - name: Twitter/X
+    url: https://twitter.com/stephenhilton
+    image: twitter.png
+  - name: LinkedIn
+    url: https://www.linkedin.com/in/stephenhilton
+    image: linkedin.png
+
+summary:
+  - this is a summary
+
+skills:
+  - this is a capability
+
+
+experience:
+  - company: Terraform
+    company_url: https://www.terraform.io
+    location: Remote
+    company_desc: this is some description
+
+    roles:
+      - role: Software Engineer
+        date: 2022-2023
+        desc: this is some description
+        bullets:
+          - this is a bullet
+          - this is another bullet
+          
+      - role: Software Engineer
+        date: 2021-2022
+        desc: this is some description
+        bullets:
+          - this is a bullet
+          - this is another bullet
+
+    
