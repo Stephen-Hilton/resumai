@@ -1,0 +1,131 @@
+name: Jane Doe
+image_url: https://st4.depositphotos.com/1000816/21657/i/1600/depositphotos_216577232-stock-photo-closeup-of-young-business-woman.jpg
+
+headline: |
+  Hands-on technical leader with success being the innovative “glue” between technology, business, and customer experience.
+
+bio: |
+  Jane Doe is an accomplished marketing executive with over 15 years of experience in developing innovative strategies that drive brand growth and customer engagement. As the Head of Marketing at XYZ Corporation, she oversees a dynamic team responsible for creating impactful campaigns across digital and traditional channels. Jane holds a Master’s degree in Marketing from Northwestern University and began her career as a marketing analyst, quickly rising through the ranks due to her creative vision and data-driven approach.
+
+internal:
+  folders:
+    - icons: https://raw.githubusercontent.com/Stephen-Hilton/resumai/refs/heads/main/src/icons/
+
+contacts:
+  - name: Phone
+    label: 555-555-5555
+    url: tel:555-555-5555
+    image: phone-volume-solid.svg
+  - name: Email
+    label: Jane.Doe@AcmeCorp.com
+    url: mailto:Jane.Doe@AcmeCorp.com
+    image: at-solid.svg
+  - name: Webpage
+    label: example.com
+    url: https://example.com
+    image: globe-solid.svg
+  - name: GitHub
+    label: JaneDoe
+    url: https://github.com/JaneDoe
+    image: github-brands.svg
+  - name: Twitter(x)
+    label: JaneDoe
+    url: https://x.com/JaneDoe
+    image: square-x-twitter-brands.svg
+  - name: LinkedIn
+    label: Jane Doe
+    url: https://www.linkedin.com/in/JaneDoe/
+    image: linkedin-brands-solid.svg
+
+skills:
+  - Technical Marketing and Branding
+  - Technical team leadership
+  - Sustainable, data driven operations
+  - Photoshop, Creative AI Tooling
+
+
+
+experience:
+  - company_name: Acme Corp.
+    company_urls: 
+      - https://www.example.com
+      - https://www.acme.com
+    employees: 300
+    dates: 
+    location: New York, NY 
+    company_desc: |
+      Acme Corp. is a leading global provider of innovative marketing solutions, specializing in digital media, brand strategy, and customer engagement.
+            
+    roles: 
+      - role: Head of Marketing 
+        dates: 2015 - Present 
+        location: New York, NY 
+        desc: |
+          Overseeing all marketing initiatives, I lead a diverse team in crafting strategic campaigns that boost brand visibility and revenue. I focus on leveraging emerging digital platforms, AI, and data analytics to connect brands authentically with their audiences. My leadership has resulted in a 40% increase in brand awareness and a 25% uplift in sales within the first year of tenure.
+        bullets:
+          - Developed innovative marketing strategies that drove significant growth in brand engagement
+          - Integrated emerging technologies like AI and social media to optimize campaign effectiveness
+          - Led a team of 50 marketing professionals across digital, creative, and analytics functions
+          - Organized industry speaking engagements and authored articles to position XYZ as a thought leader
+  
+  - company_name: BrightFuture Tech
+    company_urls:
+      https://www.techfuture.com
+      https://www.brightfuture.com 
+    employees: 500 
+    dates: 2012 - Present location: San Francisco, CA 
+    company_desc: | 
+      BrightFuture Tech is an innovative leader in sustainable technology solutions, focusing on renewable energy, smart grid systems, and eco-friendly consumer electronics. Committed to creating a greener future, BrightFuture develops cutting-edge products that promote energy efficiency and environmental responsibility. 
+    roles:
+      role: Director of Sustainability Initiatives 
+      dates: 2012 - Present 
+      location: San Francisco, CA 
+      desc: | 
+        Leading company efforts to integrate sustainability into product development and corporate strategy. Responsible for launching eco-friendly product lines, managing sustainability reporting, and collaborating with partners to promote renewable energy adoption. Successfully increased energy-efficient product offerings by 60% and enhanced brand reputation for environmental responsibility. 
+      bullets:
+        - Developed strategic sustainability frameworks aligned with corporate goals
+        - Led cross-functional teams to design eco-friendly solutions for consumer electronics
+        - Managed stakeholder engagement and external communication on sustainability targets
+        - Organized community outreach programs to promote environmental awareness
+ 
+
+
+education:
+  - course: AI Marketing
+    school: Udemy
+    dates: 2025 
+  - course: Solidity Basics
+    school: Udemy
+    dates: 2022 
+  - course: Kanban Certification 
+    school: Lean Kanban U.
+    dates: 2018 
+  - course: Masters of Business Administration
+    school: UC Berkeley
+    dates: 2017 
+
+awards_keynotes:
+  - award: "Marketing Leader Excellence award"
+    reward: Paid vacation to Hawaii
+    dates: 2020
+  - award: "Marketing Summit Keynotes: AWS use-cases"
+    reward: twice - Atlanta, Rome
+    dates: 2016
+  - award: "Branding Excellence award"
+    reward: Paid vacation to Paris
+    dates: 2015    
+
+passions:
+  - Working with high-performance teams to deliver quality product that solves real-world problems in a novel way
+  - Be able to build lean, world-class operations that are highly effective, sustainable, and largely automated
+  - Push AI agents to become the primary user experience path for most users, in a common-sense way
+  - Continue to present at events, connect with other domain experts, partners, etc. to stay current in the industry
+
+enjoys: 
+  - Family
+  - Travel
+  - Reading
+  - 3D Printing
+  - Biking
+  - Coffee
+  
