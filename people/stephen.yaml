@@ -1,11 +1,8 @@
 name: Stephen Hilton
-image: stephen.png
+location: San Francisco Bay Area (North Bay)
 
 headline: |
-  Hands-on technical leader with success being the innovative “glue” between technology, business, and customer experience.  Experienced with delivering creative, practical solutions to strategic and technical problems, balancing rapid deployment with long-term sustainability. Strong believer in the power of data-driven  decentralization, AI empowered UX, and clear, concise communications. 
-
-bio: |
-  Stephen Hilton is the Head of Solutions at Space and Time (now MakeInfinite Labs), managing technical aspects of user experience and partnering within the community to build the next evolution of the equitable internet.  He has been leading technical teams for a decade and been neck-deep in data engineering for two, working in Silicon Valley with both the largest companies in the world as well as thought-leading startups. When away from screens, Stephen enjoys wandering about Northern California redwoods with his wife and two children.
+  Solution-oriented, technical leader with success being the innovative “glue” between technology, business, and customer experience.  Experienced with delivering creative, practical solutions to strategic and technical problems, balancing rapid deployment with long-term sustainability. Strong believer in the power of data-driven decisioning, AI empowered UX, and clear, concise communications. 
 
 internal:
   folders:
@@ -15,35 +12,37 @@ contacts:
   - name: Phone
     label: 707-877-6679
     url: tel:707-877-6679
-    image: phone-volume-solid.svg
+    icon: https://raw.githubusercontent.com/Stephen-Hilton/resumai/refs/heads/main/src/icons/phone-volume-solid.svg
   - name: Email
     label: Stephen@FamilyHilton.com 
     url: mailto:stephen@familyhilton.com
-    image: at-solid.svg
+    icon: https://raw.githubusercontent.com/Stephen-Hilton/resumai/refs/heads/main/src/icons/at-solid.svg
   - name: Webpage
     label: FamilyHilton.com
     url: https://familyhilton.com
-    image: globe-solid.svg
+    icon: https://raw.githubusercontent.com/Stephen-Hilton/resumai/refs/heads/main/src/icons/globe-solid.svg
   - name: GitHub
     label: stephen-hilton
     url: https://github.com/stephen-hilton
-    image: github-brands.svg
+    icon: https://raw.githubusercontent.com/Stephen-Hilton/resumai/refs/heads/main/src/icons/github-brands.svg
   - name: Twitter(x)
     label: StephenHiltonST
     url: https://x.com/StephenHiltonST
-    image: square-x-twitter-brands.svg
+    icon: https://raw.githubusercontent.com/Stephen-Hilton/resumai/refs/heads/main/src/icons/square-x-twitter-brands.svg
   - name: LinkedIn
     label: SAHilton
     url: https://www.linkedin.com/in/sahilton/
-    image: linkedin-brands-solid.svg
+    icon: https://raw.githubusercontent.com/Stephen-Hilton/resumai/refs/heads/main/src/icons/linkedin-brands-solid.svg
 
 skills:
-  - Web3 / DePIN / distributed systems
-  - Technical team leadership
+  - AI Application Integration (RAG w/vector embbedding model) 
+  - Web3 / DePIN / decentralized systems
   - Value and solution engineering
+  - Technical team leadership
   - Sustainable, data driven operations
-  - Python, SQL, MD/HTML/CSS, Rust
-
+  - Enterprise data architecture 
+  - Analytics / data science
+  - SQL, Python, Rust, MD/HTML/CSS (enough Java to make Minecraft mods for my kids) 
 
 
 experience:
@@ -55,17 +54,37 @@ experience:
     dates: 
     location: Los Angeles, CA 
     company_desc: |
-      At MakeInfinite Labs, we build the infrastructure that enables developers and creators to build data-driven applications, tokenize and monetize, and win in the AI economy. With a focus on blockchain data at extreme scale, MakeInfinite Labs first contributed to Space and Time.
+      At MakeInfinite Labs, we build the AI + Web3 infrastructure that enables developers and creators to build data-driven applications, tokenize and monetize, and win in the AI economy. With a focus on blockchain data at extreme scale, MakeInfinite Labs is the builder of the Space and Time ZK-tamperproof data warehouse.
             
     roles: 
-      - role: Head of Solutions / Cheif of Staff 
-        dates: June 2022 - Present
+      - role: Head of Solutions / Head of GTM
+        dates: January 2023 - Present
         location: Remote
-        desc: |
-          An early leader reporting to the CEO as Chief of Staff, responsible for jump-starting a new Web3 decentralized network business. Collaborated to form initial company strategy and created initial operational and external communication practices, including fundraising decks, partner and prospect demos, and technical documentation. As the organization matured, shifted to leading external technical relationships, including prospects, customers, operators, community, and developers, including leading technical GTM, delivering $3M ARR in the first 12mo of sales, and on track for $9M next year.
         bullets:
-          - this is a bullet
-          - this is another bullet
+          - Reporting to the CEO as Head of Solutions / GTM, responsible for all sales strategy, operations, tooling, and procedures
+          - Owned all GTM interactions, including presales, postsales, customer success and customer support teams
+          - Grew annual recurring revenue revenue (ARR) from alpha product launch to $3M in the first 12 months, to $14M in the first 24 months (450% YoY)
+          - Managed all revenue tracking, reporting, and forecasting for all products and lines of business, to investors and board of directors
+          - Directly managed all enterprise relationships, including USBank, Fidelity, SSC, FTI consulting, and others
+          - Managed delivery of first full AI (NL2SQL) product to enterprise customer
+          - Presented at dozens of AMAs (ask me anything), panel discussions, hacker-house demos, and other various presentations
+          - Authored most of the technical customer documentation and technical and AI demos
+          - Worked closely with Marketing and Dev Relations, providing techincal guidance to developer community      
+          - Opened 400+ Jira tickets and met with Head of Engineering weekly to ensure product aligned with customer expectation
+          - Integrated Notion note-taking application with Core MakeInfinite product to produce a scalable CRM
+          - Created first product CLI (rust), authored and continues to support Python SDK
+          
+      - role: Chief of Staff 
+        dates: June 2022 - January 2023
+        location: Remote
+        bullets:
+          - Early leader reporting to the CEO as Chief of Staff, helped build foundational processes for a net-new startup 
+          - Assisted with fundraising decks for Seed and Series A, presentations, early product demos, and technical Q&A 
+          - Lead vendor selection for various functions, from CRM, Ticketing, SOC2 and other compliance, etc. 
+          - Designed initial product pricing, including both SaaS / enterprise fixed rate, and pay-as-you-go models
+          - Designed GTM bonus programs for Sales, Solution Engineers and Lead Generation staff 
+
+
 
 
   - company_name: Teradata
@@ -82,12 +101,11 @@ experience:
       - role: Global Director of Strategy, Analytics, and Automation  
         dates: 2020 - June 2022
         location: Remote
-        desc: 
         bullets:
-          - Reporting to the CRO, designed and led global strategy for SalesTech and Customer Success, pushing teams towards a more data-driven services approach for 2k+ customers and $2B in ARR
-          - Architected, prototyped and ultimately oversaw the creation of telemetry analytic automation across the entire SaaS infrastructure, which generated customer facing consumption analysis in real-time (https://github.com/tdcoa/tdcsm)
+          - Reporting to the CRO, designed and led global strategy for SalesTech and Customer Success, leading teams to an automated, data-driven approach for 2k+ customers and $2B in ARR
+          - Managed all revenue and product usage reporting and forecasting to the Teradata board-of-directors
           - Asked to lead the transformation to a customer success strategy, focused on product fit, retention, and process scale and repeatability, which ultimately increased consumption growth 5% over baseline
-          - Responsible for the timely and accurate financial and usage reporting to the Teradata board-of-directors 
+          - Architected, prototyped and ultimately oversaw the creation of telemetry analytic automation framework across the entire SaaS infrastructure, which generated customer facing consumption analysis in real-time (https://github.com/tdcoa/tdcsm)
 
       - role: Director of Solution Engineering / Customer Success  
         dates: 2016 - 2020
@@ -97,6 +115,7 @@ experience:
           - 2018 to 2020, led the largest and most technically complex territory, including 3 of the 4 largest customers and 50% of all Teradata compute in the U.S. (25% compute globally), requiring always-on messaging and ability to manage unique technical and scale challenges of silicon valley tech giants
           - 2017, led territory focusing on SMB and startups across all industries, requiring a diligent understanding of operational economies of scale, prioritizing team effort to maximize revenue, knowing when and how to gently say “no”, all while ensuring to delight even the smallest customers
           - 2016 asked to lead creation of new Sales Engineering Director position and formalizing operational expectations of entire Sales Engineering function, including role responsibility, interviewing, hiring, etc.
+          - Worked with customer technical and analytic leadership at firms like Apple, Facebook, Netflix, Amazon, Ebay, Paypal, Electronic Arts, Ubisoft, Jam City, William Sonoma, Gap, Smart and Final, Kaiser Permanente, RealNetworks, Rhapsody (Napster), etc.
 
       - role: Sr. Solution Engineer  
         dates: 2010 - 2016
@@ -116,19 +135,18 @@ experience:
     location: San Francisco Bay Area
     dates: 2009 - 2010
     company_desc: |
-      Boutique data management consultancy
+      Boutique data management consultancy (acquired)
             
     roles: 
       - role: Sr. Consultant 
         dates: 2009 - 2010
         location: San Francisco Bay Area / Silicon Valley
-        desc: 
         bullets:
-          - "Visa, Data Architect – data architect for EDW project, cross-department analytic architecture design "
-          - "Yahoo!, Ad Revenue Data Consultant – consult and organize 600 metrics into KPIs trees to simplify reporting"
-          - "Lunexa, Application Architect – architected and developed Web Analytics IP using OSS software "
-          - "Wells Fargo, Unix Engineer – Unix scripting for online banking data stream integration "
-          - "Real Networks, Data Engineering – Migration and integration of Rhapsody data infrastructure into Real Networks"
+          - "Visa, Data Architect: data architect for EDW project, cross-department analytic architecture design "
+          - "Yahoo!, Ad Revenue Data Consultant: consult and organize 600 metrics into KPIs trees to simplify reporting"
+          - "Lunexa, Application Architect: architected and developed Web Analytics IP using OSS software "
+          - "Wells Fargo, Unix Engineer: Unix scripting for online banking data stream integration "
+          - "Real Networks, Data Engineering: Migration and integration of Rhapsody data infrastructure into Real Networks"
 
 
   - company_name: Best Buy Corp.
@@ -185,7 +203,13 @@ education:
     dates: 1998 
 
 
-awards_keynotes:
+awards_and_keynotes:
+  - award: "Performance Recognition Grant"
+    reward: Additional 1.5M SXT token grant
+    dates: 2025
+  - award: "Performance Recognition Grant"
+    reward: Additional 600K SXT token grant
+    dates: 2024
   - award: "Consulting Leader Excellence award"
     reward: Paid vacation to Hawaii
     dates: 2020
@@ -210,19 +234,18 @@ awards_keynotes:
 
 
 passions:
-  - Continue to mature the Web3 industry, particularly in the DePIN / infrastructure sub-vertical
-  - Working with high-performance teams to deliver quality product that solves real-world problems in a novel way
-  - Be able to build lean, world-class operations that are highly effective, sustainable, and largely automated
-  - Push AI agents to become the primary user experience path for most users, in a common-sense way
-  - Continue to present at events, connect with other domain experts, partners, etc. to stay current in the industry
+  - Intersection of AI and UX, particuarly the transformation to an agentic workflow
+  - Web3 industry, particularly in the DePIN / RWA sub-verticals
+  - Building lean, world-class teams that are highly effective and sustainable
+  - Working closely with customers on bleeding edge use-cases using AI + data 
+  - Continue to present at events while learning from peers and domain experts
 
 enjoys: 
   - Family
   - Travel
   - Reading
   - 3D Printing
-  - Automation
-  - Web3
+  - Home Automation
   - Biking
   - Coffee
   
