@@ -4,7 +4,8 @@ venv_*
 /jobs/applications
 /old/
 /src/prompts/old/
-
+/src/jobs/*/*
+.vscode/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

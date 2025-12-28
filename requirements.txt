@@ -1,7 +1,0 @@
-pyyaml
-openai
-langchain-openai
-langchain
-requests
-pydantic
-python-docx
