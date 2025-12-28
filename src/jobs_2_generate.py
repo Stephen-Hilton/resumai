@@ -252,21 +252,28 @@ def llm_generate_custom_resume(resume:dict, job:dict, additional_prompt:str = No
     - Keep the same factual information - NEVER fabricate any information
     - You may select the most relevent information, and gently re-word for better clarity ONLY
     - Use the provided CSS classes for styling - DO NOT include inline styles or <style> tags
+    - For icons, add this to the top of the html <head> section: 
+        ```
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="fonts.googleapis.com" />
+        ```
     - There should be 7 sections to the resume:
       - Title and Contact section:
         - Create two columns, with the candidate's NAME on the left and stacked contact information on the right
         - The candidate name should be in 32pt font, and centered in it's column, both veritcally and horizontally
         - The contact information should be right-justified, black 8pt font 
         - Include all contact information in the yaml, in the same order
-        - If a URL is included, always link the label
+        - If a URL is included, always link the label (including <tel:> links)
+        - If an `icon` is supplied, use that instead of the name
         - The contact information "icon" can be either:
-          - An http link to an icon image directly, or 
-          - A Google material design logo name from https://fonts.google.com/icons (i.e., `mobile_hand`)
-          - You may have to import the material design icon font into the html or css, i.e.,
-            `<link href="fonts.googleapis.com" rel="stylesheet" />`
-            and then the icon can be used like this:
-            '<span class="material-symbols-outlined">mobile_hand</span>'
-          - If an `icon` is supplied, use that instead of the name
+          - A full http link to an icon image directly, or 
+          - A Google material design logo name from https://fonts.google.com/icons
+          - for example, 
+            - if `icon: mobile_hand` then use the html:            
+              '<span class="material-symbols-outlined">mobile_hand</span>'
+            - if a full url is supplied, just plug in that, i.e.:
+              `https://raw.githubusercontent.com/Stephen-Hilton/resumai/refs/heads/main/src/icons/globe-solid.svg`
       - Professional Experience section:
         - Tailor the summary/objective to the specific role, but do NOT fabricate any information
         - You have the most freedom to craft a targeted summary, but do NOT fabricate any information
@@ -347,7 +354,7 @@ def llm_generate_custom_resume(resume:dict, job:dict, additional_prompt:str = No
                     {"role": "system", "content": "You are a professional resume writer who creates tailored resumes in HTML format."},
                     {"role": "user", "content": prompt}
                 ],
-                max_completion_tokens=4000
+                max_completion_tokens=8000
             )
             
             return response.choices[0].message.content
@@ -473,9 +480,8 @@ def llm_generate_custom_coverletter(custom_resume:str, job:dict,  additional_pro
                     {"role": "system", "content": sys_prompt},
                     {"role": "user", "content": prompt}
                 ],
-                max_completion_tokens=4000
+                max_completion_tokens=8000
             )
-            
             return response.choices[0].message.content
             
         elif llm_provider.lower() == "anthropic":
@@ -491,7 +497,6 @@ def llm_generate_custom_coverletter(custom_resume:str, job:dict,  additional_pro
                     {"role": "user", "content": prompt}
                 ]
             )
-            
             return response.content[0].text
             
         else:
