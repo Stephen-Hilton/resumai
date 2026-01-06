@@ -1,0 +1,412 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Stats Bar -->
+<div class="stats-bar">
+    <a href="/phase/queued" class="stat-card {% if current_phase == 'queued' %}active{% endif %}">
+        <div class="stat-icon queued">⏳</div>
+        <div class="stat-content">
+            <h3>{{ phase_counts.queued }}</h3>
+            <p>Queued</p>
+        </div>
+    </a>
+    <a href="/phase/generated" class="stat-card {% if current_phase == 'generated' %}active{% endif %}">
+        <div class="stat-icon generated">📄</div>
+        <div class="stat-content">
+            <h3>{{ phase_counts.generated }}</h3>
+            <p>Generated</p>
+        </div>
+    </a>
+    <a href="/phase/applied" class="stat-card {% if current_phase == 'applied' %}active{% endif %}">
+        <div class="stat-icon applied">✅</div>
+        <div class="stat-content">
+            <h3>{{ phase_counts.applied }}</h3>
+            <p>Applied</p>
+        </div>
+    </a>
+    <a href="/phase/communications" class="stat-card {% if current_phase == 'communications' %}active{% endif %}">
+        <div class="stat-icon communications">💬</div>
+        <div class="stat-content">
+            <h3>{{ phase_counts.communications }}</h3>
+            <p>In Comms</p>
+        </div>
+    </a>
+    <a href="/phase/interviews" class="stat-card {% if current_phase == 'interviews' %}active{% endif %}">
+        <div class="stat-icon interviews">🎯</div>
+        <div class="stat-content">
+            <h3>{{ phase_counts.interviews }}</h3>
+            <p>Interviewing</p>
+        </div>
+    </a>
+    <a href="/phase/errors" class="stat-card {% if current_phase == 'errors' %}active{% endif %}">
+        <div class="stat-icon errors">❌</div>
+        <div class="stat-content">
+            <h3>{{ phase_counts.errors }}</h3>
+            <p>Errors</p>
+        </div>
+    </a>
+    <a href="/phase/expired" class="stat-card {% if current_phase == 'expired' %}active{% endif %}">
+        <div class="stat-icon expired">⏰</div>
+        <div class="stat-content">
+            <h3>{{ phase_counts.expired }}</h3>
+            <p>Expired</p>
+        </div>
+    </a>
+    <a href="/phase/skipped" class="stat-card {% if current_phase == 'skipped' %}active{% endif %}">
+        <div class="stat-icon skipped">⏭️</div>
+        <div class="stat-content">
+            <h3>{{ phase_counts.skipped }}</h3>
+            <p>Skipped</p>
+        </div>
+    </a>
+</div>
+
+{% if folders %}
+    <!-- Job Cards Grid -->
+    <div class="job-grid">
+        {% for folder in folders %}
+            <div class="job-card {% if folder.job_data.date_received and calculate_days_old(folder.job_data.date_received) <= 3 %}recent{% endif %}">
+                
+                <!-- TOP SECTION: Company & Job Title (1 column) -->
+                <div class="job-header">
+                    <div class="job-info">
+                        <h3>
+                            <a href="/job/{{ folder.name }}">
+                                {% if folder.job_data.company %}{{ folder.job_data.company }}{% else %}Unknown Company{% endif %}
+                            </a>
+                        </h3>
+                        <div class="job-title">
+                            {% if folder.job_data.title %}{{ folder.job_data.title }}{% else %}Unknown Position{% endif %}
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- MIDDLE SECTION: Metadata + Action Buttons (2 columns) -->
+                <div class="job-middle-section">
+                    <!-- Left Column: Job Metadata -->
+                    <div class="job-meta-column">
+                        <div class="job-meta">
+                            {% if folder.job_data.date_received %}
+                                <div class="job-meta-item">
+                                    <span>Received {{ calculate_days_old(folder.job_data.date_received) }} days ago</span>
+                                </div>
+                            {% endif %}
+                            {% if folder.job_data.location %}
+                                <div class="job-meta-item">
+                                    <span>{{ folder.job_data.location }}</span>
+                                </div>
+                            {% endif %}
+                            {% if folder.job_data.salary %}
+                                <div class="job-meta-item">
+                                    <span>{{ folder.job_data.salary }}</span>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <span class="phase-badge {{ current_phase }}">Phase: {{ current_phase|title }}</span>
+                    </div>
+                    
+                    <!-- Right Column: Action Buttons -->
+                    <div class="job-actions-buttons">
+                        {% if current_phase == 'generated' %}
+                            <div class="job-actions-row">
+                                {% if folder.file_exists.resume %}
+                                    <a href="/view_custom_file/{{ folder.name }}/resume" class="btn btn-wide" target="_blank">
+                                        View Resume
+                                    </a>
+                                    {% if folder.file_exists.resume_pdf %}
+                                        <a href="/view_pdf/{{ folder.name }}/resume" class="btn btn-outline btn-narrow" target="_blank">
+                                            PDF
+                                        </a>
+                                    {% else %}
+                                        <span class="btn btn-outline btn-narrow btn-disabled">
+                                            PDF
+                                        </span>
+                                    {% endif %}
+                                {% else %}
+                                    <span class="btn btn-wide btn-disabled">
+                                        View Resume
+                                    </span>
+                                    <span class="btn btn-outline btn-narrow btn-disabled">
+                                        PDF
+                                    </span>
+                                {% endif %}
+                            </div>
+                            <div class="job-actions-row">
+                                {% if folder.file_exists.coverletter %}
+                                    <a href="/view_custom_file/{{ folder.name }}/coverletter" class="btn btn-wide" target="_blank">
+                                        View Cover Letter
+                                    </a>
+                                    {% if folder.file_exists.coverletter_pdf %}
+                                        <a href="/view_pdf/{{ folder.name }}/coverletter" class="btn btn-outline btn-narrow" target="_blank">
+                                            PDF
+                                        </a>
+                                    {% else %}
+                                        <span class="btn btn-outline btn-narrow btn-disabled">
+                                            PDF
+                                        </span>
+                                    {% endif %}
+                                {% else %}
+                                    <span class="btn btn-wide btn-disabled">
+                                        View Cover Letter
+                                    </span>
+                                    <span class="btn btn-outline btn-narrow btn-disabled">
+                                        PDF
+                                    </span>
+                                {% endif %}
+                            </div>
+                            <div class="job-actions-row">
+                                {% if folder.file_exists.summary %}
+                                    <a href="/view_summary/{{ folder.name }}" class="btn btn-secondary" target="_blank">
+                                        View Job Summary
+                                    </a>
+                                {% else %}
+                                    <span class="btn btn-secondary btn-disabled">
+                                        View Job Summary
+                                    </span>
+                                {% endif %}
+                            </div>
+                        {% else %}
+                            <div class="job-actions-row">
+                                <a href="/job/{{ folder.name }}" class="btn btn-secondary">
+                                    View Details
+                                </a>
+                            </div>
+                            {% if current_phase == 'queued' %}
+                                <div class="job-actions-row">
+                                    <button onclick="processJob('{{ folder.name }}')" class="btn btn-success">
+                                        Generate Resume
+                                    </button>
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- BOTTOM SECTION: Actions Dropdown (1 column) -->
+                <div class="job-bottom-section">
+                    <div class="actions-label">Actions:</div>
+                    <div class="dropdown">
+                        <button class="btn dropdown-toggle">
+                            -- Available Actions -- ▼
+                        </button>
+                        <div class="dropdown-menu">
+                            <button class="dropdown-item" onclick="skipJob('{{ folder.name }}')">
+                                Skip this Job / Not Applicable
+                            </button>
+                            <button class="dropdown-item" onclick="markApplied('{{ folder.name }}')">
+                                Mark as "Applied"
+                            </button>
+                            <button class="dropdown-item" onclick="markCommunications('{{ folder.name }}')">
+                                Mark as "In Communications"
+                            </button>
+                            <button class="dropdown-item" onclick="markInterviewing('{{ folder.name }}')">
+                                Mark as "Interviewing"
+                            </button>
+                            <button class="dropdown-item" onclick="markExpired('{{ folder.name }}')">
+                                Mark as "Expired"
+                            </button>
+                            <button class="dropdown-item" onclick="resetToQueued('{{ folder.name }}')">
+                                Send back to "Queue"
+                            </button>
+                            <button class="dropdown-item" onclick="regenerateJob('{{ folder.name }}')">
+                                Regenerate AI Resume/Letter
+                            </button>
+                            <a href="/edit_job/{{ folder.name }}" class="dropdown-item">
+                                Edit Job YAML
+                            </a>
+                            {% if folder.job_data.link %}
+                                <a href="{{ folder.job_data.link }}" target="_blank" class="dropdown-item">
+                                    Open Job Link
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="empty-state">
+        <h3>No generated job applications found</h3>
+        <p>Run the job generation process to see applications here.</p>
+        <a href="/run_step2" class="btn">🚀 Generate Jobs</a>
+    </div>
+{% endif %}
+
+<script>
+function markCommunications(folderName) {
+    if (confirm('Mark this job as in communications? This will move it to the communications folder.')) {
+        fetch('/mark_communications/' + folderName, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                showAlert(data.message, 'success');
+                setTimeout(() => location.reload(), 1000);
+            } else {
+                showAlert('Error: ' + data.message, 'error');
+            }
+        })
+        .catch(error => {
+            showAlert('Error: ' + error, 'error');
+        });
+    }
+}
+
+function markInterviewing(folderName) {
+    if (confirm('Mark this job as interviewing? This will move it to the interviews folder.')) {
+        fetch('/mark_interviewing/' + folderName, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                showAlert(data.message, 'success');
+                setTimeout(() => location.reload(), 1000);
+            } else {
+                showAlert('Error: ' + data.message, 'error');
+            }
+        })
+        .catch(error => {
+            showAlert('Error: ' + error, 'error');
+        });
+    }
+}
+
+function markExpired(folderName) {
+    if (confirm('Mark this job as expired? This will move it to the expired folder.')) {
+        fetch('/mark_expired/' + folderName, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                showAlert(data.message, 'success');
+                setTimeout(() => location.reload(), 1000);
+            } else {
+                showAlert('Error: ' + data.message, 'error');
+            }
+        })
+        .catch(error => {
+            showAlert('Error: ' + error, 'error');
+        });
+    }
+}
+
+function regenerateJob(folderName) {
+    if (confirm('Regenerate AI resume and cover letter for this job? This may take a few minutes.')) {
+        fetch('/regenerate_job/' + folderName, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                showAlert(data.message, 'success');
+                setTimeout(() => location.reload(), 3000);
+            } else {
+                showAlert('Error: ' + data.message, 'error');
+            }
+        })
+        .catch(error => {
+            showAlert('Error: ' + error, 'error');
+        });
+    }
+}
+
+function markApplied(folderName) {
+    if (confirm('Mark this job as applied? This will move it to the applied folder.')) {
+        fetch('/mark_applied/' + folderName, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                showAlert(data.message, 'success');
+                setTimeout(() => location.reload(), 1000);
+            } else {
+                showAlert('Error: ' + data.message, 'error');
+            }
+        })
+        .catch(error => {
+            showAlert('Error: ' + error, 'error');
+        });
+    }
+}
+
+function skipJob(folderName) {
+    if (confirm('Skip this job? This will move it to the skipped folder.')) {
+        fetch('/skip_job/' + folderName, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                showAlert(data.message, 'success');
+                setTimeout(() => location.reload(), 1000);
+            } else {
+                showAlert('Error: ' + data.message, 'error');
+            }
+        })
+        .catch(error => {
+            showAlert('Error: ' + error, 'error');
+        });
+    }
+}
+
+function resetToQueued(folderName) {
+    if (confirm('Reset this job to queued? This will move the original files back to the queue and remove generated files.')) {
+        fetch('/reset_to_queued/' + folderName, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                showAlert(data.message, 'success');
+                setTimeout(() => location.reload(), 1000);
+            } else {
+                showAlert('Error: ' + data.message, 'error');
+            }
+        })
+        .catch(error => {
+            showAlert('Error: ' + error, 'error');
+        });
+    }
+}
+
+function showAlert(message, type) {
+    const alertDiv = document.createElement('div');
+    alertDiv.className = `alert alert-${type}`;
+    alertDiv.textContent = message;
+    
+    const container = document.querySelector('.container');
+    const header = container.querySelector('.header');
+    container.insertBefore(alertDiv, header.nextSibling);
+    
+    setTimeout(() => {
+        alertDiv.remove();
+    }, 5000);
+}
+</script>
+{% endblock %}

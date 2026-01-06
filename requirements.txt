@@ -1,0 +1,26 @@
+# Core dependencies
+python-dotenv
+pyyaml
+requests
+flask
+
+# Email and parsing
+beautifulsoup4
+lxml
+
+# AI/LLM providers
+openai
+anthropic
+
+# PDF generation (dual support)
+weasyprint
+pdfkit
+
+# Optional dependencies for better compatibility
+pillow
+cffi
+cssselect2
+html5lib
+pyphen
+tinycss2
+pytz

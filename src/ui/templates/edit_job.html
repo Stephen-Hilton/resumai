@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Job - {{ folder_name }} | ResumeAI{% endblock %}
+
+{% block content %}
+<div style="margin-bottom: 20px;">
+    <a href="/job/{{ folder_name }}" class="btn">← Back to Job</a>
+</div>
+
+<h2>Edit Job Data</h2>
+<p style="color: #666;">Edit the YAML data for this job. Be careful with the syntax.</p>
+
+<form method="POST" style="margin-top: 20px;">
+    <div style="margin-bottom: 20px;">
+        <label for="yaml_content" style="display: block; margin-bottom: 10px; font-weight: bold;">Job YAML Data:</label>
+        <textarea 
+            id="yaml_content" 
+            name="yaml_content" 
+            style="width: 100%; height: 500px; font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace; font-size: 14px; padding: 15px; border: 1px solid #ddd; border-radius: 4px;"
+            required
+        >{{ yaml_content }}</textarea>
+    </div>
+    
+    <div style="display: flex; gap: 10px;">
+        <button type="submit" class="btn">Save Changes</button>
+        <a href="/job/{{ folder_name }}" class="btn" style="background: #6c757d;">Cancel</a>
+    </div>
+</form>
+
+<div style="margin-top: 30px; padding: 15px; background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 4px;">
+    <h4 style="margin-top: 0;">⚠️ YAML Syntax Tips:</h4>
+    <ul style="margin-bottom: 0;">
+        <li>Use spaces, not tabs for indentation</li>
+        <li>Strings with special characters should be quoted</li>
+        <li>Lists use <code>-</code> prefix</li>
+        <li>Key-value pairs use <code>key: value</code> format</li>
+    </ul>
+</div>
+{% endblock %}

@@ -1,0 +1,892 @@
+#!/usr/bin/env python3
+"""
+Web UI for managing job applications
+Provides interface to view, edit, and manage generated job applications
+"""
+
+import os
+import sys
+import yaml
+import shutil
+from pathlib import Path
+from datetime import datetime, timedelta
+from flask import Flask, render_template, request, jsonify, redirect, url_for, flash
+import re
+
+# Add parent directory to path to import logging_setup
+sys.path.append(str(Path(__file__).parent.parent))
+import logging_setup
+
+# Set up logger
+logger = logging_setup.get_logger(__name__)
+
+app = Flask(__name__)
+app.secret_key = 'resumai_web_ui_secret_key_change_in_production'
+
+# Base paths
+BASE_DIR = Path(__file__).parent.parent
+JOBS_DIR = BASE_DIR / 'jobs'
+GENERATED_DIR = JOBS_DIR / '2_generated'
+APPLIED_DIR = JOBS_DIR / '3_applied'
+
+def calculate_days_old(date_str):
+    """Calculate how many days old a job is based on date_received"""
+    try:
+        if not date_str:
+            return "Unknown"
+            
+        # Clean up the date string
+        clean_date_str = str(date_str).strip()
+        
+        # Handle timezone by removing it
+        # Format is like: '2025-12-29 10:45:48-08:00'
+        # Remove the timezone part (-08:00, +05:30, etc.)
+        if len(clean_date_str) >= 6:
+            # Check if last 6 characters match timezone pattern like -08:00 or +05:30
+            timezone_part = clean_date_str[-6:]
+            if (timezone_part[0] in ['-', '+'] and 
+                timezone_part[3] == ':' and 
+                timezone_part[1:3].isdigit() and 
+                timezone_part[4:6].isdigit()):
+                clean_date_str = clean_date_str[:-6].strip()
+        
+        # Try different date formats
+        date_formats = [
+            '%Y-%m-%d %H:%M:%S',        # 2025-12-29 10:45:48
+            '%Y-%m-%d',                 # 2025-12-29
+            '%m/%d/%Y',                 # 12/29/2025
+            '%d/%m/%Y',                 # 29/12/2025
+            '%Y-%m-%d %H:%M:%S.%f',     # 2025-12-29 10:45:48.123456
+            '%m/%d/%Y %H:%M:%S'         # 12/29/2025 10:45:48
+        ]
+        
+        job_date = None
+        for fmt in date_formats:
+            try:
+                job_date = datetime.strptime(clean_date_str, fmt)
+                break
+            except ValueError:
+                continue
+        
+        if job_date is None:
+            logger.warning(f"Could not parse date: '{date_str}' (cleaned: '{clean_date_str}')")
+            return "Unknown"
+        
+        # Calculate days difference
+        now = datetime.now()
+        days_diff = (now - job_date).days
+        result = max(0, days_diff)  # Don't show negative days
+        return result
+        
+    except Exception as e:
+        logger.error(f"Error calculating days old for date '{date_str}': {e}")
+        return "Unknown"
+
+# Make the function available in templates
+app.jinja_env.globals.update(calculate_days_old=calculate_days_old)
+
+def ensure_directories():
+    """Ensure required directories exist"""
+    GENERATED_DIR.mkdir(parents=True, exist_ok=True)
+    APPLIED_DIR.mkdir(parents=True, exist_ok=True)
+
+def get_job_folders():
+    """Get all job folders from the generated directory"""
+    ensure_directories()
+    folders = []
+    
+    for item in GENERATED_DIR.iterdir():
+        if item.is_dir():
+            # Look for job YAML file in the directory
+            yaml_files = list(item.glob('*.yaml'))
+            if yaml_files:
+                job_yaml = yaml_files[0]  # Take the first YAML file
+                try:
+                    with open(job_yaml, 'r', encoding='utf-8') as f:
+                        job_data = yaml.safe_load(f)
+                    
+                    folders.append({
+                        'name': item.name,
+                        'path': item,
+                        'yaml_file': job_yaml,
+                        'job_data': job_data,
+                        'files': list(item.glob('*')),
+                        'modified': datetime.fromtimestamp(item.stat().st_mtime)
+                    })
+                except Exception as e:
+                    logger.error(f"Error loading job data from {job_yaml}: {e}")
+                    folders.append({
+                        'name': item.name,
+                        'path': item,
+                        'yaml_file': job_yaml,
+                        'job_data': {'error': f'Failed to load: {e}'},
+                        'files': list(item.glob('*')),
+                        'modified': datetime.fromtimestamp(item.stat().st_mtime)
+                    })
+    
+    # Sort alphabetically by folder name (company.title.id format)
+    folders.sort(key=lambda x: x['name'].lower())
+    return folders
+
+@app.route('/')
+def index():
+    """Main page showing all job folders"""
+    folders = get_job_folders()
+    return render_template('index.html', folders=folders)
+
+@app.route('/job/<folder_name>')
+def job_detail(folder_name):
+    """Detail page for a specific job"""
+    job_path = GENERATED_DIR / folder_name
+    
+    if not job_path.exists() or not job_path.is_dir():
+        flash(f'Job folder "{folder_name}" not found', 'error')
+        return redirect(url_for('index'))
+    
+    # Find YAML file
+    yaml_files = list(job_path.glob('*.yaml'))
+    if not yaml_files:
+        flash(f'No job YAML file found in "{folder_name}"', 'error')
+        return redirect(url_for('index'))
+    
+    yaml_file = yaml_files[0]
+    
+    try:
+        with open(yaml_file, 'r', encoding='utf-8') as f:
+            job_data = yaml.safe_load(f)
+    except Exception as e:
+        flash(f'Error loading job data: {e}', 'error')
+        return redirect(url_for('index'))
+    
+    # Get all files in the directory
+    files = []
+    for file_path in job_path.glob('*'):
+        if file_path.is_file():
+            files.append({
+                'name': file_path.name,
+                'path': file_path,
+                'size': file_path.stat().st_size,
+                'modified': datetime.fromtimestamp(file_path.stat().st_mtime),
+                'is_html': file_path.suffix.lower() == '.html',
+                'is_yaml': file_path.suffix.lower() == '.yaml'
+            })
+    
+    files.sort(key=lambda x: x['name'])
+    
+    return render_template('job_detail.html', 
+                         folder_name=folder_name,
+                         job_data=job_data,
+                         yaml_file=yaml_file,
+                         files=files)
+
+@app.route('/edit_job/<folder_name>', methods=['GET', 'POST'])
+def edit_job(folder_name):
+    """Edit job YAML data"""
+    job_path = GENERATED_DIR / folder_name
+    
+    if not job_path.exists():
+        flash(f'Job folder "{folder_name}" not found', 'error')
+        return redirect(url_for('index'))
+    
+    yaml_files = list(job_path.glob('*.yaml'))
+    if not yaml_files:
+        flash(f'No job YAML file found in "{folder_name}"', 'error')
+        return redirect(url_for('index'))
+    
+    yaml_file = yaml_files[0]
+    
+    if request.method == 'POST':
+        try:
+            # Get the edited YAML content
+            yaml_content = request.form['yaml_content']
+            
+            # Validate YAML syntax
+            yaml.safe_load(yaml_content)
+            
+            # Save the file
+            with open(yaml_file, 'w', encoding='utf-8') as f:
+                f.write(yaml_content)
+            
+            flash('Job data updated successfully', 'success')
+            logger.info(f"Updated job YAML file: {yaml_file}")
+            return redirect(url_for('job_detail', folder_name=folder_name))
+            
+        except yaml.YAMLError as e:
+            flash(f'Invalid YAML syntax: {e}', 'error')
+        except Exception as e:
+            flash(f'Error saving job data: {e}', 'error')
+            logger.error(f"Error saving job YAML file {yaml_file}: {e}")
+    
+    # Load current content for editing
+    try:
+        with open(yaml_file, 'r', encoding='utf-8') as f:
+            yaml_content = f.read()
+    except Exception as e:
+        flash(f'Error loading job data: {e}', 'error')
+        return redirect(url_for('job_detail', folder_name=folder_name))
+    
+    return render_template('edit_job.html', 
+                         folder_name=folder_name,
+                         yaml_content=yaml_content)
+
+@app.route('/view_file/<folder_name>/<filename>')
+def view_file(folder_name, filename):
+    """View HTML files in browser"""
+    file_path = GENERATED_DIR / folder_name / filename
+    
+    if not file_path.exists():
+        flash(f'File "{filename}" not found', 'error')
+        return redirect(url_for('job_detail', folder_name=folder_name))
+    
+    if file_path.suffix.lower() == '.html':
+        try:
+            with open(file_path, 'r', encoding='utf-8') as f:
+                content = f.read()
+            
+            # Fix the CSS path to point to our Flask route
+            css_route = url_for('serve_css')
+            content = content.replace('href="../../css/styles.css"', f'href="{css_route}"')
+            
+            return content
+        except Exception as e:
+            flash(f'Error reading file: {e}', 'error')
+            return redirect(url_for('job_detail', folder_name=folder_name))
+    else:
+        flash('Only HTML files can be viewed in browser', 'warning')
+        return redirect(url_for('job_detail', folder_name=folder_name))
+
+@app.route('/mark_applied/<folder_name>', methods=['POST'])
+def mark_applied(folder_name):
+    """Mark job as applied and move to applied directory"""
+    job_path = GENERATED_DIR / folder_name
+    
+    if not job_path.exists():
+        return jsonify({'success': False, 'message': f'Job folder "{folder_name}" not found'})
+    
+    try:
+        # Ensure applied directory exists
+        APPLIED_DIR.mkdir(parents=True, exist_ok=True)
+        
+        # Move the entire directory
+        destination = APPLIED_DIR / folder_name
+        
+        # If destination exists, add timestamp to make it unique
+        if destination.exists():
+            timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+            destination = APPLIED_DIR / f"{folder_name}_{timestamp}"
+        
+        shutil.move(str(job_path), str(destination))
+        
+        logger.info(f"Moved job folder from {job_path} to {destination}")
+        return jsonify({'success': True, 'message': f'Job marked as applied and moved to {destination.name}'})
+        
+    except Exception as e:
+        logger.error(f"Error moving job folder {job_path}: {e}")
+        return jsonify({'success': False, 'message': f'Error marking as applied: {e}'})
+
+@app.route('/open_link/<folder_name>')
+def open_link(folder_name):
+    """Get the job link URL for opening in new tab"""
+    job_path = GENERATED_DIR / folder_name
+    
+    if not job_path.exists():
+        return jsonify({'success': False, 'message': 'Job not found'})
+    
+    yaml_files = list(job_path.glob('*.yaml'))
+    if not yaml_files:
+        return jsonify({'success': False, 'message': 'No job data found'})
+    
+    try:
+        with open(yaml_files[0], 'r', encoding='utf-8') as f:
+            job_data = yaml.safe_load(f)
+        
+        link = job_data.get('link')
+        if link:
+            return jsonify({'success': True, 'url': link})
+        else:
+            return jsonify({'success': False, 'message': 'No link found in job data'})
+            
+    except Exception as e:
+        return jsonify({'success': False, 'message': f'Error loading job data: {e}'})
+
+@app.route('/view_custom_file/<folder_name>/<file_type>')
+def view_custom_file(folder_name, file_type):
+    """View custom resume or cover letter files"""
+    job_path = GENERATED_DIR / folder_name
+    
+    if not job_path.exists():
+        flash(f'Job folder "{folder_name}" not found', 'error')
+        return redirect(url_for('index'))
+    
+    # Find the appropriate file
+    if file_type == 'resume':
+        pattern = '*.resume.html'
+    elif file_type == 'coverletter':
+        pattern = '*.coverletter.html'
+    else:
+        flash(f'Invalid file type: {file_type}', 'error')
+        return redirect(url_for('job_detail', folder_name=folder_name))
+    
+    matching_files = list(job_path.glob(pattern))
+    
+    if not matching_files:
+        flash(f'No {file_type} file found for this job', 'error')
+        return redirect(url_for('job_detail', folder_name=folder_name))
+    
+    file_path = matching_files[0]  # Take the first matching file
+    
+    try:
+        with open(file_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+        
+        # Fix the CSS path to point to our Flask route
+        # Replace relative CSS path with absolute Flask route
+        css_route = url_for('serve_css')
+        content = content.replace('href="../../css/styles.css"', f'href="{css_route}"')
+        
+        return content
+    except Exception as e:
+        flash(f'Error reading {file_type} file: {e}', 'error')
+        return redirect(url_for('job_detail', folder_name=folder_name))
+
+@app.route('/print_file/<folder_name>/<file_type>')
+def print_file(folder_name, file_type):
+    """View file optimized for printing with print dialog"""
+    job_path = GENERATED_DIR / folder_name
+    
+    if not job_path.exists():
+        flash(f'Job folder "{folder_name}" not found', 'error')
+        return redirect(url_for('index'))
+    
+    # Find the appropriate file
+    if file_type == 'resume':
+        pattern = '*.resume.html'
+    elif file_type == 'coverletter':
+        pattern = '*.coverletter.html'
+    else:
+        flash(f'Invalid file type: {file_type}', 'error')
+        return redirect(url_for('job_detail', folder_name=folder_name))
+    
+    matching_files = list(job_path.glob(pattern))
+    
+    if not matching_files:
+        flash(f'No {file_type} file found for this job', 'error')
+        return redirect(url_for('job_detail', folder_name=folder_name))
+    
+    file_path = matching_files[0]  # Take the first matching file
+    
+    try:
+        with open(file_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+        
+        # Fix the CSS path to point to our Flask route
+        css_route = url_for('serve_css')
+        content = content.replace('href="../../css/styles.css"', f'href="{css_route}"')
+        
+        # Extract job info for filename
+        yaml_files = list(job_path.glob('*.yaml'))
+        company_name = "Unknown"
+        job_title = "Unknown"
+        
+        if yaml_files:
+            try:
+                with open(yaml_files[0], 'r', encoding='utf-8') as f:
+                    job_data = yaml.safe_load(f)
+                company_name = job_data.get('company', 'Unknown').replace(' ', '_')
+                job_title = job_data.get('title', 'Unknown').replace(' ', '_')
+            except:
+                pass
+        
+        # Generate suggested filename with current date
+        from datetime import datetime
+        current_date = datetime.now().strftime('%Y%m%d')
+        suggested_filename = f"Stephen_Hilton_{file_type}_{company_name}_{current_date}.pdf"
+        
+        # Add JavaScript to automatically trigger print dialog and set filename
+        print_script = f"""
+        <script>
+        // Set document title for better PDF naming
+        document.title = '{suggested_filename}';
+        
+        // Show helpful instructions
+        function showSaveInstructions() {{
+            const instructionDiv = document.createElement('div');
+            instructionDiv.id = 'saveInstructions';
+            instructionDiv.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #007bff;
+                color: white;
+                padding: 15px 20px;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                z-index: 10000;
+                max-width: 350px;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                font-size: 14px;
+                line-height: 1.4;
+            `;
+            instructionDiv.innerHTML = `
+                <div style="display: flex; align-items: flex-start; gap: 10px;">
+                    <div style="font-size: 18px;">📁</div>
+                    <div>
+                        <strong>PDF Save Location:</strong><br>
+                        Suggested filename: <code style="background: rgba(255,255,255,0.2); padding: 2px 4px; border-radius: 3px;">{suggested_filename}</code><br>
+                        <small>💡 Tip: Navigate to your desired folder in the save dialog</small>
+                    </div>
+                    <button onclick="this.parentElement.parentElement.remove()" style="background: none; border: none; color: white; font-size: 16px; cursor: pointer; margin-left: auto;">×</button>
+                </div>
+            `;
+            document.body.appendChild(instructionDiv);
+            
+            // Auto-remove after 8 seconds
+            setTimeout(() => {{
+                if (document.getElementById('saveInstructions')) {{
+                    document.getElementById('saveInstructions').remove();
+                }}
+            }}, 8000);
+        }}
+        
+        // Auto-trigger print dialog when page loads
+        window.addEventListener('load', function() {{
+            // Show instructions first
+            showSaveInstructions();
+            
+            // Small delay to ensure page is fully rendered
+            setTimeout(function() {{
+                window.print();
+            }}, 800);
+        }});
+        
+        // Show instructions again after print dialog closes (if user cancels)
+        window.addEventListener('afterprint', function() {{
+            setTimeout(() => {{
+                if (!document.getElementById('saveInstructions')) {{
+                    showSaveInstructions();
+                }}
+            }}, 1000);
+        }});
+        </script>
+        """
+        
+        # Insert the script before closing body tag
+        if '</body>' in content:
+            content = content.replace('</body>', print_script + '\n</body>')
+        else:
+            content += print_script
+        
+        return content
+    except Exception as e:
+        flash(f'Error reading {file_type} file: {e}', 'error')
+        return redirect(url_for('job_detail', folder_name=folder_name))
+
+@app.route('/download_pdf/<folder_name>/<file_type>')
+def download_pdf(folder_name, file_type):
+    """Generate and download PDF using browser's native PDF engine via a data URL"""
+    job_path = GENERATED_DIR / folder_name
+    
+    if not job_path.exists():
+        flash(f'Job folder "{folder_name}" not found', 'error')
+        return redirect(url_for('index'))
+    
+    # Find the appropriate file
+    if file_type == 'resume':
+        pattern = '*.resume.html'
+    elif file_type == 'coverletter':
+        pattern = '*.coverletter.html'
+    else:
+        flash(f'Invalid file type: {file_type}', 'error')
+        return redirect(url_for('job_detail', folder_name=folder_name))
+    
+    matching_files = list(job_path.glob(pattern))
+    
+    if not matching_files:
+        flash(f'No {file_type} file found for this job', 'error')
+        return redirect(url_for('job_detail', folder_name=folder_name))
+    
+    file_path = matching_files[0]
+    
+    try:
+        with open(file_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+        
+        # Fix the CSS path to point to our Flask route
+        css_route = url_for('serve_css')
+        content = content.replace('href="../../css/styles.css"', f'href="{css_route}"')
+        
+        # Extract job info for filename
+        yaml_files = list(job_path.glob('*.yaml'))
+        company_name = "Unknown"
+        job_title = "Unknown"
+        
+        if yaml_files:
+            try:
+                with open(yaml_files[0], 'r', encoding='utf-8') as f:
+                    job_data = yaml.safe_load(f)
+                company_name = job_data.get('company', 'Unknown').replace(' ', '_').replace('/', '_')
+                job_title = job_data.get('title', 'Unknown').replace(' ', '_').replace('/', '_')
+            except:
+                pass
+        
+        # Generate suggested filename with current date
+        from datetime import datetime
+        current_date = datetime.now().strftime('%Y%m%d')
+        suggested_filename = f"Stephen_Hilton_{file_type}_{company_name}_{current_date}.pdf"
+        
+        # Create a download page that uses print-to-PDF with better UX
+        download_page = f"""
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>Download PDF - {suggested_filename}</title>
+            <style>
+                body {{
+                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                    max-width: 600px;
+                    margin: 50px auto;
+                    padding: 20px;
+                    background: #f8f9fa;
+                }}
+                .card {{
+                    background: white;
+                    border-radius: 12px;
+                    padding: 30px;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                    text-align: center;
+                }}
+                .btn {{
+                    display: inline-block;
+                    padding: 12px 24px;
+                    margin: 10px;
+                    border: none;
+                    border-radius: 6px;
+                    text-decoration: none;
+                    font-weight: 500;
+                    cursor: pointer;
+                    transition: all 0.2s;
+                }}
+                .btn-primary {{
+                    background: #007bff;
+                    color: white;
+                }}
+                .btn-primary:hover {{
+                    background: #0056b3;
+                    transform: translateY(-1px);
+                }}
+                .btn-secondary {{
+                    background: #6c757d;
+                    color: white;
+                }}
+                .filename {{
+                    background: #e9ecef;
+                    padding: 8px 12px;
+                    border-radius: 4px;
+                    font-family: monospace;
+                    margin: 10px 0;
+                    display: inline-block;
+                }}
+                .instructions {{
+                    background: #d1ecf1;
+                    border: 1px solid #bee5eb;
+                    border-radius: 6px;
+                    padding: 15px;
+                    margin: 20px 0;
+                    text-align: left;
+                }}
+                .step {{
+                    margin: 8px 0;
+                }}
+            </style>
+        </head>
+        <body>
+            <div class="card">
+                <h2>📄 Download PDF</h2>
+                <p><strong>Company:</strong> {company_name.replace('_', ' ')}</p>
+                <p><strong>Document:</strong> {file_type.title()}</p>
+                
+                <div class="filename">{suggested_filename}</div>
+                
+                <div class="instructions">
+                    <h4>📁 Recommended Save Location:</h4>
+                    <div class="step">💼 <strong>Desktop/Job_Applications/{company_name.replace('_', ' ')}/</strong></div>
+                    <div class="step">📂 Or create a folder: <strong>~/Documents/Resumes_2025/</strong></div>
+                    <div class="step">🗂️ Or organize by: <strong>~/Downloads/Job_PDFs/</strong></div>
+                </div>
+                
+                <button class="btn btn-primary" onclick="openPrintVersion()">
+                    🖨️ Generate PDF (Print Dialog)
+                </button>
+                
+                <a href="/view_custom_file/{folder_name}/{file_type}" target="_blank" class="btn btn-secondary">
+                    👁️ Preview First
+                </a>
+                
+                <div style="margin-top: 20px; font-size: 14px; color: #666;">
+                    <p><strong>Instructions:</strong></p>
+                    <p>1. Click "Generate PDF" to open print dialog</p>
+                    <p>2. Choose "Save as PDF" as destination</p>
+                    <p>3. Navigate to your preferred folder</p>
+                    <p>4. The filename will be pre-filled</p>
+                </div>
+            </div>
+            
+            <script>
+            function openPrintVersion() {{
+                // Open the print version in a new window
+                window.open('/print_file/{folder_name}/{file_type}', '_blank', 'width=800,height=600');
+            }}
+            </script>
+        </body>
+        </html>
+        """
+        
+        return download_page
+        
+    except Exception as e:
+        flash(f'Error preparing {file_type} download: {e}', 'error')
+        return redirect(url_for('job_detail', folder_name=folder_name))
+
+@app.route('/css/styles.css')
+def serve_css():
+    """Serve the CSS file for HTML previews"""
+    css_path = JOBS_DIR / 'css' / 'styles.css'
+    
+    if not css_path.exists():
+        return "/* CSS file not found */", 404, {'Content-Type': 'text/css'}
+    
+    try:
+        with open(css_path, 'r', encoding='utf-8') as f:
+            css_content = f.read()
+        
+        return css_content, 200, {'Content-Type': 'text/css'}
+    except Exception as e:
+        logger.error(f"Error serving CSS file: {e}")
+        return f"/* Error loading CSS: {e} */", 500, {'Content-Type': 'text/css'}
+
+@app.route('/reset_to_queued/<folder_name>', methods=['POST'])
+def reset_to_queued(folder_name):
+    """Reset job to queued state by moving original files back and cleaning up generated files"""
+    job_path = GENERATED_DIR / folder_name
+    
+    if not job_path.exists():
+        return jsonify({'success': False, 'message': f'Job folder "{folder_name}" not found'})
+    
+    try:
+        # Ensure queued directory exists
+        queued_dir = JOBS_DIR / '1_queued'
+        queued_dir.mkdir(parents=True, exist_ok=True)
+        
+        # Find the original YAML and HTML files to move back
+        yaml_files = list(job_path.glob('*.yaml'))
+        original_html_files = list(job_path.glob('*.html'))
+        
+        # Filter to find the original job files (not generated resume/cover letter)
+        original_yaml = None
+        original_html = None
+        
+        for yaml_file in yaml_files:
+            # Original YAML should not contain resume-specific names
+            if not any(keyword in yaml_file.name.lower() for keyword in ['resume', 'coverletter', 'summary']):
+                original_yaml = yaml_file
+                break
+        
+        for html_file in original_html_files:
+            # Original HTML should not be resume/coverletter/summary
+            if not any(keyword in html_file.name.lower() for keyword in ['resume', 'coverletter', 'summary']):
+                original_html = html_file
+                break
+        
+        if not original_yaml:
+            return jsonify({'success': False, 'message': 'Original YAML file not found'})
+        
+        # Move original files back to queued
+        files_moved = []
+        
+        # Move YAML file
+        yaml_destination = queued_dir / original_yaml.name
+        if yaml_destination.exists():
+            yaml_destination.unlink()  # Remove existing file
+        original_yaml.rename(yaml_destination)
+        files_moved.append(original_yaml.name)
+        
+        # Move HTML file if it exists
+        if original_html:
+            html_destination = queued_dir / original_html.name
+            if html_destination.exists():
+                html_destination.unlink()  # Remove existing file
+            original_html.rename(html_destination)
+            files_moved.append(original_html.name)
+        
+        # Remove the entire job directory and all remaining files
+        shutil.rmtree(job_path)
+        
+        logger.info(f"Reset job {folder_name} to queued: moved {files_moved}, removed directory")
+        return jsonify({
+            'success': True, 
+            'message': f'Job reset to queued. Moved {len(files_moved)} files back to queue and cleaned up generated files.'
+        })
+        
+    except Exception as e:
+        logger.error(f"Error resetting job {folder_name} to queued: {e}")
+        return jsonify({'success': False, 'message': f'Error resetting job: {e}'})
+
+@app.route('/move_job/<folder_name>/<destination>', methods=['POST'])
+def move_job(folder_name, destination):
+    """Move job folder to different directories based on status"""
+    job_path = GENERATED_DIR / folder_name
+    
+    if not job_path.exists():
+        return jsonify({'success': False, 'message': f'Job folder "{folder_name}" not found'})
+    
+    # Define destination directories
+    destinations = {
+        'applied': JOBS_DIR / '3_applied',
+        'communications': JOBS_DIR / '4_communications', 
+        'interviews': JOBS_DIR / '5_interviews',
+        'skipped': JOBS_DIR / '9_skipped'
+    }
+    
+    if destination not in destinations:
+        return jsonify({'success': False, 'message': f'Invalid destination: {destination}'})
+    
+    try:
+        dest_dir = destinations[destination]
+        dest_dir.mkdir(parents=True, exist_ok=True)
+        
+        # Move the entire directory
+        final_destination = dest_dir / folder_name
+        
+        # If destination exists, add timestamp to make it unique
+        if final_destination.exists():
+            timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+            final_destination = dest_dir / f"{folder_name}_{timestamp}"
+        
+        shutil.move(str(job_path), str(final_destination))
+        
+        # Create user-friendly messages
+        messages = {
+            'applied': 'marked as applied',
+            'communications': 'moved to communications',
+            'interviews': 'moved to interviews', 
+            'skipped': 'skipped/hidden'
+        }
+        
+        logger.info(f"Moved job folder from {job_path} to {final_destination}")
+        return jsonify({
+            'success': True, 
+            'message': f'Job {messages[destination]} and moved to {final_destination.name}'
+        })
+        
+    except Exception as e:
+        logger.error(f"Error moving job folder {job_path} to {destination}: {e}")
+        return jsonify({'success': False, 'message': f'Error moving job: {e}'})
+
+@app.route('/regenerate_job/<folder_name>', methods=['POST'])
+def regenerate_job(folder_name):
+    """Regenerate resume and cover letter for a specific job"""
+    job_path = GENERATED_DIR / folder_name
+    
+    if not job_path.exists():
+        return jsonify({'success': False, 'message': f'Job folder "{folder_name}" not found'})
+    
+    try:
+        # Get additional prompt from request
+        data = request.get_json() or {}
+        additional_prompt = data.get('additional_prompt', '').strip()
+        
+        # Find the job YAML file
+        yaml_files = list(job_path.glob('*.yaml'))
+        if not yaml_files:
+            return jsonify({'success': False, 'message': 'No job YAML file found'})
+        
+        job_yaml = yaml_files[0]
+        
+        # Load job data to get the ID
+        with open(job_yaml, 'r', encoding='utf-8') as f:
+            job_data = yaml.safe_load(f)
+        
+        job_id = job_data.get('id')
+        if not job_id:
+            return jsonify({'success': False, 'message': 'No job ID found in YAML file'})
+        
+        # Move YAML file to queued directory
+        queued_dir = JOBS_DIR / '1_queued'
+        queued_dir.mkdir(parents=True, exist_ok=True)
+        
+        queued_destination = queued_dir / job_yaml.name
+        if queued_destination.exists():
+            queued_destination.unlink()  # Remove existing file
+        
+        # Copy (don't move) the YAML file to queued so we can regenerate
+        import shutil as sh
+        sh.copy2(job_yaml, queued_destination)
+        
+        # Import and call the generate function in a separate thread
+        import threading
+        import sys
+        from pathlib import Path
+        
+        # Add the parent directory to sys.path to import step2_generate
+        parent_dir = Path(__file__).parent.parent
+        if str(parent_dir) not in sys.path:
+            sys.path.append(str(parent_dir))
+        
+        def run_generation():
+            try:
+                import step2_generate
+                # Call generate with force=True and specific job_id
+                step2_generate.generate(force=True, job_id=job_id, additional_prompt=additional_prompt)
+            except Exception as e:
+                logger.error(f"Error in background generation: {e}")
+        
+        # Start generation in background thread
+        generation_thread = threading.Thread(target=run_generation)
+        generation_thread.daemon = True
+        generation_thread.start()
+        
+        logger.info(f"Started regeneration for job ID {job_id} with additional prompt: '{additional_prompt}'")
+        return jsonify({
+            'success': True, 
+            'message': f'AI regeneration started for job ID {job_id}. This may take a minute to complete.'
+        })
+        
+    except Exception as e:
+        logger.error(f"Error starting regeneration for {folder_name}: {e}")
+        return jsonify({'success': False, 'message': f'Error starting regeneration: {e}'})
+
+@app.route('/get_summary/<folder_name>')
+def get_summary(folder_name):
+    """Get job summary content for accordion"""
+    job_path = GENERATED_DIR / folder_name
+    
+    if not job_path.exists():
+        return jsonify({'success': False, 'message': 'Job folder not found'})
+    
+    # Find summary file
+    summary_files = list(job_path.glob('*.!SUMMARY.html'))
+    
+    if not summary_files:
+        return jsonify({'success': False, 'message': 'No summary file found'})
+    
+    try:
+        with open(summary_files[0], 'r', encoding='utf-8') as f:
+            content = f.read()
+        
+        # Clean up the HTML content for display in accordion
+        # Remove html, head, body tags if present and just get the content
+        body_match = re.search(r'<body[^>]*>(.*?)</body>', content, re.DOTALL | re.IGNORECASE)
+        if body_match:
+            content = body_match.group(1)
+        
+        return jsonify({'success': True, 'content': content})
+        
+    except Exception as e:
+        logger.error(f"Error reading summary file: {e}")
+        return jsonify({'success': False, 'message': f'Error reading summary: {e}'})
+
+if __name__ == '__main__':
+    ensure_directories()
+    logger.info("Starting ResumeAI Web UI on http://127.0.0.1:5001")
+    app.run(debug=True, host='127.0.0.1', port=5001)

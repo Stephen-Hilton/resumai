@@ -3,10 +3,15 @@ from zoneinfo import ZoneInfo
 from dotenv import load_dotenv
 from pprint import pprint
 import os
+import logging
 import gmail_mgr as gmail
 from bs4 import BeautifulSoup
 import re
 from urllib.parse import urljoin
+import logging_setup
+
+# Set up logger for this module
+logger = logging_setup.get_logger(__name__)
     
 
 def get_emails_html():
@@ -110,9 +115,6 @@ def parse_emails_to_jobs(emails:list=None):
                 'tags': tags,
             }
             
-            print('\n\n')
-            pprint(job, sort_dicts=False)
-
             jobs.append(job)
             seen_links.add(href)
 

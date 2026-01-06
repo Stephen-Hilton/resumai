@@ -4,8 +4,13 @@ from dotenv import load_dotenv
 import os 
 import imaplib
 import email
+import logging
 from email.header import decode_header
 from email.utils import parsedate_to_datetime
+import logging_setup
+
+# Set up logger for this module
+logger = logging_setup.get_logger(__name__)
 
 def get_gmails(gmail_address:str,
                app_password:str, 
@@ -18,11 +23,18 @@ def get_gmails(gmail_address:str,
     """
     Connects to Gmail using OAuth2 and retrieves emails based on specified criteria, which is returned as a list of dictionaries.
     """
+    logger.info(f"Connecting to Gmail for {gmail_address}")
+    logger.debug(f"Filters - unread_only: {unread_only}, subject_filters: {subject_filters}, sender_filters: {sender_filters}, max_results: {max_results}")
+    
     load_dotenv('.env')
     if not gmail_address:
         gmail_address = os.getenv('GMAIL_ADDRESS')
     if not app_password:
         app_password = os.getenv('GMAIL_APP_PASSWORD')
+        
+    if not gmail_address or not app_password:
+        logger.error("Gmail credentials not provided")
+        raise ValueError("Gmail credentials required")
 
     # Do not apply a default `sent_since` filter. Only filter by date
     # when the caller provides `sent_since` explicitly.

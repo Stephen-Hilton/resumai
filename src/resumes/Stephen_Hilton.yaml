@@ -9,26 +9,36 @@ internal:
     - icons: https://raw.githubusercontent.com/Stephen-Hilton/resumai/refs/heads/main/src/icons/
 
 contacts:
-  - name: Mobile
-    label: 707-877-6679
-    url: tel:707-877-6679
-    icon: https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=mobile_hand"
+  - name: location
+    label: San Francisco Bay Area 
+    url: https://www.google.com/maps/place/San+Francisco+Bay+Area,+CA/@37.8786379,-122.4203375,435357m/data=!3m2!1e3!4b1!4m6!3m5!1s0x808583a3a688d7b5:0x8c891b8457461fa9!8m2!3d37.8271784!4d-122.2913078!16zL20vMDZwdnI?entry=ttu&g_ep=EgoyMDI1MTIwOS4wIKXMDSoASAFQAw%3D%3D
+    icon: home_pin
   - name: Email
     label: Stephen@FamilyHilton.com 
     url: mailto:stephen@familyhilton.com
-    icon: https://raw.githubusercontent.com/Stephen-Hilton/resumai/refs/heads/main/src/icons/at-solid.svg
+    icon: mail
+  - name: Mobile
+    label: 707-877-6679
+    url: tel:+17078776679
+    icon: mobile
   - name: Webpage
     label: FamilyHilton.com
     url: https://familyhilton.com
-    icon: https://raw.githubusercontent.com/Stephen-Hilton/resumai/refs/heads/main/src/icons/globe-solid.svg
+    icon: captive_portal
   - name: GitHub
     label: stephen-hilton
     url: https://github.com/stephen-hilton
-    icon: https://raw.githubusercontent.com/Stephen-Hilton/resumai/refs/heads/main/src/icons/github-brands.svg
+    icon: https://raw.githubusercontent.com/Stephen-Hilton/resumai/refs/heads/main/src/resumes/icons/github-brands.svg
   - name: LinkedIn
     label: SAHilton
     url: https://www.linkedin.com/in/sahilton/
-    icon: https://raw.githubusercontent.com/Stephen-Hilton/resumai/refs/heads/main/src/icons/linkedin-brands-solid.svg
+    icon: https://raw.githubusercontent.com/Stephen-Hilton/resumai/refs/heads/main/src/resumes/icons/linkedin-brands-solid.svg
+  - name: Telegram
+    label: Hiltonians
+    url: https://t.me/hiltonians
+    icon: send
+
+# for a list of available material design icons: https://fonts.google.com/icons
 
 skills:
   - AI AppDev
@@ -126,7 +136,7 @@ experience:
     location: San Diego, CA
     dates: 2010 - 2022
     company_desc: |
-      Data management and data science technologies for petabyte scale enterprises. 
+      Data management and data science technologies for petabyte scale, Fortune 50 enterprises. 
             
     roles: 
       - role: Global Director of Strategy, Analytics, and Automation  
@@ -172,7 +182,7 @@ experience:
     location: San Francisco Bay Area
     dates: 2009 - 2010
     company_desc: |
-      Boutique data management consultancy (acquired)
+      Boutique consultancy servicing enterprise adoption of big data technology (acquired)
             
     roles: 
       - role: Sr. Technical Consultant 
@@ -197,19 +207,28 @@ experience:
             
     roles: 
       - role: Sr. Manager, Infrastructure & Innovation Center 
-        dates: 2009 - June 2010
+        dates: 2007 - 2009
         location: Minneapolis, MN
         desc: 
         bullets:
-          - Managed 3 development teams, 30 BI development resources, delivering 90% of retail and corporate field reporting
+          - Led 3 development teams, 30 BI development resources, delivering 90% of retail and corporate field reporting
           - Managed technical details of GSI provider Accenture, representing the interests of the business and ensuring delivery of high quality, on-time solutions
-          - Managed various innovation pilot programs for the retail business, such as store-managed endcap inventory, mobile reporting, customizable reporting, and more
+          - Created retail innovation programs to improving the employee technology experience, which improved labor efficiency by 18% across pilot districts
           - Shifted field reporting from reporting to event-based alerting, using customizable analytic microservices 
           - Set development standards for BBY analytic developers
 
 
 
 education:
+  - course: MBA 
+    school: University of Phoenix
+    dates: 2010 
+  - course: BA in Communications, English, Film 
+    school: Minnesota State University
+    dates: 1998 
+  - course: AWS Solution Architect Certification 
+    school: Amazon Web Services (AWS)
+    dates: 2017 
   - course: Move Smart Contract Development
     school: Udemy
     dates: 2025 
@@ -219,15 +238,9 @@ education:
   - course: Kanban Certification 
     school: Lean Kanban U.
     dates: 2018 
-  - course: AWS Solution Architect Certification 
-    school: Amazon Web Services (AWS)
-    dates: 2017 
   - course: Data Science Certification 
     school: Coursera
     dates: 2015 
-  - course: MBA 
-    school: University of Phoenix
-    dates: 2010 
   - course: Agile Project Management 
     school: University of Minnesota 
     dates: 2009 
@@ -237,18 +250,11 @@ education:
   - course: Database Modeling and Design
     school: Cl&ss Partners
     dates: 1999 
-  - course: Communications, English, Film 
-    school: Minnesota State University
-    dates: 1998 
-
 
 awards_and_keynotes:
-  - award: "Performance Recognition Grant"
-    reward: Additional 1.5M SXT token grant
-    dates: 2025
-  - award: "Performance Recognition Grant"
-    reward: Additional 600K SXT token grant
-    dates: 2024
+  - award: "Performance Recognition Grant (x2)"
+    reward: Additional 2.1M SXT token grant
+    dates: "2024, 2025"
   - award: "Consulting Leader Excellence award"
     reward: Paid vacation to Hawaii
     dates: 2020
@@ -274,10 +280,11 @@ awards_and_keynotes:
 
 passions:
   - Intersection of AI and UX, particuarly the transformation to an agentic workforce
-  - Web3 industry, particularly in the DePIN / RWA sub-verticals
   - Building lean, world-class teams that are highly effective and sustainable
-  - Working closely with customers on bleeding edge use-cases using AI + data 
+  - Creating world-class customer success, solution engineering demos, and high-value use-cases
+  - Working closely with customers on cutting edge use-cases using AI + data 
   - Continue to present at events while learning from peers and domain experts
+  - Web3 industry, particularly in the DePIN / RWA sub-verticals
 
 enjoys: 
   - Family
