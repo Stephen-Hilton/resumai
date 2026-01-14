@@ -1,0 +1,455 @@
+{% extends "base.html" %}
+
+{% block title %}Add Job by URL - ResumeAI{% endblock %}
+
+{% block content %}
+<div class="url-entry-container">
+    <div class="form-header">
+        <div class="header-content">
+            <h2>🔗 Add Job by URL</h2>
+            <p>Paste a LinkedIn job posting URL to automatically extract job details</p>
+        </div>
+        <div class="header-actions">
+            <a href="/" class="btn btn-secondary">← Back to Dashboard</a>
+        </div>
+    </div>
+    
+    <form id="url-job-form" class="job-entry-form">
+        <div class="form-section">
+            <h3>Job URL</h3>
+            
+            <div class="form-group">
+                <label for="job_url">LinkedIn Job Posting URL *</label>
+                <input type="url" id="job_url" name="job_url" required 
+                       placeholder="https://www.linkedin.com/jobs/view/1234567890"
+                       class="url-input">
+                <div class="help-text">
+                    Currently only LinkedIn job postings are supported. The URL should look like: 
+                    <code>https://www.linkedin.com/jobs/view/[job-id]</code>
+                </div>
+            </div>
+        </div>
+        
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary btn-large">
+                🔍 Extract Job Details
+            </button>
+            <button type="button" class="btn btn-secondary" onclick="clearForm()">
+                🔄 Clear URL
+            </button>
+            <a href="/" class="btn btn-outline">
+                ❌ Cancel
+            </a>
+        </div>
+    </form>
+    
+    <!-- Results section (hidden initially) -->
+    <div id="extraction-results" class="results-section" style="display: none;">
+        <div class="results-header">
+            <h3>📋 Extracted Job Details</h3>
+            <p>Review the extracted information and add to queue</p>
+        </div>
+        
+        <div id="job-preview" class="job-preview">
+            <!-- Job details will be populated here -->
+        </div>
+        
+        <div class="results-actions">
+            <button type="button" id="add-to-queue-btn" class="btn btn-success btn-large">
+                ✅ Add to Queue
+            </button>
+            <button type="button" onclick="resetForm()" class="btn btn-secondary">
+                🔄 Try Another URL
+            </button>
+        </div>
+    </div>
+</div>
+
+<style>
+.url-entry-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.form-header {
+    background: white;
+    padding: 24px;
+    border-radius: 8px;
+    margin-bottom: 24px;
+    border-left: 4px solid #17a2b8;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.header-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.header-actions {
+    flex-shrink: 0;
+}
+
+.form-header h2 {
+    margin: 0 0 8px 0;
+    color: #1a1a1a;
+    font-size: 24px;
+    line-height: 1.2;
+}
+
+.form-header p {
+    margin: 0;
+    color: #666;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.job-entry-form {
+    background: white;
+    padding: 24px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.form-section {
+    margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.form-section:last-of-type {
+    border-bottom: none;
+    margin-bottom: 24px;
+}
+
+.form-section h3 {
+    margin: 0 0 16px 0;
+    color: #1a1a1a;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.form-group {
+    margin-bottom: 16px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 500;
+    color: #333;
+    font-size: 14px;
+}
+
+.url-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    transition: border-color 0.2s ease;
+}
+
+.url-input:focus {
+    outline: none;
+    border-color: #17a2b8;
+    box-shadow: 0 0 0 2px rgba(23, 162, 184, 0.25);
+}
+
+.help-text {
+    margin-top: 8px;
+    font-size: 12px;
+    color: #666;
+    line-height: 1.4;
+}
+
+.help-text code {
+    background: #f8f9fa;
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 11px;
+}
+
+.form-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-start;
+    align-items: center;
+    padding-top: 24px;
+    border-top: 1px solid #e9ecef;
+}
+
+.btn-large {
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.btn-outline {
+    background: transparent;
+    color: #6c757d;
+    border: 1px solid #6c757d;
+}
+
+.btn-outline:hover {
+    background: #6c757d;
+    color: white;
+}
+
+.results-section {
+    background: white;
+    padding: 24px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    margin-top: 24px;
+    border-left: 4px solid #28a745;
+}
+
+.results-header h3 {
+    margin: 0 0 8px 0;
+    color: #1a1a1a;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.results-header p {
+    margin: 0 0 16px 0;
+    color: #666;
+    font-size: 14px;
+}
+
+.job-preview {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 6px;
+    padding: 16px;
+    margin-bottom: 20px;
+}
+
+.job-preview-item {
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.job-preview-item:last-child {
+    margin-bottom: 0;
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.job-preview-label {
+    font-weight: 600;
+    color: #333;
+    font-size: 13px;
+    margin-bottom: 4px;
+}
+
+.job-preview-value {
+    color: #666;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.job-preview-description {
+    max-height: 200px;
+    overflow-y: auto;
+    background: white;
+    padding: 12px;
+    border-radius: 4px;
+    border: 1px solid #dee2e6;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.results-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-start;
+    align-items: center;
+    padding-top: 20px;
+    border-top: 1px solid #e9ecef;
+}
+
+@media (max-width: 768px) {
+    .form-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+    
+    .header-actions {
+        width: 100%;
+    }
+    
+    .header-actions .btn {
+        width: 100%;
+        text-align: center;
+    }
+    
+    .form-actions,
+    .results-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .form-actions .btn,
+    .results-actions .btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+</style>
+
+<script>
+let extractedJobData = null;
+
+document.getElementById('url-job-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const jobUrl = document.getElementById('job_url').value.trim();
+    
+    if (!jobUrl) {
+        showAlert('Please enter a job URL', 'error');
+        return;
+    }
+    
+    // Validate LinkedIn URL
+    if (!jobUrl.includes('linkedin.com/jobs/view/')) {
+        showAlert('Currently only LinkedIn job postings are supported. Please enter a LinkedIn job URL.', 'error');
+        return;
+    }
+    
+    // Show loading state
+    const submitBtn = document.querySelector('button[type="submit"]');
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '⏳ Extracting Job Details...';
+    submitBtn.disabled = true;
+    
+    // Extract job details
+    fetch('/extract_job_from_url', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ job_url: jobUrl })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            extractedJobData = data.job_data;
+            displayJobPreview(data.job_data);
+            document.getElementById('extraction-results').style.display = 'block';
+            showAlert('Job details extracted successfully!', 'success');
+        } else {
+            showAlert('Error extracting job details: ' + (data.message || 'Unknown error'), 'error');
+        }
+        
+        // Restore button state
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+    })
+    .catch(error => {
+        showAlert('Error extracting job details: ' + error.message, 'error');
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+    });
+});
+
+function displayJobPreview(jobData) {
+    const preview = document.getElementById('job-preview');
+    
+    const previewHtml = `
+        <div class="job-preview-item">
+            <div class="job-preview-label">Company</div>
+            <div class="job-preview-value">${jobData.company || 'Not specified'}</div>
+        </div>
+        <div class="job-preview-item">
+            <div class="job-preview-label">Job Title</div>
+            <div class="job-preview-value">${jobData.title || 'Not specified'}</div>
+        </div>
+        <div class="job-preview-item">
+            <div class="job-preview-label">Location</div>
+            <div class="job-preview-value">${jobData.location || 'Not specified'}</div>
+        </div>
+        <div class="job-preview-item">
+            <div class="job-preview-label">Job URL</div>
+            <div class="job-preview-value"><a href="${jobData.link}" target="_blank">${jobData.link}</a></div>
+        </div>
+        <div class="job-preview-item">
+            <div class="job-preview-label">Job Description</div>
+            <div class="job-preview-description">${jobData.description || 'No description available'}</div>
+        </div>
+    `;
+    
+    preview.innerHTML = previewHtml;
+}
+
+document.getElementById('add-to-queue-btn').addEventListener('click', function() {
+    if (!extractedJobData) {
+        showAlert('No job data to add', 'error');
+        return;
+    }
+    
+    const button = this;
+    const originalText = button.innerHTML;
+    button.innerHTML = '⏳ Adding to Queue...';
+    button.disabled = true;
+    
+    fetch('/add_extracted_job_to_queue', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ job_data: extractedJobData })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showAlert('Job added to queue successfully! Redirecting to dashboard...', 'success');
+            setTimeout(() => {
+                window.location.href = '/';
+            }, 2000);
+        } else {
+            showAlert('Error adding job to queue: ' + (data.message || 'Unknown error'), 'error');
+            button.innerHTML = originalText;
+            button.disabled = false;
+        }
+    })
+    .catch(error => {
+        showAlert('Error adding job to queue: ' + error.message, 'error');
+        button.innerHTML = originalText;
+        button.disabled = false;
+    });
+});
+
+function clearForm() {
+    document.getElementById('job_url').value = '';
+    showAlert('URL cleared', 'success');
+}
+
+function resetForm() {
+    document.getElementById('job_url').value = '';
+    document.getElementById('extraction-results').style.display = 'none';
+    extractedJobData = null;
+    showAlert('Form reset', 'success');
+}
+
+function showAlert(message, type) {
+    const alertDiv = document.createElement('div');
+    alertDiv.className = `alert alert-${type}`;
+    alertDiv.textContent = message;
+    
+    const container = document.querySelector('.url-entry-container');
+    container.insertBefore(alertDiv, container.firstChild);
+    
+    setTimeout(() => {
+        alertDiv.remove();
+    }, 5000);
+}
+</script>
+{% endblock %}

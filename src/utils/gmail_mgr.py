@@ -7,7 +7,7 @@ import email
 import logging
 from email.header import decode_header
 from email.utils import parsedate_to_datetime
-import logging_setup
+from . import logging_setup
 
 # Set up logger for this module
 logger = logging_setup.get_logger(__name__)

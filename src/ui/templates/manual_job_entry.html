@@ -1,0 +1,356 @@
+{% extends "base.html" %}
+
+{% block title %}Manual Job Entry - ResumeAI{% endblock %}
+
+{% block content %}
+<div class="manual-entry-container">
+    <div class="form-header">
+        <div class="header-content">
+            <h2>📝 Manual Job Entry</h2>
+            <p>Enter job details manually to add to your queue</p>
+        </div>
+        <div class="header-actions">
+            <a href="/" class="btn btn-secondary">← Back to Dashboard</a>
+        </div>
+    </div>
+    
+    <form id="manual-job-form" class="job-entry-form">
+        <div class="form-section">
+            <h3>Job Information</h3>
+            
+            <div class="form-group">
+                <label for="company">Company Name *</label>
+                <input type="text" id="company" name="company" required 
+                       placeholder="e.g., Acme Corporation">
+            </div>
+            
+            <div class="form-group">
+                <label for="title">Job Title *</label>
+                <input type="text" id="title" name="title" required 
+                       placeholder="e.g., Senior Software Engineer">
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="location">Location</label>
+                    <input type="text" id="location" name="location" 
+                           placeholder="e.g., San Francisco, CA (Remote)">
+                </div>
+                
+                <div class="form-group">
+                    <label for="salary">Salary Range</label>
+                    <input type="text" id="salary" name="salary" 
+                           placeholder="e.g., $120K - $180K / year">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="link">Job Posting URL</label>
+                <input type="url" id="link" name="link" 
+                       placeholder="https://company.com/careers/job-id">
+            </div>
+        </div>
+        
+        <div class="form-section">
+            <h3>Job Description *</h3>
+            <div class="form-group">
+                <label for="description">Full Job Description</label>
+                <textarea id="description" name="description" required rows="12" 
+                          placeholder="Paste the complete job description here...
+
+Include:
+- Job responsibilities
+- Required qualifications
+- Preferred skills
+- Company information
+- Benefits (if mentioned)"></textarea>
+            </div>
+        </div>
+        
+        <div class="form-section">
+            <h3>Additional Information</h3>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="source">Source</label>
+                    <select id="source" name="source">
+                        <option value="Manual Entry">Manual Entry</option>
+                        <option value="LinkedIn">LinkedIn</option>
+                        <option value="Company Website">Company Website</option>
+                        <option value="Job Board">Job Board</option>
+                        <option value="Referral">Referral</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="priority">Priority</label>
+                    <select id="priority" name="priority">
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                        <option value="Low">Low</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="notes">Notes (Optional)</label>
+                <textarea id="notes" name="notes" rows="3" 
+                          placeholder="Any additional notes about this job opportunity..."></textarea>
+            </div>
+        </div>
+        
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary btn-large">
+                ✅ Add Job to Queue
+            </button>
+            <button type="button" class="btn btn-secondary" onclick="clearForm()">
+                🔄 Clear Form
+            </button>
+            <a href="/" class="btn btn-outline">
+                ❌ Cancel
+            </a>
+        </div>
+    </form>
+</div>
+
+<style>
+.manual-entry-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.form-header {
+    background: white;
+    padding: 24px;
+    border-radius: 8px;
+    margin-bottom: 24px;
+    border-left: 4px solid #007bff;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.header-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.header-actions {
+    flex-shrink: 0;
+}
+
+.form-header h2 {
+    margin: 0 0 8px 0;
+    color: #1a1a1a;
+    font-size: 24px;
+    line-height: 1.2;
+}
+
+.form-header p {
+    margin: 0;
+    color: #666;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.job-entry-form {
+    background: white;
+    padding: 24px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.form-section {
+    margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.form-section:last-of-type {
+    border-bottom: none;
+    margin-bottom: 24px;
+}
+
+.form-section h3 {
+    margin: 0 0 16px 0;
+    color: #1a1a1a;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.form-group {
+    margin-bottom: 16px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 500;
+    color: #333;
+    font-size: 14px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    font-family: inherit;
+    transition: border-color 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.form-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-start;
+    align-items: center;
+    padding-top: 24px;
+    border-top: 1px solid #e9ecef;
+}
+
+.btn-large {
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.btn-outline {
+    background: transparent;
+    color: #6c757d;
+    border: 1px solid #6c757d;
+}
+
+.btn-outline:hover {
+    background: #6c757d;
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .form-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+    
+    .header-actions {
+        width: 100%;
+    }
+    
+    .header-actions .btn {
+        width: 100%;
+        text-align: center;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .form-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .form-actions .btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+</style>
+
+<script>
+document.getElementById('manual-job-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // Get form data
+    const formData = new FormData(this);
+    const jobData = {};
+    
+    for (let [key, value] of formData.entries()) {
+        jobData[key] = value.trim();
+    }
+    
+    // Validate required fields
+    if (!jobData.company || !jobData.title || !jobData.description) {
+        showAlert('Please fill in all required fields (Company, Job Title, and Job Description)', 'error');
+        return;
+    }
+    
+    // Show loading state
+    const submitBtn = document.querySelector('button[type="submit"]');
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '⏳ Adding Job...';
+    submitBtn.disabled = true;
+    
+    // Submit the job
+    fetch('/manual_job_entry', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(jobData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showAlert('Job added successfully! Redirecting to dashboard...', 'success');
+            setTimeout(() => {
+                window.location.href = '/';
+            }, 2000);
+        } else {
+            showAlert('Error adding job: ' + (data.message || 'Unknown error'), 'error');
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+        }
+    })
+    .catch(error => {
+        showAlert('Error adding job: ' + error.message, 'error');
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+    });
+});
+
+function clearForm() {
+    if (confirm('Clear all form data? This cannot be undone.')) {
+        document.getElementById('manual-job-form').reset();
+        showAlert('Form cleared', 'success');
+    }
+}
+
+function showAlert(message, type) {
+    const alertDiv = document.createElement('div');
+    alertDiv.className = `alert alert-${type}`;
+    alertDiv.textContent = message;
+    
+    const container = document.querySelector('.manual-entry-container');
+    container.insertBefore(alertDiv, container.firstChild);
+    
+    setTimeout(() => {
+        alertDiv.remove();
+    }, 5000);
+}
+</script>
+{% endblock %}

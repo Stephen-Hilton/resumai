@@ -29,6 +29,25 @@ print_error() {
     echo -e "${RED}[ERROR]${NC} $1"
 }
 
+# Security validation function
+validate_environment() {
+    # Check if we're in a reasonable directory (should contain src/ and requirements.txt)
+    if [[ ! -d "src" ]] || [[ ! -f "requirements.txt" ]]; then
+        print_error "This doesn't appear to be the ResumeAI project directory"
+        print_warning "Expected to find 'src/' directory and 'requirements.txt' file"
+        print_warning "Current directory: $(pwd)"
+        exit 1
+    fi
+    
+    # Validate script directory path doesn't contain suspicious characters
+    if [[ "$SCRIPT_DIR" =~ [\;\&\|\`\$] ]]; then
+        print_error "Script directory path contains suspicious characters: $SCRIPT_DIR"
+        exit 1
+    fi
+    
+    print_status "Environment validation passed"
+}
+
 # Deactivate any currently active virtual environment
 if [[ "$VIRTUAL_ENV" != "" ]]; then
     print_status "Deactivating current virtual environment: $(basename $VIRTUAL_ENV)"
@@ -43,6 +62,9 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPT_DIR"
 
 print_status "Working directory: $SCRIPT_DIR"
+
+# Validate environment security
+validate_environment
 
 # Check if the virtual environment exists
 VENV_PATH="$SCRIPT_DIR/.venv_resumai"
@@ -61,6 +83,20 @@ fi
 # Activate the resumai virtual environment
 print_status "Activating virtual environment: .venv_resumai"
 source "$VENV_PATH/bin/activate"
+
+# Set up library paths for WeasyPrint dependencies (macOS with Homebrew)
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    print_status "Setting up macOS library paths for WeasyPrint"
+    # Use safer path concatenation
+    HOMEBREW_LIB="/opt/homebrew/lib"
+    if [[ -d "$HOMEBREW_LIB" ]]; then
+        export DYLD_LIBRARY_PATH="${HOMEBREW_LIB}:${DYLD_LIBRARY_PATH:-}"
+        export PKG_CONFIG_PATH="${HOMEBREW_LIB}/pkgconfig:${PKG_CONFIG_PATH:-}"
+        export DYLD_FALLBACK_LIBRARY_PATH="${HOMEBREW_LIB}:${DYLD_FALLBACK_LIBRARY_PATH:-}"
+    else
+        print_warning "Homebrew lib directory not found at $HOMEBREW_LIB"
+    fi
+fi
 
 # Verify activation
 if [[ "$VIRTUAL_ENV" == "" ]]; then
@@ -102,6 +138,14 @@ fi
 print_status "Testing Python dependencies..."
 python3 -c "
 import sys
+import os
+
+# Validate we're in the expected directory
+expected_dir = os.path.abspath('$SCRIPT_DIR')
+current_dir = os.getcwd()
+if current_dir != expected_dir:
+    print(f'Warning: Directory mismatch. Expected: {expected_dir}, Current: {current_dir}')
+
 try:
     import flask
     import yaml
@@ -115,6 +159,36 @@ except ImportError as e:
     print_error "Missing Python dependencies"
     print_warning "Run ./dependencies.sh to install required packages"
     exit 1
+}
+
+# Test WeasyPrint specifically
+print_status "Testing WeasyPrint PDF engine..."
+python3 -c "
+import sys
+import os
+
+try:
+    from weasyprint import HTML
+    # Use minimal test HTML to avoid any injection risks
+    test_html = HTML(string='<html><head><title>Test</title></head><body><p>Test</p></body></html>')
+    pdf_bytes = test_html.write_pdf()
+    if len(pdf_bytes) > 100:  # Sanity check for valid PDF
+        print(f'✓ WeasyPrint working ({len(pdf_bytes)} bytes)')
+    else:
+        print('✗ WeasyPrint produced invalid PDF')
+        sys.exit(1)
+except Exception as e:
+    print(f'✗ WeasyPrint error: {e}')
+    error_str = str(e).lower()
+    if 'libgobject' in error_str or 'cairo' in error_str:
+        print('  Install system dependencies: brew install cairo pango gdk-pixbuf libffi')
+    elif 'weasyprint' in error_str:
+        print('  Install WeasyPrint: pip install weasyprint')
+    else:
+        print('  Check WeasyPrint installation and system dependencies')
+    sys.exit(1)
+" || {
+    print_warning "WeasyPrint may not work properly - PDF generation will be unavailable"
 }
 
 # Start the web server

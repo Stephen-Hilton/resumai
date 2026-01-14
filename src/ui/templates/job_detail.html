@@ -4,7 +4,7 @@
 
 {% block content %}
 <div style="margin-bottom: 20px;">
-    <a href="/" class="btn">← Back to Jobs</a>
+    <a href="/{% if phase %}phase/{{ phase }}{% endif %}" class="btn">← Back to Jobs</a>
 </div>
 
 <!-- Job Header Card -->
@@ -33,18 +33,19 @@
                     </div>
                 {% endif %}
             </div>
-            <span class="phase-badge generated">Generated</span>
+            <span class="phase-badge {{ phase or 'generated' }}">{{ (phase or 'generated').title() }}</span>
         </div>
         <div class="job-actions">
             {% if job_data.link %}
                 <a href="{{ job_data.link }}" target="_blank" class="btn">🔗 Open Job Link</a>
             {% endif %}
-            <a href="/edit_job/{{ folder_name }}" class="btn btn-outline">✏️ Edit Job Data</a>
+            <a href="/edit_job/{% if phase %}{{ phase }}/{% endif %}{{ folder_name }}" class="btn btn-outline">✏️ Edit Job Data</a>
         </div>
     </div>
 </div>
 
 <!-- Documents Grid -->
+{% if phase == 'generated' or phase == 'applied' or phase == 'communications' or phase == 'interviews' %}
 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0;">
     <div class="job-card">
         <h4 style="margin-bottom: 16px; color: #1a1a1a;">📄 Resume</h4>
@@ -61,6 +62,7 @@
         </div>
     </div>
 </div>
+{% endif %}
 
 <!-- Job Description -->
 <div class="job-card">
@@ -86,7 +88,7 @@
                 </div>
                 <div>
                     {% if file.is_html %}
-                        <a href="/view_file/{{ folder_name }}/{{ file.name }}" class="btn btn-sm" target="_blank">👁️ View</a>
+                        <a href="/view_file/{% if phase %}{{ phase }}/{% endif %}{{ folder_name }}/{{ file.name }}" class="btn btn-sm" target="_blank">👁️ View</a>
                     {% endif %}
                 </div>
             </div>
@@ -98,9 +100,15 @@
 <div class="job-card">
     <h4 style="margin-bottom: 16px; color: #1a1a1a;">⚙️ Actions</h4>
     <div class="job-actions">
-        <button onclick="markApplied('{{ folder_name }}')" class="btn btn-success">✅ Mark as Applied</button>
-        <button onclick="skipJob('{{ folder_name }}')" class="btn btn-secondary">⏭️ Skip Job</button>
-        <button onclick="resetToQueued('{{ folder_name }}')" class="btn btn-outline">🔄 Reset to Queue</button>
+        {% if phase == 'generated' %}
+            <button onclick="markApplied('{{ folder_name }}')" class="btn btn-success">✅ Mark as Applied</button>
+            <button onclick="skipJob('{{ folder_name }}')" class="btn btn-secondary">⏭️ Skip Job</button>
+            <button onclick="resetToQueued('{{ folder_name }}')" class="btn btn-outline">🔄 Reset to Queue</button>
+        {% elif phase == 'queued' %}
+            <button onclick="resetToQueued('{{ folder_name }}')" class="btn btn-outline">🗑️ Remove from Queue</button>
+        {% else %}
+            <button onclick="resetToQueued('{{ folder_name }}')" class="btn btn-outline">🔄 Reset to Queue</button>
+        {% endif %}
     </div>
 </div>
 
@@ -152,7 +160,12 @@ function skipJob(folderName) {
 }
 
 function resetToQueued(folderName) {
-    if (confirm('Reset this job to queued? This will move the original files back to the queue and remove generated files.')) {
+    const action = '{{ phase }}' === 'queued' ? 'remove from queue' : 'reset to queued';
+    const message = '{{ phase }}' === 'queued' ? 
+        'Remove this job from the queue? This will delete the job files.' :
+        'Reset this job to queued? This will move the original files back to the queue and remove generated files.';
+    
+    if (confirm(message)) {
         fetch('/reset_to_queued/' + folderName, {
             method: 'POST',
             headers: {

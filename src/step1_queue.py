@@ -2,9 +2,9 @@ import os, re, yaml, requests, logging, unicodedata
 from pathlib import Path
 from datetime import datetime
 from dotenv import load_dotenv
-import gmail_mgr
-import parse_linkedin_emails
-import logging_setup
+from utils import gmail_mgr
+from utils import parse_linkedin_emails
+from utils import logging_setup
 
 # Set up logger for this module
 logger = logging_setup.get_logger(__name__)
@@ -110,6 +110,7 @@ def get_all_ids(job_path:Path = None) -> list:
     Recursively iterate thru the supplied job_path and collect a unique list of
     all IDs found in any html or yaml file.  The ID is always the second element of
     the filename, delimited by period (.), of 4 elements.
+    Now handles both flat files and subfolder structures.
 
     Args:
         job_path (Path): Path object to recursively iterate over, looking for any yaml or html files. 
@@ -128,7 +129,7 @@ def get_all_ids(job_path:Path = None) -> list:
     ids = set()  # Use set to automatically handle uniqueness
     
     try:
-        # Recursively find all .yaml and .html files
+        # Recursively find all .yaml and .html files (handles both flat files and subfolders)
         for file_path in job_path.rglob('*'):
             if file_path.is_file() and file_path.suffix.lower() in ['.yaml', '.html']:
                 # Split filename by periods

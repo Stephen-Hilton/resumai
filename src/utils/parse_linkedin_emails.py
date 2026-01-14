@@ -4,11 +4,11 @@ from dotenv import load_dotenv
 from pprint import pprint
 import os
 import logging
-import gmail_mgr as gmail
+from . import gmail_mgr as gmail
 from bs4 import BeautifulSoup
 import re
 from urllib.parse import urljoin
-import logging_setup
+from . import logging_setup
 
 # Set up logger for this module
 logger = logging_setup.get_logger(__name__)
