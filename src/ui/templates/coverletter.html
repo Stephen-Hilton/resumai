@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Cover Letter</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0.85in; line-height: 1.35; }
+    .muted { opacity: 0.75; }
+  </style>
+</head>
+<body>
+  <div>
+    <strong>{{ resume.get('name','') }}</strong><br/>
+    <span class="muted">{{ resume.get('email','') }} • {{ resume.get('phone','') }}</span>
+  </div>
+  <p>{{ today }}</p>
+  <p>Hiring Manager<br/>{{ job.get('company','') }}</p>
+
+  {% if cover %}
+    <div>{{ cover }}</div>
+  {% else %}
+    <p class="muted">No cover letter content generated yet.</p>
+  {% endif %}
+
+  <p>Sincerely,<br/>{{ resume.get('name','') }}</p>
+</body>
+</html>

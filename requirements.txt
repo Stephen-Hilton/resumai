@@ -1,26 +1,12 @@
-# Core dependencies
-python-dotenv
-pyyaml
-requests
-flask
-
-# Email and parsing
-beautifulsoup4
-lxml
-
-# AI/LLM providers
-openai
-anthropic
-
-# PDF generation (dual support)
-weasyprint
-pdfkit
-
-# Optional dependencies for better compatibility
-pillow
-cffi
-cssselect2
-html5lib
-pyphen
-tinycss2
-pytz
+flask==3.0.3
+python-dotenv==1.0.1
+PyYAML==6.0.2
+pydantic==2.8.2
+requests==2.32.3
+beautifulsoup4==4.12.3
+playwright==1.47.0
+pytest==9.0.2
+pytest-asyncio==1.3.0
+hypothesis==6.98.0
+openai==2.15.0
+jsonschema==4.23.0

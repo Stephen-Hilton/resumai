@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Settings</h1>
+
+<form method="post" action="{{ url_for('settings') }}">
+  <fieldset style="border:1px solid #ddd; border-radius:10px; padding:10px;">
+    <legend>Environment (read-only helpers)</legend>
+    <p class="muted">These values are read from environment variables (e.g. .env). Edit your .env and restart the app to change them.</p>
+    <ul>
+      <li><strong>JOBS_ROOT</strong>: <code>{{ env.JOBS_ROOT }}</code></li>
+      <li><strong>RESUMES_ROOT</strong>: <code>{{ env.RESUMES_ROOT }}</code></li>
+      <li><strong>DEFAULT_RESUME</strong>: <code>{{ env.DEFAULT_RESUME }}</code></li>
+      <li><strong>LLM_PROVIDER</strong>: <code>{{ env.LLM_PROVIDER }}</code></li>
+      <li><strong>OPENAI_MODEL</strong>: <code>{{ env.OPENAI_MODEL }}</code></li>
+      <li><strong>GMAIL_USERNAME</strong>: <code>{{ env.GMAIL_USERNAME }}</code></li>
+    </ul>
+  </fieldset>
+
+  <p class="muted" style="margin-top:10px;">
+    Future: UI editing for templates, skill aliases, Gmail filters, and default run options.
+  </p>
+
+  <a href="{{ url_for('dashboard') }}">Back to dashboard</a>
+</form>
+{% endblock %}
