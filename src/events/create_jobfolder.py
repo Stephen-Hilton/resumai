@@ -4,7 +4,7 @@ from pathlib import Path
 from datetime import datetime
 from src.lib.types import EventContext, EventResult
 from src.lib.job_folders import JobIdentity, folder_name, phase_path
-from src.lib.yaml_utils import dump_yaml
+from src.lib.yaml_utils import dump_job_yaml
 from src.lib.logging_utils import append_job_log
 
 async def execute(job_path: Path, ctx: EventContext) -> EventResult:
@@ -29,7 +29,7 @@ async def execute(job_path: Path, ctx: EventContext) -> EventResult:
     if dest.exists():
         return EventResult(ok=False, job_path=dest, message="job folder exists already")
     dest.mkdir(parents=True, exist_ok=False)
-    dump_yaml(dest / "job.yaml", job)
+    dump_job_yaml(dest / "job.yaml", job)
     append_job_log(dest, "create_jobfolder: created")
     return EventResult(ok=True, job_path=dest, message="created", artifacts=["job.yaml"])
 

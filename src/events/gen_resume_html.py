@@ -1,32 +1,77 @@
 from __future__ import annotations
 
 from pathlib import Path
-from jinja2 import Environment, FileSystemLoader, select_autoescape
 from src.lib.types import EventContext, EventResult
-from src.lib.yaml_utils import load_yaml
-from src.lib.logging_utils import append_job_log
+from src.lib.html_generator import generate_resume_html
+from src.lib.shared_css import ensure_shared_css_exists
 
-SECTIONS = ["summary","skills","highlights","experience","education","awards"]
 
 async def execute(job_path: Path, ctx: EventContext) -> EventResult:
-    resume = load_yaml(ctx.resumes_root / ctx.default_resume)
-    job = load_yaml(job_path / "job.yaml")
+    """
+    Generate resume HTML from subcontent files.
+    
+    Validates all subcontent files exist and creates resume.html.
+    CSS files are stored in a shared location (src/templates/css/) to avoid duplication.
+    """
+    try:
+        # Check that all required subcontent files exist
+        required_sections = ["contacts", "summary", "skills", "experience", "education"]
+        missing_sections = []
+        
+        for section in required_sections:
+            subcontent_file = job_path / f"subcontent.{section}.yaml"
+            if not subcontent_file.exists():
+                missing_sections.append(section)
+        
+        if missing_sections:
+            return EventResult(
+                ok=False,
+                job_path=job_path,
+                message=f"Missing required subcontent files: {', '.join(missing_sections)}",
+                errors=[{"missing_sections": missing_sections}]
+            )
+        
+        # Ensure shared CSS directory exists (creates CSS files if needed)
+        css_dir = ensure_shared_css_exists()
+        
+        # Generate HTML (references shared CSS)
+        html_content = generate_resume_html(job_path)
+        
+        # Write HTML file (overwrite if exists)
+        html_path = job_path / "resume.html"
+        html_path.write_text(html_content)
+        
+        return EventResult(
+            ok=True,
+            job_path=job_path,
+            message=f"Generated resume.html (using shared CSS at {css_dir})",
+            artifacts=[str(html_path)]
+        )
+        
+    except Exception as e:
+        return EventResult(
+            ok=False,
+            job_path=job_path,
+            message=f"Failed to generate resume HTML: {str(e)}",
+            errors=[{"exception": str(e)}]
+        )
 
-    sub = {}
-    for name in SECTIONS:
-        p = job_path / f"subcontent.{name}.yaml"
-        sub[name] = load_yaml(p) if p.exists() else None
-
-    env = Environment(
-        loader=FileSystemLoader(str(Path("src/ui/templates"))),
-        autoescape=select_autoescape(["html"])
-    )
-    tpl = env.get_template("resume.html")
-    html = tpl.render(resume=resume, job=job, sub=sub)
-    out = job_path / "resume.html"
-    out.write_text(html, encoding="utf-8")
-    append_job_log(job_path, "gen_resume_html: wrote resume.html")
-    return EventResult(ok=True, job_path=job_path, message="ok", artifacts=["resume.html"])
 
 async def test(job_path: Path, ctx: EventContext) -> EventResult:
-    return EventResult(ok=True, job_path=job_path, message="test ok")
+    """Test mode - validate subcontent files exist."""
+    required_sections = ["contacts", "summary", "skills", "experience", "education"]
+    missing_sections = []
+    
+    for section in required_sections:
+        subcontent_file = job_path / f"subcontent.{section}.yaml"
+        if not subcontent_file.exists():
+            missing_sections.append(section)
+    
+    if missing_sections:
+        return EventResult(
+            ok=False,
+            job_path=job_path,
+            message=f"Missing subcontent files: {', '.join(missing_sections)}"
+        )
+    
+    return EventResult(ok=True, job_path=job_path, message="Test: would generate resume.html")

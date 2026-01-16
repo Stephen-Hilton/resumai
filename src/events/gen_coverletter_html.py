@@ -1,26 +1,57 @@
 from __future__ import annotations
 
 from pathlib import Path
-from jinja2 import Environment, FileSystemLoader, select_autoescape
 from src.lib.types import EventContext, EventResult
-from src.lib.yaml_utils import load_yaml
-from src.lib.logging_utils import append_job_log
-from datetime import date
+from src.lib.html_generator import generate_coverletter_html
+from src.lib.shared_css import ensure_shared_css_exists
+
 
 async def execute(job_path: Path, ctx: EventContext) -> EventResult:
-    resume = load_yaml(ctx.resumes_root / ctx.default_resume)
-    job = load_yaml(job_path / "job.yaml")
-    cover = load_yaml(job_path / "subcontent.coverletter.yaml").get("content") if (job_path / "subcontent.coverletter.yaml").exists() else ""
-    env = Environment(
-        loader=FileSystemLoader(str(Path("src/ui/templates"))),
-        autoescape=select_autoescape(["html"])
-    )
-    tpl = env.get_template("coverletter.html")
-    html = tpl.render(resume=resume, job=job, cover=cover, today=str(date.today()))
-    out = job_path / "coverletter.html"
-    out.write_text(html, encoding="utf-8")
-    append_job_log(job_path, "gen_coverletter_html: wrote coverletter.html")
-    return EventResult(ok=True, job_path=job_path, message="ok", artifacts=["coverletter.html"])
+    """
+    Generate cover letter HTML from subcontent.coverletter.yaml.
+    
+    CSS files are stored in a shared location (src/templates/css/) to avoid duplication.
+    """
+    try:
+        # Check that coverletter subcontent exists
+        coverletter_file = job_path / "subcontent.coverletter.yaml"
+        if not coverletter_file.exists():
+            return EventResult(
+                ok=False,
+                job_path=job_path,
+                message="subcontent.coverletter.yaml not found",
+                errors=[{"error": "coverletter subcontent missing"}]
+            )
+        
+        # Ensure shared CSS directory exists
+        css_dir = ensure_shared_css_exists()
+        
+        # Generate HTML (references shared CSS)
+        html_content = generate_coverletter_html(job_path)
+        
+        # Write HTML file (overwrite if exists)
+        html_path = job_path / "coverletter.html"
+        html_path.write_text(html_content)
+        
+        return EventResult(
+            ok=True,
+            job_path=job_path,
+            message=f"Generated coverletter.html (using shared CSS at {css_dir})",
+            artifacts=[str(html_path)]
+        )
+        
+    except Exception as e:
+        return EventResult(
+            ok=False,
+            job_path=job_path,
+            message=f"Failed to generate cover letter HTML: {str(e)}",
+            errors=[{"exception": str(e)}]
+        )
+
 
 async def test(job_path: Path, ctx: EventContext) -> EventResult:
-    return EventResult(ok=True, job_path=job_path, message="test ok")
+    """Test mode."""
+    coverletter_file = job_path / "subcontent.coverletter.yaml"
+    if not coverletter_file.exists():
+        return EventResult(ok=False, job_path=job_path, message="subcontent.coverletter.yaml not found")
+    return EventResult(ok=True, job_path=job_path, message="Test: would generate coverletter.html")

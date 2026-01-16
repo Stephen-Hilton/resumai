@@ -6,6 +6,7 @@ Feature: job-application-automation
 
 from hypothesis import given, strategies as st
 from pathlib import Path
+from datetime import datetime
 import pytest
 import asyncio
 from src.lib.types import EventContext, EventResult
@@ -480,6 +481,500 @@ async def test_phase_transition_logging(phase_index):
         
         # Verify log entry mentions the event and phase
         assert event_name in new_log or target_phase in new_log, f"Log entry doesn't mention {event_name} or {target_phase}"
+        
+    finally:
+        # Clean up
+        shutil.rmtree(temp_dir)
+
+
+
+@given(
+    job_id=st.text(min_size=1, max_size=50),
+    company=st.text(min_size=1, max_size=100),
+    title=st.text(min_size=1, max_size=100),
+    date=st.datetimes(min_value=datetime(2020, 1, 1), max_value=datetime(2030, 12, 31))
+)
+@pytest.mark.property
+@pytest.mark.tag("Feature: job-application-automation, Property 9: Job YAML Validation")
+def test_job_yaml_validation(job_id, company, title, date):
+    """
+    Property 9: For any valid job data with required fields (id, company, title, date),
+    validation should pass. For any job data missing required fields, validation should
+    fail with specific error messages.
+    
+    Validates: Requirements 4.7, 14.1, 14.2
+    """
+    from src.lib.validation import validate_job_yaml
+    from datetime import datetime
+    
+    # Test valid job data
+    valid_job = {
+        'id': job_id,
+        'company': company,
+        'title': title,
+        'date': date.strftime("%Y-%m-%d %H:%M:%S")
+    }
+    
+    is_valid, error = validate_job_yaml(valid_job)
+    assert is_valid is True, f"Valid job data failed validation: {error}"
+    assert error is None
+    
+    # Test missing id
+    invalid_job = valid_job.copy()
+    del invalid_job['id']
+    is_valid, error = validate_job_yaml(invalid_job)
+    assert is_valid is False
+    assert error is not None
+    assert 'id' in error.lower()
+    
+    # Test missing company
+    invalid_job = valid_job.copy()
+    del invalid_job['company']
+    is_valid, error = validate_job_yaml(invalid_job)
+    assert is_valid is False
+    assert error is not None
+    assert 'company' in error.lower()
+    
+    # Test missing title
+    invalid_job = valid_job.copy()
+    del invalid_job['title']
+    is_valid, error = validate_job_yaml(invalid_job)
+    assert is_valid is False
+    assert error is not None
+    assert 'title' in error.lower()
+    
+    # Test missing date
+    invalid_job = valid_job.copy()
+    del invalid_job['date']
+    is_valid, error = validate_job_yaml(invalid_job)
+    assert is_valid is False
+    assert error is not None
+    assert 'date' in error.lower()
+    
+    # Test invalid date format
+    invalid_job = valid_job.copy()
+    invalid_job['date'] = "invalid-date"
+    is_valid, error = validate_job_yaml(invalid_job)
+    assert is_valid is False
+    assert error is not None
+
+
+
+@given(
+    message=st.text(min_size=1, max_size=200),
+    context=st.text(min_size=0, max_size=50)
+)
+@pytest.mark.property
+@pytest.mark.tag("Feature: job-application-automation, Property 14: Log Entry Format")
+@pytest.mark.asyncio
+async def test_log_entry_format(message, context):
+    """
+    Property 14: For any log message, the log entry should follow the format:
+    {YYYY-MM-DD HH:MM:SS} - {job_name} - {context} - {message}
+    
+    Validates: Requirements 8.2, 8.3
+    """
+    from src.events.event_bus import run_event
+    import tempfile
+    import shutil
+    import re
+    
+    # Create temporary directories
+    temp_dir = Path(tempfile.mkdtemp())
+    jobs_root = temp_dir / "jobs"
+    jobs_root.mkdir()
+    (jobs_root / "1_Queued").mkdir()
+    
+    try:
+        # Create a job folder
+        job_folder = jobs_root / "1_Queued" / "TestCorp.Engineer.20260114-120000.test123"
+        job_folder.mkdir()
+        
+        # Create context with message to log
+        ctx = EventContext(
+            jobs_root=jobs_root,
+            resumes_root=Path("resumes"),
+            default_resume="test.yaml",
+            test_mode=False,
+            state={
+                "message": message,
+                "context": context
+            }
+        )
+        
+        # Run log_message event
+        result = await run_event("log_message", job_folder, ctx)
+        
+        # Verify the event succeeded
+        assert result.ok is True
+        
+        # Read the log file
+        log_file = job_folder / "job.log"
+        assert log_file.exists(), "job.log not found after logging"
+        
+        log_content = log_file.read_text()
+        
+        # Sanitize message and context the same way the event does
+        sanitized_message = " ".join(message.split())
+        sanitized_context = " ".join(context.split())
+        
+        # Verify log format: YYYY-MM-DD HH:MM:SS - job_name - [context -] message
+        # Pattern: timestamp - job_name - [optional context -] message
+        timestamp_pattern = r'\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}'
+        job_name = job_folder.name
+        
+        # Check timestamp exists
+        assert re.search(timestamp_pattern, log_content), "Log entry missing valid timestamp"
+        
+        # Check job name is in log
+        assert job_name in log_content, f"Log entry missing job name: {job_name}"
+        
+        # Check sanitized message is in log
+        assert sanitized_message in log_content, f"Log entry missing message: {sanitized_message}"
+        
+        # If context was provided and not empty after sanitization, check it's in log
+        if sanitized_context:
+            assert sanitized_context in log_content, f"Log entry missing context: {sanitized_context}"
+        
+        # Verify format structure (timestamp - job_name - content)
+        lines = log_content.strip().split('\n')
+        for line in lines:
+            parts = line.split(' - ', 2)  # Split into at most 3 parts
+            assert len(parts) >= 2, f"Log line doesn't have expected format: {line}"
+            
+            # First part should be timestamp
+            assert re.match(timestamp_pattern, parts[0]), f"First part is not a valid timestamp: {parts[0]}"
+            
+            # Second part should be job name
+            assert parts[1] == job_name, f"Second part is not job name: {parts[1]}"
+        
+    finally:
+        # Clean up
+        shutil.rmtree(temp_dir)
+
+
+
+@given(
+    section=st.sampled_from(['contacts', 'summary', 'skills', 'experience', 'education', 'awards'])
+)
+@pytest.mark.property
+@pytest.mark.tag("Feature: job-application-automation, Property 10: Static Content Round Trip")
+@pytest.mark.asyncio
+async def test_static_content_round_trip(section):
+    """
+    Property 10: For any resume section, generating static subcontent and reading it back
+    should produce data equivalent to the original resume section.
+    
+    Validates: Requirements 6.1, 6.2
+    """
+    from src.events.event_bus import run_event
+    from src.lib.yaml_utils import load_yaml
+    import tempfile
+    import shutil
+    
+    # Create temporary directories
+    temp_dir = Path(tempfile.mkdtemp())
+    job_folder = temp_dir / "TestJob"
+    job_folder.mkdir()
+    
+    try:
+        ctx = EventContext(
+            jobs_root=Path("jobs"),
+            resumes_root=Path("resumes"),
+            default_resume="Stephen_Hilton.yaml",
+            test_mode=False
+        )
+        
+        # Load original resume data
+        resume_data = load_yaml(Path("resumes/Stephen_Hilton.yaml"))
+        
+        # Map section names to resume keys
+        section_map = {
+            'contacts': 'contacts',
+            'summary': 'summary',
+            'skills': 'skills',
+            'experience': 'experience',
+            'education': 'education',
+            'awards': 'awards_and_keynotes'
+        }
+        
+        resume_key = section_map[section]
+        original_data = resume_data.get(resume_key)
+        
+        if original_data is None:
+            # Skip if section doesn't exist in resume
+            return
+        
+        # Generate static subcontent
+        event_name = f"gen_static_subcontent_{section}"
+        result = await run_event(event_name, job_folder, ctx)
+        
+        # Verify generation succeeded
+        assert result.ok is True, f"Static content generation failed: {result.message}"
+        
+        # Read generated subcontent
+        output_file = job_folder / f"subcontent.{section}.yaml"
+        assert output_file.exists(), f"Subcontent file not created: {output_file}"
+        
+        generated_data = load_yaml(output_file)
+        
+        # For summary, it's wrapped in a dict
+        if section == 'summary':
+            assert 'summary' in generated_data
+            generated_data = generated_data['summary']
+        
+        # Verify data matches (allowing for type conversions)
+        assert generated_data == original_data, f"Generated data doesn't match original for {section}"
+        
+    finally:
+        # Clean up
+        shutil.rmtree(temp_dir)
+
+
+@pytest.mark.property
+@pytest.mark.tag("Feature: job-application-automation, Property 25: Subcontent Event Configuration")
+@pytest.mark.asyncio
+async def test_subcontent_event_configuration():
+    """
+    Property 25: For any job with subcontent_events configuration, all specified
+    event names should be valid and discoverable by the event bus.
+    
+    Validates: Requirements 5.3, 6.5
+    """
+    from src.events.event_bus import discover_events
+    from src.lib.yaml_utils import load_yaml
+    
+    # Discover all available events
+    available_events = discover_events()
+    
+    # Load the job template to see expected subcontent events
+    job_template = load_yaml(Path("src/templates/job.yaml"))
+    subcontent_events = job_template.get("subcontent_events", [])
+    
+    # Verify all subcontent events are discoverable
+    for event_config in subcontent_events:
+        # Each item is a dict with one key-value pair
+        if isinstance(event_config, dict):
+            for section, event_name in event_config.items():
+                assert event_name in available_events, f"Event {event_name} for section {section} not found in discovered events"
+    
+    # Verify all gen_*_subcontent_* events follow naming convention
+    subcontent_event_names = [name for name in available_events.keys() if 'subcontent' in name]
+    
+    for event_name in subcontent_event_names:
+        # Should start with gen_llm_subcontent_ or gen_static_subcontent_
+        assert event_name.startswith('gen_llm_subcontent_') or event_name.startswith('gen_static_subcontent_'), \
+            f"Subcontent event {event_name} doesn't follow naming convention"
+        
+        # Extract section name
+        if event_name.startswith('gen_llm_subcontent_'):
+            section = event_name.replace('gen_llm_subcontent_', '')
+        else:
+            section = event_name.replace('gen_static_subcontent_', '')
+        
+        # Verify section is valid
+        valid_sections = {'contacts', 'summary', 'skills', 'highlights', 'experience', 'education', 'awards', 'coverletter'}
+        assert section in valid_sections, f"Invalid section name in event: {event_name}"
+
+
+
+@pytest.mark.property
+@pytest.mark.tag("Feature: job-application-automation, Property 11: Subcontent File Completeness")
+@pytest.mark.asyncio
+async def test_subcontent_file_completeness():
+    """
+    Property 11: After batch_gen_data completes successfully, all subcontent files
+    specified in job.yaml should exist in the job folder.
+    
+    Validates: Requirements 7.1, 22.1
+    """
+    from src.events.event_bus import run_event
+    from src.lib.yaml_utils import load_yaml, dump_yaml
+    import tempfile
+    import shutil
+    
+    # Create temporary directories
+    temp_dir = Path(tempfile.mkdtemp())
+    jobs_root = temp_dir / "jobs"
+    jobs_root.mkdir()
+    (jobs_root / "1_Queued").mkdir()
+    (jobs_root / "2_Data_Generated").mkdir()
+    
+    try:
+        # Create a job folder with job.yaml
+        job_folder = jobs_root / "1_Queued" / "TestCorp.Engineer.20260114-120000.test123"
+        job_folder.mkdir()
+        
+        # Create job.yaml with subcontent_events (using only static events for speed)
+        job_data = {
+            "id": "test123",
+            "company": "TestCorp",
+            "title": "Engineer",
+            "date": "2026-01-14 12:00:00",
+            "description": "Test job description",
+            "subcontent_events": [
+                {"contacts": "gen_static_subcontent_contacts"},
+                {"summary": "gen_static_subcontent_summary"},
+                {"skills": "gen_static_subcontent_skills"},
+                {"experience": "gen_static_subcontent_experience"},
+                {"education": "gen_static_subcontent_education"},
+                {"awards": "gen_static_subcontent_awards"}
+            ]
+        }
+        
+        job_yaml_path = job_folder / "job.yaml"
+        dump_yaml(job_yaml_path, job_data)
+        
+        # Create context
+        ctx = EventContext(
+            jobs_root=jobs_root,
+            resumes_root=Path("resumes"),
+            default_resume="Stephen_Hilton.yaml",
+            test_mode=False
+        )
+        
+        # Run batch_gen_data
+        result = await run_event("batch_gen_data", job_folder, ctx)
+        
+        # Verify the event succeeded
+        assert result.ok is True, f"batch_gen_data failed: {result.message}"
+        
+        # Verify job was moved to 2_Data_Generated
+        new_job_folder = jobs_root / "2_Data_Generated" / "TestCorp.Engineer.20260114-120000.test123"
+        assert new_job_folder.exists(), "Job folder not moved to 2_Data_Generated"
+        
+        # Verify all subcontent files exist
+        for event_config in job_data["subcontent_events"]:
+            for section, event_name in event_config.items():
+                subcontent_file = new_job_folder / f"subcontent.{section}.yaml"
+                assert subcontent_file.exists(), f"Subcontent file missing: subcontent.{section}.yaml"
+                
+                # Verify file is not empty
+                assert subcontent_file.stat().st_size > 0, f"Subcontent file is empty: subcontent.{section}.yaml"
+        
+    finally:
+        # Clean up
+        shutil.rmtree(temp_dir)
+
+
+
+@pytest.mark.property
+@pytest.mark.tag("Feature: job-application-automation, Property 12: CSS File Generation")
+@pytest.mark.asyncio
+async def test_css_file_generation():
+    """
+    Property 12: For any resume generation, all required CSS files should be generated
+    including main.css and per-section CSS files.
+    
+    Validates: Requirements 7.4, 7.5
+    """
+    from src.lib.css_generator import generate_all_css
+    import tempfile
+    import shutil
+    
+    # Create temporary directory
+    temp_dir = Path(tempfile.mkdtemp())
+    
+    try:
+        # Generate CSS files
+        generate_all_css(temp_dir)
+        
+        # Verify main.css exists
+        main_css = temp_dir / "main.css"
+        assert main_css.exists(), "main.css not generated"
+        assert main_css.stat().st_size > 0, "main.css is empty"
+        
+        # Verify per-section CSS files exist
+        expected_sections = ['contacts', 'summary', 'skills', 'highlights', 'experience', 'education', 'awards']
+        
+        for section in expected_sections:
+            section_css = temp_dir / f"{section}.css"
+            assert section_css.exists(), f"{section}.css not generated"
+            assert section_css.stat().st_size > 0, f"{section}.css is empty"
+        
+        # Verify CSS content is valid (contains basic CSS syntax)
+        main_content = main_css.read_text()
+        assert '{' in main_content and '}' in main_content, "main.css doesn't contain valid CSS syntax"
+        
+        # Verify section CSS files contain section-specific selectors
+        for section in expected_sections:
+            section_css = temp_dir / f"{section}.css"
+            section_content = section_css.read_text()
+            assert '{' in section_content and '}' in section_content, f"{section}.css doesn't contain valid CSS syntax"
+            # Should contain the section class name
+            assert f".{section}" in section_content or f"#{section}" in section_content, \
+                f"{section}.css doesn't contain section-specific selector"
+        
+    finally:
+        # Clean up
+        shutil.rmtree(temp_dir)
+
+
+
+@pytest.mark.property
+@pytest.mark.tag("Feature: job-application-automation, Property 13: HTML to PDF Dependency")
+@pytest.mark.asyncio
+async def test_html_to_pdf_dependency():
+    """
+    Property 13: For any PDF generation, the corresponding HTML file must exist first.
+    Attempting to generate a PDF without the HTML should fail gracefully.
+    
+    Validates: Requirements 22.2
+    """
+    from src.events.event_bus import run_event
+    import tempfile
+    import shutil
+    
+    # Create temporary directories
+    temp_dir = Path(tempfile.mkdtemp())
+    jobs_root = temp_dir / "jobs"
+    jobs_root.mkdir()
+    (jobs_root / "2_Data_Generated").mkdir()
+    
+    try:
+        # Create a job folder without HTML files
+        job_folder = jobs_root / "2_Data_Generated" / "TestCorp.Engineer.20260114-120000.test123"
+        job_folder.mkdir()
+        
+        # Create job.yaml
+        (job_folder / "job.yaml").write_text("company: TestCorp\ntitle: Engineer")
+        
+        # Create context
+        ctx = EventContext(
+            jobs_root=jobs_root,
+            resumes_root=Path("resumes"),
+            default_resume="Stephen_Hilton.yaml",
+            test_mode=False
+        )
+        
+        # Try to generate resume PDF without HTML
+        result = await run_event("gen_resume_pdf", job_folder, ctx)
+        
+        # Should fail because HTML doesn't exist
+        assert result.ok is False, "PDF generation should fail without HTML file"
+        assert "resume.html" in result.message.lower() or "not found" in result.message.lower(), \
+            "Error message should mention missing HTML file"
+        
+        # Try to generate coverletter PDF without HTML
+        result = await run_event("gen_coverletter_pdf", job_folder, ctx)
+        
+        # Should fail because HTML doesn't exist
+        assert result.ok is False, "PDF generation should fail without HTML file"
+        assert "coverletter.html" in result.message.lower() or "not found" in result.message.lower(), \
+            "Error message should mention missing HTML file"
+        
+        # Now create the HTML files
+        (job_folder / "resume.html").write_text("<html><body>Test Resume</body></html>")
+        (job_folder / "coverletter.html").write_text("<html><body>Test Cover Letter</body></html>")
+        
+        # Try again - should succeed now
+        result = await run_event("gen_resume_pdf", job_folder, ctx)
+        assert result.ok is True, f"PDF generation should succeed with HTML file: {result.message}"
+        assert (job_folder / "resume.pdf").exists(), "resume.pdf not created"
+        
+        result = await run_event("gen_coverletter_pdf", job_folder, ctx)
+        assert result.ok is True, f"PDF generation should succeed with HTML file: {result.message}"
+        assert (job_folder / "coverletter.pdf").exists(), "coverletter.pdf not created"
         
     finally:
         # Clean up

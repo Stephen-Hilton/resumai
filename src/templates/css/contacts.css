@@ -1,0 +1,17 @@
+.contacts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.15in;
+    margin-bottom: 0.2in;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 0.05in;
+}
+
+.contact-icon {
+    width: 12pt;
+    height: 12pt;
+}

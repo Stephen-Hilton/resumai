@@ -3,17 +3,38 @@ from __future__ import annotations
 from pathlib import Path
 from src.lib.types import EventContext, EventResult
 from src.lib.yaml_utils import load_yaml, dump_yaml
-from src.lib.logging_utils import append_job_log
+
 
 async def execute(job_path: Path, ctx: EventContext) -> EventResult:
-    job = load_yaml(job_path / "job.yaml")
-    resume_path = ctx.resumes_root / ctx.default_resume
-    resume = load_yaml(resume_path)
-    out = {"section": "highlights", "mode": "static", "content": resume.get("highlights") or resume.get("Highlights")}
-    out_path = job_path / f"subcontent.highlights.yaml"
-    dump_yaml(out_path, out)
-    append_job_log(job_path, f"gen_static_subcontent_highlights: wrote {out_path.name}")
-    return EventResult(ok=True, job_path=job_path, message="ok", artifacts=[out_path.name])
+    """Generate static highlights subcontent from resume.yaml."""
+    try:
+        resume_path = ctx.resumes_root / ctx.default_resume
+        if not resume_path.exists():
+            return EventResult(ok=False, job_path=job_path, message=f"Resume file not found: {resume_path}", errors=[{"error": f"Resume file not found: {resume_path}"}])
+        
+        resume_data = load_yaml(resume_path)
+        highlights = resume_data.get("highlights", [])
+        
+        if not highlights:
+            # Create template highlights
+            highlights = [
+                "Key achievement or highlight",
+                "Another significant accomplishment",
+                "Notable contribution or result"
+            ]
+        
+        output_path = job_path / "subcontent.highlights.yaml"
+        dump_yaml(output_path, highlights)
+        
+        return EventResult(ok=True, job_path=job_path, message=f"Generated static highlights subcontent ({len(highlights)} highlights)", artifacts=[str(output_path)])
+        
+    except Exception as e:
+        return EventResult(ok=False, job_path=job_path, message=f"Failed to generate highlights subcontent: {str(e)}", errors=[{"exception": str(e)}])
+
 
 async def test(job_path: Path, ctx: EventContext) -> EventResult:
-    return EventResult(ok=True, job_path=job_path, message="test ok")
+    """Test mode."""
+    resume_path = ctx.resumes_root / ctx.default_resume
+    if not resume_path.exists():
+        return EventResult(ok=False, job_path=job_path, message=f"Resume file not found: {resume_path}")
+    return EventResult(ok=True, job_path=job_path, message="Test: would generate highlights")

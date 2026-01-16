@@ -6,6 +6,17 @@ venv_*
 /src/prompts/old/
 /src/jobs/*/*
 .vscode/
+jobs/1_Queued/*
+jobs/2_Data_Generated/*
+jobs/3_Docs_Generated/*
+jobs/4_Applied/*
+jobs/5_FollowUp/*
+jobs/6_Interviewing/*
+jobs/7_Negotiating/*
+jobs/8_Accepted/*
+jobs/Errored/*
+jobs/Expired/*
+jobs/Skipped/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

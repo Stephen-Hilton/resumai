@@ -1,0 +1,22 @@
+.experience-item {
+    margin-bottom: 0.15in;
+}
+
+.company-name {
+    font-weight: bold;
+    font-size: 12pt;
+}
+
+.role-title {
+    font-weight: bold;
+    margin-top: 0.05in;
+}
+
+.dates {
+    font-style: italic;
+    color: #666;
+}
+
+.experience-bullets {
+    margin-top: 0.05in;
+}

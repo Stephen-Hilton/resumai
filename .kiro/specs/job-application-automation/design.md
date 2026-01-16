@@ -177,14 +177,15 @@ class JobSource(BaseModel):
     url: str | None = None
 
 class JobModel(BaseModel):
-    id: str
+    id: str                      # LinkedIn job ID extracted from URL (e.g., "4352500475" from "https://www.linkedin.com/jobs/view/4352500475")
     company: str
     title: str
-    date_posted: str | None = None
+    date: str                    # Date/time the email was sent (YYYY-MM-DD HH:MM:SS format)
     location: str | None = None
     salary: str | None = None
     tags: list[str] | None = None
-    source: JobSource = Field(default_factory=JobSource)
+    source: str = "manual"       # Source identifier (e.g., "gmail_linkedin", "manual", "url")
+    url: str                     # Job posting URL (LinkedIn URLs should not include /comm/ path)
     description: str | None = None
     subcontent_events: list[dict[str, str]] | None = None
 ```
@@ -324,10 +325,12 @@ Each job is stored in a folder with the naming convention: `{company}.{title}.{d
 **Phase 1: Queued**
 ```
 jobs/1_Queued/TechCorp.SeniorEngineer.20260113-143022.4123456789/
-├── job.yaml          # Required: Job metadata
-├── job.html          # Optional: Raw HTML from job posting
+├── job.yaml          # Required: Job metadata including full description
+├── job.html          # Required for LinkedIn jobs: Raw HTML from job posting page
 └── job.log           # Log of all operations on this job
 ```
+
+**Note**: For jobs collected via `get_gmail_linkedin`, the system fetches the full job posting HTML from the LinkedIn URL and saves it to `job.html`. This allows the job description to be parsed and preserved even if the posting is later removed from LinkedIn. The full description is extracted from the HTML and stored in the `description` field of `job.yaml`.
 
 **Phase 2: Data Generated**
 ```
