@@ -19,7 +19,8 @@ async def execute(job_path: Path, ctx: EventContext) -> EventResult:
         original_skills = resume_data.get("skills", [])
         
         system_prompt = """You are an expert resume writer. Create a tailored skills list for a job application.
-- Select and prioritize 10-15 most relevant skills from the candidate's full skill set
+- Select and prioritize the 12 most relevant skills from the candidate's full skill set
+- Each skill must be between 20 and 35 characters total, including spaces
 - Add any critical skills from the job description that the candidate likely has
 - Order skills by relevance to the job (most relevant first)
 - Use industry-standard terminology
@@ -35,7 +36,7 @@ JOB DESCRIPTION:
 CANDIDATE'S FULL SKILL SET:
 {chr(10).join(f'- {skill}' for skill in original_skills)}
 
-Generate a prioritized list of 10-15 most relevant skills."""
+Generate a prioritized list of exactly 12 most relevant skills."""
 
         llm = get_llm_interface()
         success, content, error = await llm.generate_content(system_prompt, user_prompt, temperature=0.5)

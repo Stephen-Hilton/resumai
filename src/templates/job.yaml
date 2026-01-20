@@ -16,6 +16,6 @@ subcontent_events:
 - experience: gen_llm_subcontent_experience
 - education: gen_static_subcontent_education
 - awards: gen_static_subcontent_awards
-- coverletter: gen_llm_subcontent_awards
+- coverletter: gen_llm_subcontent_coverletter
 description: |-
   Full job description text...

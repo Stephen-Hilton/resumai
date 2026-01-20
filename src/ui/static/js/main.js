@@ -298,36 +298,43 @@ function createSubcontentStatus(data) {
 // Create doc status HTML
 function createDocStatus(data) {
     const docs = [
-        { name: 'resume.html', label: 'Resume HTML', key: 'resume_html' },
-        { name: 'coverletter.html', label: 'Cover Letter HTML', key: 'coverletter_html' },
-        { name: 'resume.pdf', label: 'Resume PDF', key: 'resume_pdf', locked: !data.doc_status.resume_html },
-        { name: 'coverletter.pdf', label: 'Cover Letter PDF', key: 'coverletter_pdf', locked: !data.doc_status.coverletter_html }
+        { name: 'resume.html', key: 'resume_html', locked: false },
+        { name: 'coverletter.html', key: 'coverletter_html', locked: false },
+        { name: 'resume.pdf', key: 'resume_pdf', locked: !data.doc_status.resume_html },
+        { name: 'coverletter.pdf', key: 'coverletter_pdf', locked: !data.doc_status.coverletter_html }
     ];
     
     let html = '<div class="doc-status-grid">';
     
     docs.forEach(doc => {
         const exists = data.doc_status[doc.key];
-        const icon = doc.locked ? '🔒' : (exists ? '✅' : '❌');
+        // ✅ = exists, ▶️ = ready to generate, 🔒 = locked (waiting on HTML)
+        const icon = doc.locked ? '🔒' : (exists ? '✅' : '▶️');
+        const clickable = !doc.locked && !exists ? 'clickable' : '';
+        const title = doc.locked ? 'Generate HTML first' : (exists ? 'Click to view' : 'Click to generate');
         
         html += `
-            <div class="doc-status-item">
-                <span class="doc-name">${doc.label}</span>
+            <div class="doc-status-item ${clickable}" data-job="${data.job.folder_name}" data-doc="${doc.key}" title="${title}">
+                <span class="doc-name">${doc.name}</span>
                 <span class="doc-icon">${icon}</span>
             </div>
         `;
     });
     
+    html += '</div>';
+    
+    // Add error.md link if exists
     if (data.doc_status.error_md) {
         html += `
-            <div class="doc-status-item error">
-                <span class="doc-name">⚠️ Error.md</span>
-                <a href="#" class="file-link" data-job="${data.job.folder_name}" data-file="error.md">View</a>
+            <div class="file-links-row error-row">
+                <span class="file-link-item error">
+                    <span>⚠️</span>
+                    <a href="#" class="file-link" data-job="${data.job.folder_name}" data-file="error.md">Error.md</a>
+                </span>
             </div>
         `;
     }
     
-    html += '</div>';
     return html;
 }
 
@@ -519,7 +526,21 @@ function createQueuedPhaseContent(job) {
 function createDataGeneratedPhaseContent(job) {
     return `
         <div class="phase-content data-generated-content">
-            <p class="section-title">Next Steps</p>
+            <p class="section-title">Subcontent Generation</p>
+            <div class="subcontent-status" id="subcontent-${job.folder_name}">
+                <p class="loading-text">Loading status...</p>
+            </div>
+            <div class="file-links-row" id="filelinks-${job.folder_name}">
+                <span class="file-link-item">
+                    <span>✅</span>
+                    <a href="#" class="file-link" data-job="${job.folder_name}" data-file="job.yaml">job.yaml</a>
+                </span>
+                <span class="file-link-item">
+                    <span>✅</span>
+                    <a href="#" class="file-link" data-job="${job.folder_name}" data-file="job.log">job.log</a>
+                </span>
+            </div>
+            <p class="section-title">Next Steps: Generate Final Documents</p>
             <div class="doc-status" id="docstatus-${job.folder_name}">
                 <p class="loading-text">Loading status...</p>
             </div>
@@ -527,10 +548,6 @@ function createDataGeneratedPhaseContent(job) {
                 <button class="btn-generate-docs" data-job="${job.folder_name}">
                     📄 Generate All Resume Docs
                 </button>
-            </div>
-            <div class="file-links">
-                <a href="#" class="file-link" data-job="${job.folder_name}" data-file="job.yaml">📝 Edit job.yaml</a>
-                <a href="#" class="file-link" data-job="${job.folder_name}" data-file="job.log">📋 View job.log</a>
             </div>
         </div>
     `;

@@ -1071,4 +1071,4 @@ if __name__ == '__main__':
     except Exception as e:
         print(f"Log rotation error: {e}")
     
-    socketio.run(app, host='0.0.0.0', port=port, debug=debug)
+    socketio.run(app, host='0.0.0.0', port=port, debug=debug, allow_unsafe_werkzeug=True)

@@ -19,6 +19,7 @@ async def execute(job_path: Path, ctx: EventContext) -> EventResult:
         system_prompt = """You are an expert resume writer. Tailor the candidate's work experience for a specific job.
 - Keep the same companies and roles
 - Rewrite bullet points to emphasize relevant achievements
+- Each bullet MUST be either 90-115 characters (1 line) OR 180-240 characters (2 lines) including spaces
 - Prioritize bullets most relevant to the target job
 - Use strong action verbs and quantify results
 - Write in THIRD PERSON ONLY (no "I", "my", "me" - use past tense action verbs like "Led", "Developed", "Managed")

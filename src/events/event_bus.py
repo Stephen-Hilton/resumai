@@ -67,31 +67,35 @@ async def run_event(event_name: str, job_path: Path, ctx: EventContext, retry_co
             append_job_log(job_path, f"FAILED event={event_name} - {res.message}")
             
             if should_move_to_errored(event_name, retry_count + 1, MAX_RETRIES, res.message):
-                # Generate error.md
-                error_details = {
-                    "Attempts": retry_count + 1,
-                    "Max Retries": MAX_RETRIES,
-                    "Event": event_name
-                }
-                if res.errors:
-                    error_details.update(res.errors[0] if isinstance(res.errors[0], dict) else {"Error": str(res.errors[0])})
-                
-                generate_error_md(
-                    job_path=job_path,
-                    event_name=event_name,
-                    error_message=res.message,
-                    error_details=error_details,
-                    originating_phase=job_path.parent.name
-                )
-                
-                # Move to Errored phase (skip retries by passing high retry_count)
-                try:
-                    move_result = await run_event("move_errored", job_path, ctx, retry_count=999)  # Skip retries for move
-                    if move_result.ok:
-                        res.job_path = move_result.job_path
-                        append_job_log(res.job_path, f"Moved to Errored phase due to repeated failures")
-                except Exception as move_error:
-                    append_app_log(Path('src/logs'), f"ERROR moving job to Errored phase: {move_error}")
+                # Don't try to move_errored if we're already in move_errored (prevent infinite loop)
+                if event_name == "move_errored":
+                    append_app_log(Path('src/logs'), f"ERROR move_errored failed - cannot retry move operation")
+                else:
+                    # Generate error.md
+                    error_details = {
+                        "Attempts": retry_count + 1,
+                        "Max Retries": MAX_RETRIES,
+                        "Event": event_name
+                    }
+                    if res.errors:
+                        error_details.update(res.errors[0] if isinstance(res.errors[0], dict) else {"Error": str(res.errors[0])})
+                    
+                    generate_error_md(
+                        job_path=job_path,
+                        event_name=event_name,
+                        error_message=res.message,
+                        error_details=error_details,
+                        originating_phase=job_path.parent.name
+                    )
+                    
+                    # Move to Errored phase (skip retries by passing high retry_count)
+                    try:
+                        move_result = await run_event("move_errored", job_path, ctx, retry_count=999)  # Skip retries for move
+                        if move_result.ok:
+                            res.job_path = move_result.job_path
+                            append_job_log(res.job_path, f"Moved to Errored phase due to repeated failures")
+                    except Exception as move_error:
+                        append_app_log(Path('src/logs'), f"ERROR moving job to Errored phase: {move_error}")
             else:
                 # Systemic failure detected - don't move to Errored
                 append_app_log(Path('src/logs'), f"SYSTEMIC_FAILURE detected for event={event_name} - job remains in current phase")
@@ -119,31 +123,35 @@ async def run_event(event_name: str, job_path: Path, ctx: EventContext, retry_co
         append_job_log(job_path, f"FAILED event={event_name} - all retry attempts exhausted: {error_message}")
         
         if should_move_to_errored(event_name, retry_count + 1, MAX_RETRIES, error_message):
-            # Generate error.md
-            error_details = {
-                "Exception Type": type(e).__name__,
-                "Attempts": retry_count + 1,
-                "Max Retries": MAX_RETRIES,
-                "Event": event_name
-            }
-            
-            generate_error_md(
-                job_path=job_path,
-                event_name=event_name,
-                error_message=f"Event failed after {MAX_RETRIES + 1} attempts: {error_message}",
-                error_details=error_details,
-                originating_phase=job_path.parent.name,
-                traceback=error_traceback
-            )
-            
-            # Move to Errored phase (skip retries by passing high retry_count)
-            try:
-                move_result = await run_event("move_errored", job_path, ctx, retry_count=999)  # Skip retries for move
-                if move_result.ok:
-                    job_path = move_result.job_path
-                    append_job_log(job_path, f"Moved to Errored phase due to repeated failures")
-            except Exception as move_error:
-                append_app_log(Path('src/logs'), f"ERROR moving job to Errored phase: {move_error}")
+            # Don't try to move_errored if we're already in move_errored (prevent infinite loop)
+            if event_name == "move_errored":
+                append_app_log(Path('src/logs'), f"ERROR move_errored failed - cannot retry move operation")
+            else:
+                # Generate error.md
+                error_details = {
+                    "Exception Type": type(e).__name__,
+                    "Attempts": retry_count + 1,
+                    "Max Retries": MAX_RETRIES,
+                    "Event": event_name
+                }
+                
+                generate_error_md(
+                    job_path=job_path,
+                    event_name=event_name,
+                    error_message=f"Event failed after {MAX_RETRIES + 1} attempts: {error_message}",
+                    error_details=error_details,
+                    originating_phase=job_path.parent.name,
+                    traceback=error_traceback
+                )
+                
+                # Move to Errored phase (skip retries by passing high retry_count)
+                try:
+                    move_result = await run_event("move_errored", job_path, ctx, retry_count=999)  # Skip retries for move
+                    if move_result.ok:
+                        job_path = move_result.job_path
+                        append_job_log(job_path, f"Moved to Errored phase due to repeated failures")
+                except Exception as move_error:
+                    append_app_log(Path('src/logs'), f"ERROR moving job to Errored phase: {move_error}")
         else:
             # Systemic failure detected - don't move to Errored
             append_app_log(Path('src/logs'), f"SYSTEMIC_FAILURE detected for event={event_name} - job remains in current phase")

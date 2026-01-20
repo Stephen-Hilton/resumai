@@ -347,8 +347,8 @@ button {
 
 .job-card .doc-status-grid,
 .job-card .doc-list-grid {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 5px;
     margin-bottom: 10px;
 }
@@ -359,15 +359,54 @@ button {
     justify-content: space-between;
     align-items: center;
     font-size: 0.85em;
-    padding: 5px;
+    padding: 5px 8px;
     background: #f9f9f9;
     border-radius: 4px;
+}
+
+.job-card .doc-status-item.clickable {
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.job-card .doc-status-item.clickable:hover {
+    background: #e8f4ff;
 }
 
 .job-card .doc-status-item.error,
 .job-card .doc-list-item.error {
     background: #fff5f5;
     color: #c53030;
+}
+
+.job-card .file-links-row {
+    display: flex;
+    gap: 15px;
+    margin: 8px 0;
+    font-size: 0.85em;
+}
+
+.job-card .file-links-row.error-row {
+    margin-top: 10px;
+}
+
+.job-card .file-link-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.job-card .file-link-item.error {
+    color: #c53030;
+}
+
+.job-card .file-link-item a {
+    color: #5568d3;
+    text-decoration: none;
+}
+
+.job-card .file-link-item a:hover {
+    text-decoration: underline;
 }
 
 .job-card .doc-name,

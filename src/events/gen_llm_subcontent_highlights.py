@@ -16,9 +16,10 @@ async def execute(job_path: Path, ctx: EventContext) -> EventResult:
         description = job_data.get("description", "")
         experience = resume_data.get("experience", [])
         
-        system_prompt = """You are an expert resume writer. Create 4-6 compelling career highlights for a job application.
+        system_prompt = """You are an expert resume writer. Create 5 compelling career highlights for a job application.
 Each highlight should:
-- Be one concise sentence
+- Be exactly 5 achievement bullets total
+- Each bullet must be between 300 and 350 characters (including spaces)
 - Include quantifiable achievements when possible
 - Be relevant to the target job
 - Use strong action verbs
@@ -37,7 +38,7 @@ JOB REQUIREMENTS:
 CANDIDATE'S EXPERIENCE:
 {_format_experience(experience[:3])}
 
-Generate 4-6 impactful career highlights most relevant to this role."""
+Generate exactly 5 impactful career highlights most relevant to this role. Each highlight must be between 300-350 characters."""
 
         llm = get_llm_interface()
         success, content, error = await llm.generate_content(system_prompt, user_prompt, temperature=0.7)

@@ -47,6 +47,7 @@ async def execute(job_path: Path, ctx: EventContext) -> EventResult:
         # Build context for LLM
         system_prompt = """You are an expert resume writer. Your task is to create a compelling professional summary 
 tailored to a specific job posting. The summary should:
+- Be between 580 and 630 characters (including spaces)
 - Be 3-4 sentences long
 - Highlight relevant experience and skills that match the job requirements
 - Use strong action words and quantifiable achievements when possible
