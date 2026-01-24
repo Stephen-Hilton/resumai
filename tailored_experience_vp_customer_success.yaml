@@ -1,0 +1,340 @@
+- company_description: Stealth startup building a net-new enterprise financial debt
+    instrument.
+  company_name: Stealth Start-Up
+  company_urls: https://paydaay.com
+  dates: September 2025 - Present
+  employees: 6
+  location: Remote
+  roles:
+  - bullets:
+    - id: 5904
+      tags:
+      - aws
+      - containers
+      - ml_ai
+      - product
+      - product_strategy
+      - serverless
+      - solution_architecture
+      - zero_to_one
+      text: Advised CEO on strategic and technical direction, delivering scalable AWS serverless architecture from initial proof-of-concept through production deployment.
+    - id: 5903
+      tags:
+      - api
+      - leadership
+      - platform_engineering
+      - product
+      - product_strategy
+      - solution_architecture
+      - zero_to_one
+      text: Guided platform strategy and architecture decisions to accelerate time-to-value and support rapid scaling.
+    - id: 5902
+      tags:
+      - customer_facing
+      - ml_ai
+      - stakeholder_management
+      text: Leveraged executive network to support hiring, partner development, and ecosystem growth for early-stage company.
+    - id: 5901
+      tags:
+      - leadership
+      - ml_ai
+      - product_strategy
+      - technical_leadership
+      text: Provided strategic guidance on fundraising strategy and investor relationship development.
+    dates: July 2025 - Present
+    id: 59
+    location: Remote
+    role: Advisor / Fractional CTO & Principal Engineer (Freelance)
+- company_description: At MakeInfinite Labs, we build the AI + Web3 infrastructure
+    that enables developers and creators to build data-driven applications, tokenize
+    and monetize, and win in the AI economy. With a focus on blockchain data at extreme
+    scale, MakeInfinite Labs is the builder of the Space and Time ZK-tamperproof data
+    warehouse.
+  company_name: MakeInfinite Labs (previously Space and Time labs)
+  company_urls:
+  - https://www.makeinfinite.com
+  - https://www.spaceandtime.io
+  dates: June 2022 - Present
+  employees: 40
+  location: Los Angeles, CA
+  roles:
+  - bullets:
+    - id: 5904
+      tags:
+      - customer_facing
+      - product
+      - product_strategy
+      text: Partnered directly with CEO as trusted strategic advisor on customer, partner, and vendor executive engagements.
+    - id: 5903
+      tags:
+      - product
+      - stakeholder_management
+      text: Translated technical product capabilities into compelling business value propositions for C-suite decision-makers.
+    - id: 5902
+      tags:
+      - customer_facing
+      - product
+      - product_strategy
+      text: Shaped GTM strategy, customer success motions, and partner alignment to establish repeatable, scalable revenue processes.
+    - id: 5901
+      tags:
+      - customer_facing
+      - ml_ai
+      - product
+      - product_strategy
+      text: Bridged customer requirements, partner capabilities, and product roadmap to maximize customer value and product-market fit.
+    dates: July 2025 - Present
+    id: 58
+    location: Remote
+    role: Strategic Advisor (Freelance)
+  - bullets:
+    - id: 5717
+      tags:
+      - leadership
+      - product_strategy
+      - solution_architecture
+      text: Led all sales strategy, operations, and customer success as Head of Solutions reporting directly to CEO.
+    - id: 5716
+      tags:
+      - customer_facing
+      - product
+      text: Owned complete customer lifecycle including presales, implementation, customer success, and support operations.
+    - id: 5715
+      tags: []
+      text: Built executive relationships with hundreds of data engineers, CTOs, and founders throughout the customer journey.
+    - id: 5714
+      tags:
+      - product
+      text: Designed and delivered demos, POCs, and implementation workshops to ensure rapid customer time-to-value and adoption.
+    - id: 5713
+      tags:
+      - customer_facing
+      - leadership
+      - product
+      text: Represented voice of customer across Product, Engineering, and Marketing to drive continuous product and experience improvement.
+    - id: 5712
+      tags:
+      - ml_ai
+      - technical_leadership
+      text: Fostered culture of continuous learning and development to maintain team credibility and customer trust in evolving market.
+    - id: 5711
+      tags:
+      - product
+      text: Positioned competitive landscape and ecosystem partnerships to maximize customer success and platform differentiation.
+    - id: 5710
+      tags:
+      - product
+      text: Scaled ARR from $0 at alpha launch to $3M in 12 months and $14M in 24 months, achieving 450% year-over-year growth.
+    - id: 5709
+      tags:
+      - leadership
+      - technical_leadership
+      text: Owned revenue tracking, forecasting, and quarterly board reporting for all revenue operations and customer metrics.
+    - id: 5708
+      tags:
+      - enterprise_scale
+      - leadership
+      - product
+      - technical_leadership
+      text: Managed enterprise relationships with USBank, Fidelity, SSC, FTI Consulting, plus 300+ mid-market and growth customers.
+    - id: 5707
+      tags:
+      - customer_facing
+      - enterprise_scale
+      - leadership
+      - ml_ai
+      - product
+      - sql
+      - technical_leadership
+      text: Led delivery of first enterprise AI product (NL2SQL), ensuring successful adoption and measurable business impact.
+    - id: 5706
+      tags: []
+      text: Delivered dozens of keynotes, panels, AMAs, and customer presentations to drive awareness and customer engagement.
+    - id: 5705
+      tags:
+      - customer_facing
+      - ml_ai
+      - product
+      - security
+      text: Authored technical customer documentation and AI demos to accelerate onboarding and reduce time-to-value.
+    - id: 5704
+      tags: []
+      text: Collaborated closely with Marketing and Developer Relations to support developer community and customer enablement.
+    - id: 5703
+      tags:
+      - customer_facing
+      - ml_ai
+      - product
+      - product_strategy
+      text: Partnered daily with Product Engineering to align design and roadmap with customer feedback, needs, and strategic priorities.
+    - id: 5702
+      tags:
+      - data_eng
+      - data_engineering
+      - data_warehouse
+      - leadership
+      - ml_ai
+      text: Built internal data infrastructure integrating CRM, telemetry, and marketing systems to enable data-driven customer insights.
+    - id: 5701
+      tags:
+      - product
+      - python
+      text: Developed product's first CLI and Python SDK to improve developer experience and accelerate customer integration.
+    dates: January 2023 - July 2025
+    id: 57
+    location: Remote
+    role: Head of Solutions / Head of GTM
+  - bullets:
+    - id: 5605
+      tags:
+      - leadership
+      - technical_leadership
+      text: Reported to CEO as Chief of Staff, establishing foundational operational processes for early-stage startup growth.
+    - id: 5604
+      tags:
+      - ml_ai
+      - product
+      text: Supported fundraising through Seed and Series A with presentations, product demonstrations, and investor technical Q&A.
+    - id: 5603
+      tags:
+      - leadership
+      - security_compliance
+      - technical_leadership
+      text: Led vendor selection across CRM, support ticketing, SOC2 compliance, and other critical operational infrastructure.
+    - id: 5602
+      tags:
+      - enterprise_scale
+      - ml_ai
+      - product
+      text: Designed initial product pricing models for both SaaS consumption-based and enterprise fixed-rate customer segments.
+    - id: 5601
+      tags:
+      - leadership
+      - solution_architecture
+      - technical_leadership
+      text: Developed performance-based compensation programs for Sales, Solutions Engineering, and Lead Generation teams.
+    dates: June 2022 - January 2023
+    id: 56
+    location: Remote
+    role: Chief of Staff
+- company_description: Data management and data science technologies for petabyte
+    scale, Fortune 50 enterprises.
+  company_name: Teradata
+  company_urls:
+  - https://www.Teradata.com
+  dates: 2010 - 2022
+  employees: 8000
+  location: San Diego, CA
+  roles:
+  - bullets:
+    - id: 5505
+      tags:
+      - customer_facing
+      - leadership
+      - product
+      - product_strategy
+      - solution_architecture
+      text: Reported to CRO, leading global strategy and analytics for Solutions Engineering and Customer Success across enterprise portfolio.
+    - id: 5504
+      tags:
+      - leadership
+      - product
+      text: Built teams and data-driven operational systems to scale customer success across 2,000+ customers and $2B in ARR.
+    - id: 5503
+      tags:
+      - leadership
+      - technical_leadership
+      text: Owned all ARR and revenue reporting to Board of Directors, ensuring accuracy and strategic alignment with growth targets.
+    - id: 5502
+      tags:
+      - customer_facing
+      - leadership
+      - product
+      - product_strategy
+      - technical_leadership
+      text: Led enterprise-wide transformation to customer success model focused on retention, product adoption, and scalable processes, driving 5% consumption growth over baseline.
+    - id: 5501
+      tags:
+      - customer_facing
+      - product
+      - real_time_systems
+      text: Architected real-time telemetry analytics framework across SaaS infrastructure to deliver automated customer consumption insights and proactive health monitoring.
+    dates: 2020 - June 2022
+    id: 55
+    location: Remote
+    role: Global Director of Strategy, Analytics, and Automation
+  - bullets:
+    - id: 5406
+      tags:
+      - leadership
+      - product
+      text: Led largest, most complex enterprise territory managing 3 of 4 top customers representing 25% of global compute capacity with C-suite relationships.
+    - id: 5405
+      tags:
+      - leadership
+      - product
+      - technical_leadership
+      text: Managed cross-industry SMB and startup territory, optimizing team resources to maximize revenue while ensuring exceptional customer experience at all account sizes.
+    - id: 5404
+      tags:
+      - leadership
+      - technical_leadership
+      text: Established new Solutions Engineering Director role and operational framework defining responsibilities, hiring standards, and team structure.
+    - id: 5403
+      tags:
+      - customer_facing
+      - leadership
+      - ml_ai
+      - product
+      - technical_leadership
+      text: Built deep executive relationships with technical and analytic leaders at Apple, Facebook, Netflix, Amazon, eBay, PayPal, Kaiser Permanente, and 40+ other major enterprises.
+    - id: 5402
+      tags:
+      - customer_facing
+      - leadership
+      - product
+      - stakeholder_management
+      - technical_leadership
+      - zero_to_one
+      text: Mentored team on full customer lifecycle from discovery and executive presentations through POC execution, implementation, and customer success expansion opportunities.
+    - id: 5401
+      tags:
+      - customer_facing
+      - product
+      text: Partnered with GSI delivery partners to ensure customer expectations were exceeded, creating mutually beneficial relationships.
+    dates: 2016 - 2020
+    id: 54
+    location: Western U.S. / Remote
+    role: Director of Solution Engineering / Customer Success
+  - bullets:
+    - id: 5305
+      tags: []
+      text: Built and maintained executive relationships with tech companies across Western U.S., from Fortune 500 to growth-stage startups.
+    - id: 5304
+      tags:
+      - api
+      - data_eng
+      - event_driven_architecture
+      text: Consulted on enterprise data and analytics initiatives using Hadoop, Presto, Kafka, Spark, and cloud data platforms.
+    - id: 5303
+      tags:
+      - product
+      text: Delivered technical presentations and strategic architectures to stakeholders from developers through C-suite executives.
+    - id: 5302
+      tags:
+      - api
+      - data_eng
+      - event_driven_architecture
+      text: Enabled customer success through open-source integrations with Hadoop, Presto, Kafka, Spark, and ecosystem technologies.
+    - id: 5301
+      tags:
+      - customer_facing
+      - product
+      - stakeholder_management
+      - technical_leadership
+      - zero_to_one
+      text: Led company's largest POC, orchestrating cross-functional teams across Product Engineering, Sales, and Customer Success to deliver exceptional customer outcome.
+    dates: 2010 - 2016
+    id: 53
+    location: San Francisco Bay Area / Silicon Valley
+    role: Sr. Solution Engineer

@@ -5,12 +5,14 @@ Connects to Gmail via IMAP and searches for LinkedIn Job Alert emails from the l
 Parses email HTML to extract job listings and creates job folders for each listing.
 For each job, fetches the full job posting HTML from LinkedIn and extracts the description.
 
-Requirements: 4.1, 4.2
+Requirements: 4.1, 4.2, 4.3, 4.4, 4.5, 4.6
 """
 
 from pathlib import Path
 from src.lib.types import EventContext, EventResult
 from src.lib.logging_utils import append_app_log
+from src.events._db_helpers import job_is_duplicate, get_job_id_from_path
+from src.services.file_storage_service import FileStorageService
 import os
 from datetime import datetime, timedelta
 import email
@@ -392,24 +394,14 @@ async def execute(job_path: Path, ctx: EventContext) -> EventResult:
                         job_data["description"] = f"Job found in LinkedIn email alert: {subject_decoded}"
                         # subcontent_events will be loaded from template by dump_job_yaml
                         
-                        # Check if job already exists (by ID)
-                        job_exists = False
-                        for phase_dir in ctx.jobs_root.glob("*"):
-                            if phase_dir.is_dir():
-                                for existing_job in phase_dir.iterdir():
-                                    if existing_job.is_dir():
-                                        job_yaml = existing_job / "job.yaml"
-                                        if job_yaml.exists():
-                                            from src.lib.yaml_utils import load_yaml
-                                            existing_data = load_yaml(job_yaml)
-                                            if existing_data.get("id") == job_data["id"]:
-                                                job_exists = True
-                                                jobs_skipped.append(job_data["id"])
-                                                break
-                            if job_exists:
-                                break
-                        
-                        if job_exists:
+                        # Check if job already exists in database (by external_id OR company+title)
+                        if job_is_duplicate(
+                            external_id=job_data.get("id"),
+                            company=job_data.get("company", ""),
+                            title=job_data.get("title", "")
+                        ):
+                            jobs_skipped.append(job_data["id"])
+                            append_app_log(LOGS_DIR, f"get_gmail_linkedin: Skipping duplicate job {job_data['id']} (found in database)")
                             continue
                         
                         # Fetch job HTML and parse description before creating folder
@@ -444,14 +436,25 @@ async def execute(job_path: Path, ctx: EventContext) -> EventResult:
                         result = await run_event("create_jobfolder", Path("placeholder"), create_ctx)
                         
                         if result.ok:
-                            # Save job.html if we fetched it
+                            # Save job.html using FileStorageService if we fetched it
                             if job_html:
-                                job_html_path = result.job_path / "job.html"
-                                try:
-                                    job_html_path.write_text(job_html, encoding='utf-8')
-                                    append_app_log(LOGS_DIR, f"get_gmail_linkedin: Saved job.html for job {job_data['id']}")
-                                except Exception as e:
-                                    append_app_log(LOGS_DIR, f"get_gmail_linkedin: Failed to save job.html for job {job_data['id']}: {str(e)}")
+                                # Get the database job_id for this job
+                                db_job_id = get_job_id_from_path(result.job_path)
+                                if db_job_id:
+                                    try:
+                                        file_storage = FileStorageService()
+                                        file_storage.store_file(
+                                            job_id=db_job_id,
+                                            content=job_html,
+                                            file_purpose="job_posting_html",
+                                            file_source="url_fetch",
+                                            extension="html"
+                                        )
+                                        append_app_log(LOGS_DIR, f"get_gmail_linkedin: Stored job posting HTML for job {job_data['id']} (db_id={db_job_id})")
+                                    except Exception as e:
+                                        append_app_log(LOGS_DIR, f"get_gmail_linkedin: Failed to store job posting HTML for job {job_data['id']}: {str(e)}")
+                                else:
+                                    append_app_log(LOGS_DIR, f"get_gmail_linkedin: Could not get database job_id for job {job_data['id']}, skipping HTML storage")
                             
                             jobs_created.append(str(result.job_path))
                             append_app_log(LOGS_DIR, f"get_gmail_linkedin: Created job {job_data['id']}: {job_data['company']} - {job_data['title']}")

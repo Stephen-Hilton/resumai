@@ -6,6 +6,7 @@ from src.lib.types import EventContext, EventResult
 from src.lib.job_folders import JobIdentity, folder_name, phase_path
 from src.lib.yaml_utils import dump_job_yaml
 from src.lib.logging_utils import append_job_log
+from src.events._db_helpers import ingest_job_to_db
 
 async def execute(job_path: Path, ctx: EventContext) -> EventResult:
     # job_path may be a placeholder path; we create folder in 1_Queued based on ctx.state['job']
@@ -30,7 +31,14 @@ async def execute(job_path: Path, ctx: EventContext) -> EventResult:
         return EventResult(ok=False, job_path=dest, message="job folder exists already")
     dest.mkdir(parents=True, exist_ok=False)
     dump_job_yaml(dest / "job.yaml", job)
-    append_job_log(dest, "create_jobfolder: created")
+
+    # Ingest to database (if enabled)
+    job_id = ingest_job_to_db(dest, job, phase="1_Queued")
+    if job_id:
+        append_job_log(dest, f"create_jobfolder: created and ingested to DB (id={job_id})")
+    else:
+        append_job_log(dest, "create_jobfolder: created")
+
     return EventResult(ok=True, job_path=dest, message="created", artifacts=["job.yaml"])
 
 async def test(job_path: Path, ctx: EventContext) -> EventResult:

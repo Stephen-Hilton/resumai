@@ -4,9 +4,22 @@
 const socket = io();
 
 // State
-let currentPhase = 'all-active';
+let currentPhase = '1_Queued';
 let jobs = [];
 let phaseCounts = {};
+
+// Helper function to calculate days old from a date string
+function getDaysOld(dateString) {
+    if (!dateString) return 'Unknown';
+    const created = new Date(dateString);
+    if (isNaN(created.getTime())) return 'Unknown';
+    const now = new Date();
+    const diffTime = now - created;
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    if (diffDays === 0) return 'Today';
+    if (diffDays === 1) return '1 day old';
+    return `${diffDays} days old`;
+}
 
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', () => {
@@ -60,6 +73,50 @@ function setupEventListeners() {
     document.getElementById('refresh-resumes').addEventListener('click', loadResumes);
     document.getElementById('batch-process').addEventListener('click', batchProcessJobs);
     document.getElementById('copy-logs').addEventListener('click', copyLogsToClipboard);
+    document.getElementById('view-logs').addEventListener('click', openLogsModal);
+    document.getElementById('logs-modal-close').addEventListener('click', closeLogsModal);
+
+    // Resume editor buttons
+    document.getElementById('edit-resume').addEventListener('click', editSelectedResume);
+    document.getElementById('add-resume').addEventListener('click', addNewResume);
+
+    // Close logs modal on outside click
+    document.getElementById('logs-modal').addEventListener('click', (e) => {
+        if (e.target.id === 'logs-modal') {
+            closeLogsModal();
+        }
+    });
+}
+
+// Open logs modal
+function openLogsModal() {
+    document.getElementById('logs-modal').classList.add('show');
+    loadLogs(); // Refresh logs when opening
+}
+
+// Close logs modal
+function closeLogsModal() {
+    document.getElementById('logs-modal').classList.remove('show');
+}
+
+// Edit selected resume
+function editSelectedResume() {
+    const select = document.getElementById('resume-select');
+    const selectedResume = select.value;
+
+    if (!selectedResume) {
+        showToast('Please select a resume first', 'warning');
+        return;
+    }
+
+    // Extract slug from filename (remove .yaml)
+    const slug = selectedResume.replace('.yaml', '');
+    window.location.href = `/resume-editor?resume=${encodeURIComponent(slug)}`;
+}
+
+// Add new resume
+function addNewResume() {
+    window.location.href = '/resume-editor';
 }
 
 // Phase selection
@@ -199,6 +256,8 @@ async function loadJobDetails(jobFolderName) {
         const docStatusDiv = document.getElementById(`docstatus-${jobFolderName}`);
         if (docStatusDiv) {
             docStatusDiv.innerHTML = createDocStatus(data);
+            // Add event listeners to the newly created elements
+            attachDocStatusEventListeners(jobFolderName);
         }
         
         // Update doc list for Docs Generated phase
@@ -243,6 +302,33 @@ function attachSubcontentEventListeners(jobFolderName) {
             const jobFolderName = icon.dataset.job;
             const section = icon.dataset.section;
             await generateSection(jobFolderName, section);
+        });
+    });
+}
+
+// Attach event listeners to doc status elements for a specific job
+function attachDocStatusEventListeners(jobFolderName) {
+    const container = document.getElementById(`docstatus-${jobFolderName}`);
+    if (!container) return;
+
+    // Doc name click (open file in new window)
+    container.querySelectorAll('.subcontent-name.clickable').forEach(name => {
+        name.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const job = name.dataset.job;
+            const fileName = name.dataset.file;
+            // Open file in new window
+            window.open(`/api/view/${job}/${fileName}`, '_blank');
+        });
+    });
+
+    // Doc play/generate icon (▶️ → generate doc)
+    container.querySelectorAll('.doc-play-icon.clickable').forEach(icon => {
+        icon.addEventListener('click', async (e) => {
+            e.stopPropagation();
+            const job = icon.dataset.job;
+            const docType = icon.dataset.doc;
+            await generateDoc(job, docType);
         });
     });
 }
@@ -295,34 +381,46 @@ function createSubcontentStatus(data) {
     return html;
 }
 
-// Create doc status HTML
+// Create doc status HTML - matches subcontent styling
 function createDocStatus(data) {
+    // Order: resume.html, coverletter.html, resume.pdf, coverletter.pdf
+    // Display in 2 columns, 2 rows to match subcontent grid
     const docs = [
-        { name: 'resume.html', key: 'resume_html', locked: false },
-        { name: 'coverletter.html', key: 'coverletter_html', locked: false },
-        { name: 'resume.pdf', key: 'resume_pdf', locked: !data.doc_status.resume_html },
-        { name: 'coverletter.pdf', key: 'coverletter_pdf', locked: !data.doc_status.coverletter_html }
+        { name: 'resume.html', key: 'resume_html', docType: 'resume_html', locked: false },
+        { name: 'coverletter.html', key: 'coverletter_html', docType: 'coverletter_html', locked: false },
+        { name: 'resume.pdf', key: 'resume_pdf', docType: 'resume_pdf', locked: !data.doc_status.resume_html },
+        { name: 'coverletter.pdf', key: 'coverletter_pdf', docType: 'coverletter_pdf', locked: !data.doc_status.coverletter_html }
     ];
-    
-    let html = '<div class="doc-status-grid">';
-    
+
+    let html = '<div class="subcontent-grid">';
+
     docs.forEach(doc => {
         const exists = data.doc_status[doc.key];
         // ✅ = exists, ▶️ = ready to generate, 🔒 = locked (waiting on HTML)
-        const icon = doc.locked ? '🔒' : (exists ? '✅' : '▶️');
-        const clickable = !doc.locked && !exists ? 'clickable' : '';
-        const title = doc.locked ? 'Generate HTML first' : (exists ? 'Click to view' : 'Click to generate');
-        
+        const playIcon = doc.locked ? '🔒' : (exists ? '✅' : '▶️');
+        const playTitle = doc.locked ? 'Generate HTML first' : (exists ? 'Already generated' : `Click to generate ${doc.name}`);
+        const canGenerate = !doc.locked && !exists;
+
         html += `
-            <div class="doc-status-item ${clickable}" data-job="${data.job.folder_name}" data-doc="${doc.key}" title="${title}">
-                <span class="doc-name">${doc.name}</span>
-                <span class="doc-icon">${icon}</span>
+            <div class="subcontent-item">
+                <span class="doc-play-icon ${canGenerate ? 'clickable' : ''}"
+                      data-job="${data.job.folder_name}"
+                      data-doc="${doc.docType}"
+                      title="${playTitle}">
+                    ${playIcon}
+                </span>
+                <span class="subcontent-name clickable"
+                      data-job="${data.job.folder_name}"
+                      data-file="${doc.name}"
+                      title="Click to view/edit ${doc.name}">
+                    ${doc.name}
+                </span>
             </div>
         `;
     });
-    
+
     html += '</div>';
-    
+
     // Add error.md link if exists
     if (data.doc_status.error_md) {
         html += `
@@ -334,7 +432,7 @@ function createDocStatus(data) {
             </div>
         `;
     }
-    
+
     return html;
 }
 
@@ -459,7 +557,7 @@ function createJobCard(job) {
             <h3 class="job-company">${job.company || 'Unknown Company'}</h3>
             <p class="job-title">${job.title || 'Unknown Title'}</p>
             <p class="job-meta">
-                <span>📅 ${job.date || 'Unknown Date'}</span>
+                <span>📅 ${getDaysOld(job.date)}</span>
                 ${job.location ? `<span>📍 ${job.location}</span>` : ''}
                 ${job.salary ? `<span>💰 ${job.salary}</span>` : ''}
             </p>
@@ -751,7 +849,7 @@ async function generateSection(jobFolderName, section) {
         const response = await fetch('/api/generate_section', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ 
+            body: JSON.stringify({
                 job_folder_name: jobFolderName,
                 section: section
             })
@@ -765,6 +863,38 @@ async function generateSection(jobFolderName, section) {
     } catch (error) {
         console.error('Failed to generate section:', error);
         showToast(`Failed to generate ${section}`, 'error');
+    }
+}
+
+async function generateDoc(jobFolderName, docType) {
+    // Map doc type to friendly name for toast messages
+    const docNames = {
+        'resume_html': 'Resume HTML',
+        'coverletter_html': 'Cover Letter HTML',
+        'resume_pdf': 'Resume PDF',
+        'coverletter_pdf': 'Cover Letter PDF'
+    };
+    const docName = docNames[docType] || docType;
+
+    showToast(`Generating ${docName}...`, 'info');
+    try {
+        const response = await fetch('/api/generate_doc', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                job_folder_name: jobFolderName,
+                doc_type: docType
+            })
+        });
+        const data = await response.json();
+        showToast(data.message, data.ok ? 'success' : 'error');
+        if (data.ok) {
+            // Reload job details to update icons
+            setTimeout(() => loadJobDetails(jobFolderName), 500);
+        }
+    } catch (error) {
+        console.error('Failed to generate doc:', error);
+        showToast(`Failed to generate ${docName}`, 'error');
     }
 }
 

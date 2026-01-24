@@ -21,7 +21,9 @@
                     <select id="resume-select">
                         <option value="">Loading...</option>
                     </select>
-                    <button id="refresh-resumes">🔄</button>
+                    <button id="refresh-resumes" title="Refresh resume list">🔄</button>
+                    <button id="edit-resume" class="btn-resume-action" title="Edit selected resume">✏️ Edit</button>
+                    <button id="add-resume" class="btn-resume-action" title="Add new resume">➕ New</button>
                 </div>
 
                 <div class="action-buttons">
@@ -29,6 +31,7 @@
                     <button id="add-url" class="btn-secondary">🔗 Add Job by URL</button>
                     <button id="manual-entry" class="btn-secondary">✏️ Manually Enter Job</button>
                     <button id="batch-process" class="btn-batch">⚡ Process All Jobs in Queue</button>
+                    <button id="view-logs" class="btn-logs">📋 View Logs</button>
                 </div>
             </section>
 
@@ -36,8 +39,7 @@
                 <aside class="sidebar">
                     <h2>Phases</h2>
                     <ul id="phase-list">
-                        <li data-phase="all-active" class="active">All Active <span class="count">0</span></li>
-                        <li data-phase="1_Queued">Queued <span class="count">0</span></li>
+                        <li data-phase="1_Queued" class="active">Queued <span class="count">0</span></li>
                         <li data-phase="2_Data_Generated">Data Generated <span class="count">0</span></li>
                         <li data-phase="3_Docs_Generated">Docs Generated <span class="count">0</span></li>
                         <li data-phase="4_Applied">Applied <span class="count">0</span></li>
@@ -48,24 +50,17 @@
                         <li data-phase="Skipped">Skipped <span class="count">0</span></li>
                         <li data-phase="Expired">Expired <span class="count">0</span></li>
                         <li data-phase="Errored">Errored <span class="count">0</span></li>
+                        <li data-phase="all-active">All Active <span class="count">0</span></li>
                         <li data-phase="all-jobs">All Jobs <span class="count">0</span></li>
                     </ul>
                 </aside>
 
                 <section class="main-content">
-                    <h2 id="phase-header">Jobs in All Active</h2>
+                    <h2 id="phase-header">Jobs in Queued</h2>
                     <div id="jobs-grid" class="jobs-grid">
                         <p class="loading">Loading jobs...</p>
                     </div>
                 </section>
-
-                <aside class="logs-panel">
-                    <div class="logs-header">
-                        <h2>App Logs</h2>
-                    </div>
-                    <button id="copy-logs" class="btn-copy-logs" title="Copy logs to clipboard">📋</button>
-                    <div id="logs-content" class="logs-content"></div>
-                </aside>
             </div>
         </main>
     </div>
@@ -155,6 +150,22 @@
             <div class="modal-footer">
                 <button id="job-modal-save" class="btn-primary">💾 Save Changes</button>
                 <button id="job-modal-cancel" class="btn-secondary">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Logs Modal -->
+    <div id="logs-modal" class="modal">
+        <div class="modal-content modal-logs">
+            <div class="modal-header">
+                <h2>Application Logs</h2>
+                <div class="modal-header-actions">
+                    <button id="copy-logs" class="btn-copy" title="Copy logs to clipboard">📋 Copy</button>
+                    <button id="logs-modal-close" class="modal-close">&times;</button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div id="logs-content" class="logs-content"></div>
             </div>
         </div>
     </div>

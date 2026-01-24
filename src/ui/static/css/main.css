@@ -60,7 +60,7 @@ header .version {
 }
 
 .resume-selector select {
-    flex: 1;
+    width: 250px;
     padding: 8px 12px;
     border: 1px solid #ddd;
     border-radius: 5px;
@@ -79,6 +79,19 @@ header .version {
 
 .resume-selector button:hover {
     background: #5568d3;
+}
+
+.resume-selector .btn-resume-action {
+    font-size: 13px;
+    padding: 8px 14px;
+}
+
+.resume-selector #add-resume {
+    background: #48bb78;
+}
+
+.resume-selector #add-resume:hover {
+    background: #38a169;
 }
 
 .action-buttons {
@@ -129,9 +142,19 @@ button {
     cursor: not-allowed;
 }
 
+.btn-logs {
+    background: #4a5568;
+    color: white;
+    margin-left: auto;
+}
+
+.btn-logs:hover {
+    background: #2d3748;
+}
+
 .content-wrapper {
     display: grid;
-    grid-template-columns: 210px 1fr 400px;
+    grid-template-columns: 210px 1fr;
     gap: 20px;
 }
 
@@ -202,7 +225,7 @@ button {
 
 .jobs-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 20px;
 }
 
@@ -326,6 +349,20 @@ button {
 }
 
 .job-card .subcontent-type-icon:hover {
+    transform: scale(1.2);
+}
+
+.job-card .doc-play-icon {
+    font-size: 1em;
+    cursor: default;
+}
+
+.job-card .doc-play-icon.clickable {
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.job-card .doc-play-icon.clickable:hover {
     transform: scale(1.2);
 }
 
@@ -522,60 +559,74 @@ button {
     padding: 40px;
 }
 
-.logs-panel {
-    background: #1e1e1e;
-    color: #d4d4d4;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    height: 600px;
+/* Logs Modal */
+.modal-logs {
+    width: 95%;
+    max-width: 1400px;
+    height: 80vh;
     display: flex;
     flex-direction: column;
-    position: relative;
 }
 
-.logs-panel .logs-header {
+.modal-logs .modal-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 15px;
+    background: #1e1e1e;
+    color: #fff;
+    padding: 15px 20px;
+    border-radius: 10px 10px 0 0;
 }
 
-.logs-panel h2 {
-    font-size: 1.2em;
+.modal-logs .modal-header h2 {
     margin: 0;
     color: #fff;
 }
 
-.logs-panel .btn-copy-logs {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    background: transparent;
-    color: #666;
-    border: none;
-    padding: 4px 6px;
-    border-radius: 3px;
-    font-size: 0.9em;
-    cursor: pointer;
-    transition: all 0.2s;
-    opacity: 0.3;
+.modal-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-.logs-panel .btn-copy-logs:hover {
-    opacity: 1;
-    color: #d4d4d4;
-    background: rgba(255, 255, 255, 0.1);
+.modal-logs .btn-copy {
+    background: #4a5568;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.modal-logs .btn-copy:hover {
+    background: #2d3748;
+}
+
+.modal-logs .modal-close {
+    background: transparent;
+    color: #fff;
+    font-size: 28px;
+}
+
+.modal-logs .modal-body {
+    flex: 1;
+    background: #1e1e1e;
+    padding: 0;
+    overflow: hidden;
+    border-radius: 0 0 10px 10px;
 }
 
 .logs-content {
-    flex: 1;
+    height: 100%;
     overflow-y: auto;
     font-family: 'Courier New', monospace;
-    font-size: 8px;
-    line-height: 1.4;
+    font-size: 11px;
+    line-height: 1.5;
     white-space: pre-wrap;
     word-wrap: break-word;
+    color: #d4d4d4;
+    padding: 15px 20px;
 }
 
 #toast-container {
@@ -792,7 +843,7 @@ button {
         grid-template-columns: 1fr;
     }
     
-    .sidebar, .logs-panel {
+    .sidebar {
         display: none;
     }
 }

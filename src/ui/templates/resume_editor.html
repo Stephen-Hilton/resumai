@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Editor - ResumAI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <style>
+        /* Resume Editor Specific Styles */
+        .editor-container {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 20px;
+            height: calc(100vh - 100px);
+        }
+
+        .resume-list {
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 15px;
+            overflow-y: auto;
+        }
+
+        .resume-list h3 {
+            margin-bottom: 15px;
+            color: var(--text-primary);
+        }
+
+        .resume-item {
+            padding: 10px;
+            margin-bottom: 8px;
+            background: var(--bg-primary);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .resume-item:hover {
+            background: var(--accent-light);
+        }
+
+        .resume-item.active {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        .resume-item .name {
+            font-weight: 600;
+        }
+
+        .resume-item .slug {
+            font-size: 0.85em;
+            color: var(--text-muted);
+        }
+
+        .resume-item.active .slug {
+            color: rgba(255,255,255,0.8);
+        }
+
+        .editor-main {
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .editor-section {
+            margin-bottom: 25px;
+            padding: 15px;
+            background: var(--bg-primary);
+            border-radius: 8px;
+        }
+
+        .editor-section h3 {
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--accent-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .editor-section h3 button {
+            font-size: 0.85em;
+            padding: 5px 10px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .form-group {
+            flex: 1;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 14px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+        }
+
+        .form-group textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .item-list {
+            margin-top: 10px;
+        }
+
+        .item-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px;
+            background: var(--bg-secondary);
+            border-radius: 4px;
+            margin-bottom: 5px;
+        }
+
+        .item-row .item-content {
+            flex: 1;
+        }
+
+        .item-row .item-meta {
+            font-size: 0.85em;
+            color: var(--text-muted);
+        }
+
+        .btn-delete {
+            background: #e53e3e;
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .btn-delete:hover {
+            background: #c53030;
+        }
+
+        .btn-add {
+            background: #48bb78;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .btn-add:hover {
+            background: #38a169;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn-primary:hover {
+            background: #5a67d8;
+        }
+
+        .btn-secondary {
+            background: #718096;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .btn-secondary:hover {
+            background: #4a5568;
+        }
+
+        .company-block {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .company-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .company-header h4 {
+            margin: 0;
+            color: var(--accent-color);
+        }
+
+        .role-block {
+            margin-left: 20px;
+            padding: 10px;
+            border-left: 3px solid var(--accent-light);
+            margin-bottom: 10px;
+        }
+
+        .role-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .role-header h5 {
+            margin: 0;
+            color: var(--text-primary);
+        }
+
+        .bullet-list {
+            margin-left: 15px;
+        }
+
+        .bullet-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            padding: 5px;
+            margin-bottom: 3px;
+        }
+
+        .bullet-item .bullet-text {
+            flex: 1;
+            font-size: 0.9em;
+        }
+
+        .add-form {
+            display: none;
+            padding: 10px;
+            background: var(--bg-secondary);
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+
+        .add-form.visible {
+            display: block;
+        }
+
+        .add-form-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-muted);
+        }
+
+        .back-link {
+            margin-bottom: 15px;
+        }
+
+        .back-link a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+
+        .new-resume-btn {
+            width: 100%;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Resume Editor</h1>
+            <p class="version">ResumAI</p>
+        </header>
+
+        <main>
+            <div class="back-link">
+                <a href="/">&larr; Back to Job Dashboard</a>
+            </div>
+
+            <div class="editor-container">
+                <aside class="resume-list">
+                    <h3>Resumes</h3>
+                    <button id="new-resume-btn" class="btn-primary new-resume-btn">+ New Resume</button>
+                    <div id="resume-list-items">
+                        <p class="loading">Loading...</p>
+                    </div>
+                </aside>
+
+                <section class="editor-main">
+                    <div id="editor-content">
+                        <div class="empty-state">
+                            <p>Select a resume from the left to edit, or create a new one.</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <div id="toast-container"></div>
+
+    <script>
+        // Resume Editor JavaScript
+        let currentResume = null;
+
+        // Toast notification
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.textContent = message;
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        // API helpers
+        async function apiCall(url, options = {}) {
+            try {
+                const response = await fetch(url, {
+                    ...options,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        ...options.headers
+                    }
+                });
+                return await response.json();
+            } catch (error) {
+                console.error('API Error:', error);
+                return { ok: false, error: error.message };
+            }
+        }
+
+        // Load resume list
+        async function loadResumes() {
+            const result = await apiCall('/api/resume/list');
+            const container = document.getElementById('resume-list-items');
+
+            if (!result.ok) {
+                container.innerHTML = '<p class="error">Error loading resumes</p>';
+                return;
+            }
+
+            if (result.resumes.length === 0) {
+                container.innerHTML = '<p class="empty-state">No resumes yet</p>';
+                return;
+            }
+
+            container.innerHTML = result.resumes.map(r => `
+                <div class="resume-item" data-slug="${r.slug}">
+                    <div class="name">${r.name}</div>
+                    <div class="slug">${r.slug}</div>
+                </div>
+            `).join('');
+
+            // Add click handlers
+            container.querySelectorAll('.resume-item').forEach(item => {
+                item.addEventListener('click', () => selectResume(item.dataset.slug));
+            });
+        }
+
+        // Select and load a resume
+        async function selectResume(slug) {
+            // Update active state
+            document.querySelectorAll('.resume-item').forEach(item => {
+                item.classList.toggle('active', item.dataset.slug === slug);
+            });
+
+            const result = await apiCall(`/api/resume/${slug}`);
+
+            if (!result.ok) {
+                showToast('Error loading resume', 'error');
+                return;
+            }
+
+            currentResume = result.resume;
+            renderEditor();
+        }
+
+        // Render the editor
+        function renderEditor() {
+            if (!currentResume) return;
+
+            const container = document.getElementById('editor-content');
+            const r = currentResume;
+
+            container.innerHTML = `
+                <!-- Basic Info Section -->
+                <div class="editor-section">
+                    <h3>Basic Information</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input type="text" id="resume-name" value="${escapeHtml(r.name || '')}" />
+                        </div>
+                        <div class="form-group">
+                            <label>Location</label>
+                            <input type="text" id="resume-location" value="${escapeHtml(r.location || '')}" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Summary</label>
+                        <textarea id="resume-summary">${escapeHtml(r.summary || '')}</textarea>
+                    </div>
+                    <button class="btn-primary" onclick="saveBasicInfo()">Save Basic Info</button>
+                </div>
+
+                <!-- Contacts Section -->
+                <div class="editor-section">
+                    <h3>Contacts <button class="btn-add" onclick="showAddForm('contact')">+ Add</button></h3>
+                    <div class="item-list" id="contacts-list">
+                        ${(r.contacts || []).map((c, i) => `
+                            <div class="item-row">
+                                <div class="item-content">
+                                    <strong>${escapeHtml(c.name)}</strong>: ${escapeHtml(c.label)}
+                                    ${c.url ? `<span class="item-meta">(${escapeHtml(c.url)})</span>` : ''}
+                                </div>
+                                <button class="btn-delete" onclick="deleteContact(${i})">Delete</button>
+                            </div>
+                        `).join('') || '<p class="empty-state">No contacts</p>'}
+                    </div>
+                    <div id="add-contact-form" class="add-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Type</label>
+                                <input type="text" id="new-contact-name" placeholder="e.g., Email, Phone, LinkedIn" />
+                            </div>
+                            <div class="form-group">
+                                <label>Label</label>
+                                <input type="text" id="new-contact-label" placeholder="e.g., john@example.com" />
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>URL (optional)</label>
+                                <input type="text" id="new-contact-url" placeholder="https://..." />
+                            </div>
+                            <div class="form-group">
+                                <label>Icon (optional)</label>
+                                <input type="text" id="new-contact-icon" placeholder="icon.svg" />
+                            </div>
+                        </div>
+                        <div class="add-form-buttons">
+                            <button class="btn-add" onclick="addContact()">Add Contact</button>
+                            <button class="btn-secondary" onclick="hideAddForm('contact')">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Skills Section -->
+                <div class="editor-section">
+                    <h3>Skills <button class="btn-add" onclick="showAddForm('skill')">+ Add</button></h3>
+                    <div class="item-list" id="skills-list">
+                        ${(r.skills || []).map((s, i) => `
+                            <div class="item-row">
+                                <div class="item-content">${escapeHtml(s)}</div>
+                                <button class="btn-delete" onclick="deleteSkill(${i})">Delete</button>
+                            </div>
+                        `).join('') || '<p class="empty-state">No skills</p>'}
+                    </div>
+                    <div id="add-skill-form" class="add-form">
+                        <div class="form-group">
+                            <label>Skill</label>
+                            <input type="text" id="new-skill" placeholder="e.g., JavaScript, Project Management" />
+                        </div>
+                        <div class="add-form-buttons">
+                            <button class="btn-add" onclick="addSkill()">Add Skill</button>
+                            <button class="btn-secondary" onclick="hideAddForm('skill')">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Education Section -->
+                <div class="editor-section">
+                    <h3>Education <button class="btn-add" onclick="showAddForm('education')">+ Add</button></h3>
+                    <div class="item-list" id="education-list">
+                        ${(r.education || []).map((e, i) => `
+                            <div class="item-row">
+                                <div class="item-content">
+                                    <strong>${escapeHtml(e.course)}</strong> - ${escapeHtml(e.school)}
+                                    ${e.dates ? `<span class="item-meta">(${escapeHtml(e.dates)})</span>` : ''}
+                                </div>
+                                <button class="btn-delete" onclick="deleteEducation(${i})">Delete</button>
+                            </div>
+                        `).join('') || '<p class="empty-state">No education entries</p>'}
+                    </div>
+                    <div id="add-education-form" class="add-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Course/Degree</label>
+                                <input type="text" id="new-edu-course" placeholder="e.g., B.S. Computer Science" />
+                            </div>
+                            <div class="form-group">
+                                <label>School</label>
+                                <input type="text" id="new-edu-school" placeholder="e.g., MIT" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Dates (optional)</label>
+                            <input type="text" id="new-edu-dates" placeholder="e.g., 2015-2019" />
+                        </div>
+                        <div class="add-form-buttons">
+                            <button class="btn-add" onclick="addEducation()">Add Education</button>
+                            <button class="btn-secondary" onclick="hideAddForm('education')">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Awards Section -->
+                <div class="editor-section">
+                    <h3>Awards & Recognition <button class="btn-add" onclick="showAddForm('award')">+ Add</button></h3>
+                    <div class="item-list" id="awards-list">
+                        ${(r.awards_and_keynotes || []).map((a, i) => `
+                            <div class="item-row">
+                                <div class="item-content">
+                                    <strong>${escapeHtml(a.award)}</strong>
+                                    ${a.dates ? `<span class="item-meta">(${escapeHtml(a.dates)})</span>` : ''}
+                                </div>
+                                <button class="btn-delete" onclick="deleteAward(${i})">Delete</button>
+                            </div>
+                        `).join('') || '<p class="empty-state">No awards</p>'}
+                    </div>
+                    <div id="add-award-form" class="add-form">
+                        <div class="form-group">
+                            <label>Award Name</label>
+                            <input type="text" id="new-award-name" placeholder="e.g., Employee of the Year" />
+                        </div>
+                        <div class="form-group">
+                            <label>Dates (optional)</label>
+                            <input type="text" id="new-award-dates" placeholder="e.g., 2023" />
+                        </div>
+                        <div class="add-form-buttons">
+                            <button class="btn-add" onclick="addAward()">Add Award</button>
+                            <button class="btn-secondary" onclick="hideAddForm('award')">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Experience Section -->
+                <div class="editor-section">
+                    <h3>Experience <button class="btn-add" onclick="showAddForm('company')">+ Add Company</button></h3>
+                    <div id="experience-list">
+                        ${(r.experience || []).map((company, ci) => renderCompany(company, ci)).join('') || '<p class="empty-state">No experience entries</p>'}
+                    </div>
+                    <div id="add-company-form" class="add-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Company Name</label>
+                                <input type="text" id="new-company-name" placeholder="e.g., Google" />
+                            </div>
+                            <div class="form-group">
+                                <label>Location</label>
+                                <input type="text" id="new-company-location" placeholder="e.g., Mountain View, CA" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Dates</label>
+                            <input type="text" id="new-company-dates" placeholder="e.g., 2020-Present" />
+                        </div>
+                        <div class="add-form-buttons">
+                            <button class="btn-add" onclick="addCompany()">Add Company</button>
+                            <button class="btn-secondary" onclick="hideAddForm('company')">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Delete Resume -->
+                <div class="editor-section" style="border: 1px solid var(--danger-color);">
+                    <h3 style="color: var(--danger-color);">Danger Zone</h3>
+                    <p>Deleting a resume is permanent and cannot be undone.</p>
+                    <button class="btn-delete" onclick="deleteResume()">Delete This Resume</button>
+                </div>
+            `;
+        }
+
+        function renderCompany(company, companyIndex) {
+            return `
+                <div class="company-block">
+                    <div class="company-header">
+                        <h4>${escapeHtml(company.company_name)}</h4>
+                        <button class="btn-delete" onclick="deleteCompany(${companyIndex})">Delete Company</button>
+                    </div>
+                    <p class="item-meta">${company.location || ''} ${company.dates ? '| ' + company.dates : ''}</p>
+
+                    <div class="roles-container">
+                        ${(company.roles || []).map((role, ri) => renderRole(role, companyIndex, ri)).join('')}
+                    </div>
+
+                    <button class="btn-add" style="margin-top: 10px;" onclick="showAddRoleForm(${companyIndex})">+ Add Role</button>
+                    <div id="add-role-form-${companyIndex}" class="add-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Role Title</label>
+                                <input type="text" id="new-role-title-${companyIndex}" placeholder="e.g., Senior Engineer" />
+                            </div>
+                            <div class="form-group">
+                                <label>Dates</label>
+                                <input type="text" id="new-role-dates-${companyIndex}" placeholder="e.g., 2021-2023" />
+                            </div>
+                        </div>
+                        <div class="add-form-buttons">
+                            <button class="btn-add" onclick="addRole(${companyIndex})">Add Role</button>
+                            <button class="btn-secondary" onclick="hideAddRoleForm(${companyIndex})">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderRole(role, companyIndex, roleIndex) {
+            return `
+                <div class="role-block">
+                    <div class="role-header">
+                        <h5>${escapeHtml(role.role)} <span class="item-meta">${role.dates || ''}</span></h5>
+                        <button class="btn-delete" onclick="deleteRole(${companyIndex}, ${roleIndex})">Delete Role</button>
+                    </div>
+
+                    <div class="bullet-list">
+                        ${(role.bullets || []).map((bullet, bi) => `
+                            <div class="bullet-item">
+                                <span class="bullet-text">- ${escapeHtml(typeof bullet === 'object' ? bullet.text : bullet)}</span>
+                                <button class="btn-delete" onclick="deleteBullet(${companyIndex}, ${roleIndex}, ${bi})">X</button>
+                            </div>
+                        `).join('') || '<p class="item-meta">No bullets</p>'}
+                    </div>
+
+                    <button class="btn-add" style="margin-top: 5px; font-size: 11px;" onclick="showAddBulletForm(${companyIndex}, ${roleIndex})">+ Add Bullet</button>
+                    <div id="add-bullet-form-${companyIndex}-${roleIndex}" class="add-form">
+                        <div class="form-group">
+                            <label>Bullet Text</label>
+                            <textarea id="new-bullet-text-${companyIndex}-${roleIndex}" placeholder="Describe an achievement..."></textarea>
+                        </div>
+                        <div class="add-form-buttons">
+                            <button class="btn-add" onclick="addBullet(${companyIndex}, ${roleIndex})">Add Bullet</button>
+                            <button class="btn-secondary" onclick="hideAddBulletForm(${companyIndex}, ${roleIndex})">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Helper functions
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function showAddForm(type) {
+            document.getElementById(`add-${type}-form`).classList.add('visible');
+        }
+
+        function hideAddForm(type) {
+            document.getElementById(`add-${type}-form`).classList.remove('visible');
+        }
+
+        function showAddRoleForm(companyIndex) {
+            document.getElementById(`add-role-form-${companyIndex}`).classList.add('visible');
+        }
+
+        function hideAddRoleForm(companyIndex) {
+            document.getElementById(`add-role-form-${companyIndex}`).classList.remove('visible');
+        }
+
+        function showAddBulletForm(companyIndex, roleIndex) {
+            document.getElementById(`add-bullet-form-${companyIndex}-${roleIndex}`).classList.add('visible');
+        }
+
+        function hideAddBulletForm(companyIndex, roleIndex) {
+            document.getElementById(`add-bullet-form-${companyIndex}-${roleIndex}`).classList.remove('visible');
+        }
+
+        // CRUD Operations
+        async function saveBasicInfo() {
+            const result = await apiCall(`/api/resume/${currentResume.slug}`, {
+                method: 'PUT',
+                body: JSON.stringify({
+                    name: document.getElementById('resume-name').value,
+                    location: document.getElementById('resume-location').value,
+                    summary: document.getElementById('resume-summary').value
+                })
+            });
+
+            if (result.ok) {
+                showToast('Basic info saved', 'success');
+                await selectResume(currentResume.slug);
+                loadResumes();
+            } else {
+                showToast(result.error || 'Error saving', 'error');
+            }
+        }
+
+        async function addContact() {
+            const result = await apiCall(`/api/resume/${currentResume.slug}/contact`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    name: document.getElementById('new-contact-name').value,
+                    label: document.getElementById('new-contact-label').value,
+                    url: document.getElementById('new-contact-url').value || null,
+                    icon: document.getElementById('new-contact-icon').value || null
+                })
+            });
+
+            if (result.ok) {
+                showToast('Contact added', 'success');
+                hideAddForm('contact');
+                await selectResume(currentResume.slug);
+            } else {
+                showToast(result.error || 'Error adding contact', 'error');
+            }
+        }
+
+        async function deleteContact(index) {
+            if (!confirm('Delete this contact?')) return;
+
+            const result = await apiCall(`/api/resume/${currentResume.slug}/contact/${index}`, {
+                method: 'DELETE'
+            });
+
+            if (result.ok) {
+                showToast('Contact deleted', 'success');
+                await selectResume(currentResume.slug);
+            } else {
+                showToast(result.error || 'Error deleting contact', 'error');
+            }
+        }
+
+        async function addSkill() {
+            const result = await apiCall(`/api/resume/${currentResume.slug}/skill`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    skill: document.getElementById('new-skill').value
+                })
+            });
+
+            if (result.ok) {
+                showToast('Skill added', 'success');
+                hideAddForm('skill');
+                await selectResume(currentResume.slug);
+            } else {
+                showToast(result.error || 'Error adding skill', 'error');
+            }
+        }
+
+        async function deleteSkill(index) {
+            if (!confirm('Delete this skill?')) return;
+
+            const result = await apiCall(`/api/resume/${currentResume.slug}/skill/${index}`, {
+                method: 'DELETE'
+            });
+
+            if (result.ok) {
+                showToast('Skill deleted', 'success');
+                await selectResume(currentResume.slug);
+            } else {
+                showToast(result.error || 'Error deleting skill', 'error');
+            }
+        }
+
+        async function addEducation() {
+            const result = await apiCall(`/api/resume/${currentResume.slug}/education`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    course: document.getElementById('new-edu-course').value,
+                    school: document.getElementById('new-edu-school').value,
+                    dates: document.getElementById('new-edu-dates').value || null
+                })
+            });
+
+            if (result.ok) {
+                showToast('Education added', 'success');
+                hideAddForm('education');
+                await selectResume(currentResume.slug);
+            } else {
+                showToast(result.error || 'Error adding education', 'error');
+            }
+        }
+
+        async function deleteEducation(index) {
+            if (!confirm('Delete this education entry?')) return;
+
+            const result = await apiCall(`/api/resume/${currentResume.slug}/education/${index}`, {
+                method: 'DELETE'
+            });
+
+            if (result.ok) {
+                showToast('Education deleted', 'success');
+                await selectResume(currentResume.slug);
+            } else {
+                showToast(result.error || 'Error deleting education', 'error');
+            }
+        }
+
+        async function addAward() {
+            const result = await apiCall(`/api/resume/${currentResume.slug}/award`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    award: document.getElementById('new-award-name').value,
+                    dates: document.getElementById('new-award-dates').value || null
+                })
+            });
+
+            if (result.ok) {
+                showToast('Award added', 'success');
+                hideAddForm('award');
+                await selectResume(currentResume.slug);
+            } else {
+                showToast(result.error || 'Error adding award', 'error');
+            }
+        }
+
+        async function deleteAward(index) {
+            if (!confirm('Delete this award?')) return;
+
+            const result = await apiCall(`/api/resume/${currentResume.slug}/award/${index}`, {
+                method: 'DELETE'
+            });
+
+            if (result.ok) {
+                showToast('Award deleted', 'success');
+                await selectResume(currentResume.slug);
+            } else {
+                showToast(result.error || 'Error deleting award', 'error');
+            }
+        }
+
+        async function addCompany() {
+            const result = await apiCall(`/api/resume/${currentResume.slug}/company`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    company_name: document.getElementById('new-company-name').value,
+                    location: document.getElementById('new-company-location').value || null,
+                    dates: document.getElementById('new-company-dates').value || null
+                })
+            });
+
+            if (result.ok) {
+                showToast('Company added', 'success');
+                hideAddForm('company');
+                await selectResume(currentResume.slug);
+            } else {
+                showToast(result.error || 'Error adding company', 'error');
+            }
+        }
+
+        async function deleteCompany(index) {
+            if (!confirm('Delete this company and all its roles?')) return;
+
+            const result = await apiCall(`/api/resume/${currentResume.slug}/company/${index}`, {
+                method: 'DELETE'
+            });
+
+            if (result.ok) {
+                showToast('Company deleted', 'success');
+                await selectResume(currentResume.slug);
+            } else {
+                showToast(result.error || 'Error deleting company', 'error');
+            }
+        }
+
+        async function addRole(companyIndex) {
+            const result = await apiCall(`/api/resume/${currentResume.slug}/company/${companyIndex}/role`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    role: document.getElementById(`new-role-title-${companyIndex}`).value,
+                    dates: document.getElementById(`new-role-dates-${companyIndex}`).value || null
+                })
+            });
+
+            if (result.ok) {
+                showToast('Role added', 'success');
+                await selectResume(currentResume.slug);
+            } else {
+                showToast(result.error || 'Error adding role', 'error');
+            }
+        }
+
+        async function deleteRole(companyIndex, roleIndex) {
+            if (!confirm('Delete this role and all its bullets?')) return;
+
+            const result = await apiCall(`/api/resume/${currentResume.slug}/company/${companyIndex}/role/${roleIndex}`, {
+                method: 'DELETE'
+            });
+
+            if (result.ok) {
+                showToast('Role deleted', 'success');
+                await selectResume(currentResume.slug);
+            } else {
+                showToast(result.error || 'Error deleting role', 'error');
+            }
+        }
+
+        async function addBullet(companyIndex, roleIndex) {
+            const result = await apiCall(`/api/resume/${currentResume.slug}/company/${companyIndex}/role/${roleIndex}/bullet`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    text: document.getElementById(`new-bullet-text-${companyIndex}-${roleIndex}`).value
+                })
+            });
+
+            if (result.ok) {
+                showToast('Bullet added', 'success');
+                await selectResume(currentResume.slug);
+            } else {
+                showToast(result.error || 'Error adding bullet', 'error');
+            }
+        }
+
+        async function deleteBullet(companyIndex, roleIndex, bulletIndex) {
+            if (!confirm('Delete this bullet?')) return;
+
+            const result = await apiCall(`/api/resume/${currentResume.slug}/company/${companyIndex}/role/${roleIndex}/bullet/${bulletIndex}`, {
+                method: 'DELETE'
+            });
+
+            if (result.ok) {
+                showToast('Bullet deleted', 'success');
+                await selectResume(currentResume.slug);
+            } else {
+                showToast(result.error || 'Error deleting bullet', 'error');
+            }
+        }
+
+        async function deleteResume() {
+            if (!confirm(`Are you sure you want to delete "${currentResume.name}"? This cannot be undone.`)) return;
+
+            const result = await apiCall(`/api/resume/${currentResume.slug}`, {
+                method: 'DELETE'
+            });
+
+            if (result.ok) {
+                showToast('Resume deleted', 'success');
+                currentResume = null;
+                document.getElementById('editor-content').innerHTML = '<div class="empty-state"><p>Select a resume from the left to edit, or create a new one.</p></div>';
+                loadResumes();
+            } else {
+                showToast(result.error || 'Error deleting resume', 'error');
+            }
+        }
+
+        // New Resume
+        document.getElementById('new-resume-btn').addEventListener('click', async () => {
+            const name = prompt('Enter the name for the new resume:');
+            if (!name) return;
+
+            const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '');
+
+            const result = await apiCall('/api/resume', {
+                method: 'POST',
+                body: JSON.stringify({ name, slug })
+            });
+
+            if (result.ok) {
+                showToast('Resume created', 'success');
+                await loadResumes();
+                await selectResume(slug);
+            } else {
+                showToast(result.error || 'Error creating resume', 'error');
+            }
+        });
+
+        // Initialize
+        async function init() {
+            await loadResumes();
+
+            // Check for resume query parameter
+            const urlParams = new URLSearchParams(window.location.search);
+            const resumeSlug = urlParams.get('resume');
+            if (resumeSlug) {
+                await selectResume(resumeSlug);
+            }
+        }
+
+        init();
+    </script>
+</body>
+</html>

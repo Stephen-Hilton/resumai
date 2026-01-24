@@ -4,6 +4,7 @@ from pathlib import Path
 from src.lib.types import EventContext, EventResult
 from src.lib.yaml_utils import load_yaml, dump_yaml
 from src.lib.llm import get_llm_interface
+from src.events._db_helpers import save_subcontent_to_db
 
 
 async def execute(job_path: Path, ctx: EventContext) -> EventResult:
@@ -94,12 +95,16 @@ IMPORTANT: Do NOT fabricate new ideas or experience. All ideas must map to exist
         
         # Write to subcontent.summary.yaml
         output_path = job_path / "subcontent.summary.yaml"
-        dump_yaml(output_path, {"summary": content.strip()})
-        
+        summary_content = content.strip()
+        dump_yaml(output_path, {"summary": summary_content})
+
+        # Sync to database if enabled
+        save_subcontent_to_db(job_path, "summary", summary_content)
+
         return EventResult(
             ok=True,
             job_path=job_path,
-            message=f"Generated LLM summary subcontent (cost: ${llm.get_total_cost():.6f})",
+            message="Generated LLM summary subcontent",
             artifacts=[str(output_path)]
         )
         
