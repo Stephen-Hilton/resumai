@@ -1,1 +1,0 @@
-# this is a place for other non-Event shared utilities.  i.e., if a function is needed by more than one event.py, it should be moved here and referenced. 
