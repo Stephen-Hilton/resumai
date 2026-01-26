@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/assets/skillsnap_logo_small.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Skillsnap - AI Resume Generator</title>
+    <script>
+      // Force enable paste on all inputs - runs before React loads
+      (function() {
+        // Override preventDefault for paste events
+        const originalPreventDefault = Event.prototype.preventDefault;
+        Event.prototype.preventDefault = function() {
+          if (this.type === 'paste') {
+            return; // Don't prevent paste
+          }
+          return originalPreventDefault.call(this);
+        };
+        
+        // Continuously remove paste blockers
+        setInterval(function() {
+          document.querySelectorAll('input').forEach(function(input) {
+            input.onpaste = null;
+            input.removeAttribute('onpaste');
+          });
+        }, 100);
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

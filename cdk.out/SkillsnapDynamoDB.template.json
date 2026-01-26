@@ -1,0 +1,452 @@
+{
+ "Description": "Skillsnap DynamoDB tables for data persistence",
+ "Resources": {
+  "UserTableBD4BF69E": {
+   "Type": "AWS::DynamoDB::Table",
+   "Properties": {
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "userid",
+      "AttributeType": "S"
+     }
+    ],
+    "BillingMode": "PAY_PER_REQUEST",
+    "KeySchema": [
+     {
+      "AttributeName": "userid",
+      "KeyType": "HASH"
+     }
+    ],
+    "PointInTimeRecoverySpecification": {
+     "PointInTimeRecoveryEnabled": true
+    },
+    "TableName": "skillsnap-user"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapDynamoDB/UserTable/Resource"
+   }
+  },
+  "UserEmailTable25D02B00": {
+   "Type": "AWS::DynamoDB::Table",
+   "Properties": {
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "useremail",
+      "AttributeType": "S"
+     }
+    ],
+    "BillingMode": "PAY_PER_REQUEST",
+    "KeySchema": [
+     {
+      "AttributeName": "useremail",
+      "KeyType": "HASH"
+     }
+    ],
+    "TableName": "skillsnap-user-email"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapDynamoDB/UserEmailTable/Resource"
+   }
+  },
+  "UserUsernameTable1C701706": {
+   "Type": "AWS::DynamoDB::Table",
+   "Properties": {
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "username",
+      "AttributeType": "S"
+     }
+    ],
+    "BillingMode": "PAY_PER_REQUEST",
+    "KeySchema": [
+     {
+      "AttributeName": "username",
+      "KeyType": "HASH"
+     }
+    ],
+    "TableName": "skillsnap-user-username"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapDynamoDB/UserUsernameTable/Resource"
+   }
+  },
+  "UserPrefTableA96AFB04": {
+   "Type": "AWS::DynamoDB::Table",
+   "Properties": {
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "userid",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "prefname",
+      "AttributeType": "S"
+     }
+    ],
+    "BillingMode": "PAY_PER_REQUEST",
+    "KeySchema": [
+     {
+      "AttributeName": "userid",
+      "KeyType": "HASH"
+     },
+     {
+      "AttributeName": "prefname",
+      "KeyType": "RANGE"
+     }
+    ],
+    "TableName": "skillsnap-user-pref"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapDynamoDB/UserPrefTable/Resource"
+   }
+  },
+  "JobTable0F869D99": {
+   "Type": "AWS::DynamoDB::Table",
+   "Properties": {
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "jobid",
+      "AttributeType": "S"
+     }
+    ],
+    "BillingMode": "PAY_PER_REQUEST",
+    "KeySchema": [
+     {
+      "AttributeName": "jobid",
+      "KeyType": "HASH"
+     }
+    ],
+    "PointInTimeRecoverySpecification": {
+     "PointInTimeRecoveryEnabled": true
+    },
+    "TableName": "skillsnap-job"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapDynamoDB/JobTable/Resource"
+   }
+  },
+  "UserJobTable0427E2D6": {
+   "Type": "AWS::DynamoDB::Table",
+   "Properties": {
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "userid",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "jobid",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "jobphase",
+      "AttributeType": "S"
+     }
+    ],
+    "BillingMode": "PAY_PER_REQUEST",
+    "GlobalSecondaryIndexes": [
+     {
+      "IndexName": "phase-index",
+      "KeySchema": [
+       {
+        "AttributeName": "userid",
+        "KeyType": "HASH"
+       },
+       {
+        "AttributeName": "jobphase",
+        "KeyType": "RANGE"
+       }
+      ],
+      "Projection": {
+       "ProjectionType": "ALL"
+      }
+     }
+    ],
+    "KeySchema": [
+     {
+      "AttributeName": "userid",
+      "KeyType": "HASH"
+     },
+     {
+      "AttributeName": "jobid",
+      "KeyType": "RANGE"
+     }
+    ],
+    "PointInTimeRecoverySpecification": {
+     "PointInTimeRecoveryEnabled": true
+    },
+    "TableName": "skillsnap-user-job"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapDynamoDB/UserJobTable/Resource"
+   }
+  },
+  "ResumeTable5083EE1E": {
+   "Type": "AWS::DynamoDB::Table",
+   "Properties": {
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "userid",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "resumename",
+      "AttributeType": "S"
+     }
+    ],
+    "BillingMode": "PAY_PER_REQUEST",
+    "KeySchema": [
+     {
+      "AttributeName": "userid",
+      "KeyType": "HASH"
+     },
+     {
+      "AttributeName": "resumename",
+      "KeyType": "RANGE"
+     }
+    ],
+    "PointInTimeRecoverySpecification": {
+     "PointInTimeRecoveryEnabled": true
+    },
+    "TableName": "skillsnap-resume"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapDynamoDB/ResumeTable/Resource"
+   }
+  },
+  "ResumeUrlTableE80B22D3": {
+   "Type": "AWS::DynamoDB::Table",
+   "Properties": {
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "resumeurl",
+      "AttributeType": "S"
+     }
+    ],
+    "BillingMode": "PAY_PER_REQUEST",
+    "KeySchema": [
+     {
+      "AttributeName": "resumeurl",
+      "KeyType": "HASH"
+     }
+    ],
+    "TableName": "skillsnap-resume-url"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapDynamoDB/ResumeUrlTable/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/yXGSwqAIBQAwLO011canaALRLWP5yeyUkENkejuQa1mOHDWQVNhjlSqg55GwD0llAfBHBdVHFqvBNwzilOTfnVfHjLq6K8g9UOGkjbv6hYYg67aozE0XC4Zq2H8fQFi0SPUZQAAAA=="
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapDynamoDB/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "ExportsOutputFnGetAttUserTableBD4BF69EArn9A5B685A": {
+   "Value": {
+    "Fn::GetAtt": [
+     "UserTableBD4BF69E",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "SkillsnapDynamoDB:ExportsOutputFnGetAttUserTableBD4BF69EArn9A5B685A"
+   }
+  },
+  "ExportsOutputFnGetAttUserEmailTable25D02B00ArnE6AE6DEB": {
+   "Value": {
+    "Fn::GetAtt": [
+     "UserEmailTable25D02B00",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "SkillsnapDynamoDB:ExportsOutputFnGetAttUserEmailTable25D02B00ArnE6AE6DEB"
+   }
+  },
+  "ExportsOutputFnGetAttUserUsernameTable1C701706Arn894E01F8": {
+   "Value": {
+    "Fn::GetAtt": [
+     "UserUsernameTable1C701706",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "SkillsnapDynamoDB:ExportsOutputFnGetAttUserUsernameTable1C701706Arn894E01F8"
+   }
+  },
+  "ExportsOutputFnGetAttUserPrefTableA96AFB04Arn2628E46C": {
+   "Value": {
+    "Fn::GetAtt": [
+     "UserPrefTableA96AFB04",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "SkillsnapDynamoDB:ExportsOutputFnGetAttUserPrefTableA96AFB04Arn2628E46C"
+   }
+  },
+  "ExportsOutputFnGetAttJobTable0F869D99Arn7D3E6A2E": {
+   "Value": {
+    "Fn::GetAtt": [
+     "JobTable0F869D99",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "SkillsnapDynamoDB:ExportsOutputFnGetAttJobTable0F869D99Arn7D3E6A2E"
+   }
+  },
+  "ExportsOutputFnGetAttUserJobTable0427E2D6Arn8D96CBB8": {
+   "Value": {
+    "Fn::GetAtt": [
+     "UserJobTable0427E2D6",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "SkillsnapDynamoDB:ExportsOutputFnGetAttUserJobTable0427E2D6Arn8D96CBB8"
+   }
+  },
+  "ExportsOutputFnGetAttResumeTable5083EE1EArn06A6BFB8": {
+   "Value": {
+    "Fn::GetAtt": [
+     "ResumeTable5083EE1E",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "SkillsnapDynamoDB:ExportsOutputFnGetAttResumeTable5083EE1EArn06A6BFB8"
+   }
+  },
+  "ExportsOutputFnGetAttResumeUrlTableE80B22D3Arn47E214CC": {
+   "Value": {
+    "Fn::GetAtt": [
+     "ResumeUrlTableE80B22D3",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "SkillsnapDynamoDB:ExportsOutputFnGetAttResumeUrlTableE80B22D3Arn47E214CC"
+   }
+  },
+  "ExportsOutputRefUserTableBD4BF69E1F4D2BA4": {
+   "Value": {
+    "Ref": "UserTableBD4BF69E"
+   },
+   "Export": {
+    "Name": "SkillsnapDynamoDB:ExportsOutputRefUserTableBD4BF69E1F4D2BA4"
+   }
+  },
+  "ExportsOutputRefUserEmailTable25D02B009AABD9B8": {
+   "Value": {
+    "Ref": "UserEmailTable25D02B00"
+   },
+   "Export": {
+    "Name": "SkillsnapDynamoDB:ExportsOutputRefUserEmailTable25D02B009AABD9B8"
+   }
+  },
+  "ExportsOutputRefUserUsernameTable1C701706E5FCF516": {
+   "Value": {
+    "Ref": "UserUsernameTable1C701706"
+   },
+   "Export": {
+    "Name": "SkillsnapDynamoDB:ExportsOutputRefUserUsernameTable1C701706E5FCF516"
+   }
+  },
+  "ExportsOutputRefUserPrefTableA96AFB04A831CCD1": {
+   "Value": {
+    "Ref": "UserPrefTableA96AFB04"
+   },
+   "Export": {
+    "Name": "SkillsnapDynamoDB:ExportsOutputRefUserPrefTableA96AFB04A831CCD1"
+   }
+  },
+  "ExportsOutputRefJobTable0F869D99A7547D3C": {
+   "Value": {
+    "Ref": "JobTable0F869D99"
+   },
+   "Export": {
+    "Name": "SkillsnapDynamoDB:ExportsOutputRefJobTable0F869D99A7547D3C"
+   }
+  },
+  "ExportsOutputRefUserJobTable0427E2D694832619": {
+   "Value": {
+    "Ref": "UserJobTable0427E2D6"
+   },
+   "Export": {
+    "Name": "SkillsnapDynamoDB:ExportsOutputRefUserJobTable0427E2D694832619"
+   }
+  },
+  "ExportsOutputRefResumeTable5083EE1E9FF9FDD4": {
+   "Value": {
+    "Ref": "ResumeTable5083EE1E"
+   },
+   "Export": {
+    "Name": "SkillsnapDynamoDB:ExportsOutputRefResumeTable5083EE1E9FF9FDD4"
+   }
+  },
+  "ExportsOutputRefResumeUrlTableE80B22D3D606B8EA": {
+   "Value": {
+    "Ref": "ResumeUrlTableE80B22D3"
+   },
+   "Export": {
+    "Name": "SkillsnapDynamoDB:ExportsOutputRefResumeUrlTableE80B22D3D606B8EA"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

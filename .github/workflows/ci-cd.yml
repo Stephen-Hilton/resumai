@@ -1,0 +1,124 @@
+# CI/CD Pipeline for Skillsnap
+# Requirements: 17.1
+
+name: CI/CD
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+env:
+  AWS_REGION: us-west-2
+  NODE_VERSION: '20'
+  PYTHON_VERSION: '3.12'
+
+jobs:
+  # Run tests on all PRs
+  test-backend:
+    name: Test Backend
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'pip'
+          cache-dependency-path: infrastructure/requirements*.txt
+      
+      - name: Install dependencies
+        working-directory: infrastructure
+        run: |
+          pip install -r requirements.txt
+          pip install -r requirements-dev.txt
+      
+      - name: Run tests
+        working-directory: infrastructure
+        run: python -m pytest tests/ -v --tb=short
+
+  test-frontend:
+    name: Test Frontend
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: webapp/package-lock.json
+      
+      - name: Install dependencies
+        working-directory: webapp
+        run: npm ci
+      
+      - name: Run tests
+        working-directory: webapp
+        run: npm run test
+      
+      - name: Build
+        working-directory: webapp
+        run: npm run build
+
+  # Deploy to staging on merge to main
+  deploy-staging:
+    name: Deploy to Staging
+    needs: [test-backend, test-frontend]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      
+      - name: Install CDK
+        run: npm install -g aws-cdk
+      
+      - name: Deploy Infrastructure
+        working-directory: infrastructure
+        run: |
+          pip install -r requirements.txt
+          cdk deploy --all --require-approval never
+      
+      - name: Deploy WebApp
+        working-directory: webapp
+        run: |
+          npm ci
+          npm run build
+          aws s3 sync dist/ s3://skillsnap-webapp --delete
+      
+      - name: Deploy Landing Page
+        working-directory: webapp
+        run: |
+          aws s3 sync public/landing/ s3://skillsnap-landing --delete
+          aws s3 cp public/assets/resume-base.css s3://skillsnap-public-resumes/assets/resume-base.css
+          aws s3 cp public/assets/cover-base.css s3://skillsnap-public-resumes/assets/cover-base.css
+      
+      - name: Invalidate CloudFront
+        run: |
+          # Invalidate all distributions
+          for dist in $(aws cloudfront list-distributions --query "DistributionList.Items[*].Id" --output text); do
+            aws cloudfront create-invalidation --distribution-id "$dist" --paths "/*" || true
+          done

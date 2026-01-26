@@ -1,0 +1,254 @@
+{
+ "Description": "Skillsnap Cognito user pool for authentication",
+ "Resources": {
+  "UserPool6BA7E5F2": {
+   "Type": "AWS::Cognito::UserPool",
+   "Properties": {
+    "AccountRecoverySetting": {
+     "RecoveryMechanisms": [
+      {
+       "Name": "verified_email",
+       "Priority": 1
+      }
+     ]
+    },
+    "AdminCreateUserConfig": {
+     "AllowAdminCreateUserOnly": false
+    },
+    "AliasAttributes": [
+     "email"
+    ],
+    "AutoVerifiedAttributes": [
+     "email"
+    ],
+    "EmailVerificationMessage": "The verification code to your new account is {####}",
+    "EmailVerificationSubject": "Verify your new account",
+    "LambdaConfig": {
+     "PostConfirmation": {
+      "Fn::ImportValue": "SkillsnapLambda:ExportsOutputFnGetAttAuthPostConfirmation7522E229Arn70C8A86A"
+     }
+    },
+    "Policies": {
+     "PasswordPolicy": {
+      "MinimumLength": 8,
+      "RequireLowercase": true,
+      "RequireNumbers": true,
+      "RequireSymbols": false,
+      "RequireUppercase": true,
+      "TemporaryPasswordValidityDays": 7
+     }
+    },
+    "Schema": [
+     {
+      "Mutable": true,
+      "Name": "email",
+      "Required": true
+     },
+     {
+      "Mutable": true,
+      "Name": "preferred_username",
+      "Required": false
+     },
+     {
+      "AttributeDataType": "String",
+      "Mutable": false,
+      "Name": "userid",
+      "StringAttributeConstraints": {
+       "MaxLength": "36"
+      }
+     },
+     {
+      "AttributeDataType": "String",
+      "Mutable": true,
+      "Name": "userhandle",
+      "StringAttributeConstraints": {
+       "MaxLength": "100"
+      }
+     }
+    ],
+    "SmsVerificationMessage": "The verification code to your new account is {####}",
+    "UserPoolName": "skillsnap-users",
+    "VerificationMessageTemplate": {
+     "DefaultEmailOption": "CONFIRM_WITH_CODE",
+     "EmailMessage": "The verification code to your new account is {####}",
+     "EmailSubject": "Verify your new account",
+     "SmsMessage": "The verification code to your new account is {####}"
+    }
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapCognito/UserPool/Resource"
+   }
+  },
+  "UserPoolPostConfirmationCognito0E6001F8": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::ImportValue": "SkillsnapLambda:ExportsOutputFnGetAttAuthPostConfirmation7522E229Arn70C8A86A"
+    },
+    "Principal": "cognito-idp.amazonaws.com",
+    "SourceArn": {
+     "Fn::GetAtt": [
+      "UserPool6BA7E5F2",
+      "Arn"
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapCognito/UserPool/PostConfirmationCognito"
+   }
+  },
+  "UserPoolDomain5479B217": {
+   "Type": "AWS::Cognito::UserPoolDomain",
+   "Properties": {
+    "Domain": "skillsnap-auth",
+    "UserPoolId": {
+     "Ref": "UserPool6BA7E5F2"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapCognito/UserPoolDomain/Resource"
+   }
+  },
+  "AppClient4AE61178": {
+   "Type": "AWS::Cognito::UserPoolClient",
+   "Properties": {
+    "AccessTokenValidity": 60,
+    "AllowedOAuthFlows": [
+     "implicit",
+     "code"
+    ],
+    "AllowedOAuthFlowsUserPoolClient": true,
+    "AllowedOAuthScopes": [
+     "email",
+     "openid",
+     "profile"
+    ],
+    "CallbackURLs": [
+     "https://app.skillsnap.me/callback",
+     "http://localhost:3000/callback",
+     "http://localhost:5173/callback"
+    ],
+    "ClientName": "skillsnap-webapp",
+    "ExplicitAuthFlows": [
+     "ALLOW_USER_PASSWORD_AUTH",
+     "ALLOW_USER_SRP_AUTH",
+     "ALLOW_REFRESH_TOKEN_AUTH"
+    ],
+    "GenerateSecret": false,
+    "IdTokenValidity": 60,
+    "LogoutURLs": [
+     "https://app.skillsnap.me",
+     "http://localhost:3000",
+     "http://localhost:5173"
+    ],
+    "PreventUserExistenceErrors": "ENABLED",
+    "RefreshTokenValidity": 43200,
+    "SupportedIdentityProviders": [
+     "COGNITO"
+    ],
+    "TokenValidityUnits": {
+     "AccessToken": "minutes",
+     "IdToken": "minutes",
+     "RefreshToken": "minutes"
+    },
+    "UserPoolId": {
+     "Ref": "UserPool6BA7E5F2"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapCognito/AppClient/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/02KwQ6CMBBEv4V7WQXDF+BdovFsChRdaXcN3YaYpv9uDGI4zZs3U0JZVLDP9Ozzrh9ziy3Ei+huVHr2t9jxnVAY4tWbqWG2qh7ozysc2Wmk7fQza60tGpLtYTFJWe3aXkM9UGMmh94jU/oeT0FeQZJq3vJg2h2gKKDKnh4xnwIJOgPnJT/cdyFHxAAAAA=="
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapCognito/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "UserPoolId": {
+   "Value": {
+    "Ref": "UserPool6BA7E5F2"
+   }
+  },
+  "UserPoolArn": {
+   "Value": {
+    "Fn::GetAtt": [
+     "UserPool6BA7E5F2",
+     "Arn"
+    ]
+   }
+  },
+  "AppClientId": {
+   "Value": {
+    "Ref": "AppClient4AE61178"
+   }
+  },
+  "UserPoolDomainUrl": {
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      "https://",
+      {
+       "Ref": "UserPoolDomain5479B217"
+      },
+      ".auth.us-west-2.amazoncognito.com"
+     ]
+    ]
+   }
+  },
+  "ExportsOutputFnGetAttUserPool6BA7E5F2Arn686ACC00": {
+   "Value": {
+    "Fn::GetAtt": [
+     "UserPool6BA7E5F2",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "SkillsnapCognito:ExportsOutputFnGetAttUserPool6BA7E5F2Arn686ACC00"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

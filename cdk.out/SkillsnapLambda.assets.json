@@ -1,0 +1,36 @@
+{
+  "version": "48.0.0",
+  "files": {
+    "78cccfe447f1000a0e25061fa7193e40a776c6e8d3b73e837c03c8d1b5934ce5": {
+      "displayName": "SharedLayer/Code",
+      "source": {
+        "path": "asset.78cccfe447f1000a0e25061fa7193e40a776c6e8d3b73e837c03c8d1b5934ce5",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "132437448720-us-west-2-9240df86": {
+          "bucketName": "cdk-hnb659fds-assets-132437448720-us-west-2",
+          "objectKey": "78cccfe447f1000a0e25061fa7193e40a776c6e8d3b73e837c03c8d1b5934ce5.zip",
+          "region": "us-west-2",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::132437448720:role/cdk-hnb659fds-file-publishing-role-132437448720-us-west-2"
+        }
+      }
+    },
+    "270773051b70b2b117906963bb5b8752d987e91eac5fcd8c4379496b144c19ea": {
+      "displayName": "SkillsnapLambda Template",
+      "source": {
+        "path": "SkillsnapLambda.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "132437448720-us-west-2-c291c285": {
+          "bucketName": "cdk-hnb659fds-assets-132437448720-us-west-2",
+          "objectKey": "270773051b70b2b117906963bb5b8752d987e91eac5fcd8c4379496b144c19ea.json",
+          "region": "us-west-2",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::132437448720:role/cdk-hnb659fds-file-publishing-role-132437448720-us-west-2"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

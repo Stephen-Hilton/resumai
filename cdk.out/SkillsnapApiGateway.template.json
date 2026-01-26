@@ -1,0 +1,3534 @@
+{
+ "Description": "Skillsnap API Gateway REST API",
+ "Resources": {
+  "SkillsnapApiF7A267EA": {
+   "Type": "AWS::ApiGateway::RestApi",
+   "Properties": {
+    "Description": "Skillsnap REST API",
+    "Name": "skillsnap-api"
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Resource"
+   }
+  },
+  "SkillsnapApiCloudWatchRoleE49EA458": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "apigateway.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs"
+       ]
+      ]
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/CloudWatchRole/Resource"
+   }
+  },
+  "SkillsnapApiAccount05DB7D36": {
+   "Type": "AWS::ApiGateway::Account",
+   "Properties": {
+    "CloudWatchRoleArn": {
+     "Fn::GetAtt": [
+      "SkillsnapApiCloudWatchRoleE49EA458",
+      "Arn"
+     ]
+    }
+   },
+   "DependsOn": [
+    "SkillsnapApiF7A267EA"
+   ],
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Account"
+   }
+  },
+  "SkillsnapApiDeploymentAB8A18FA51435aaa9c59856f056e97560f60defd": {
+   "Type": "AWS::ApiGateway::Deployment",
+   "Properties": {
+    "Description": "Skillsnap REST API",
+    "RestApiId": {
+     "Ref": "SkillsnapApiF7A267EA"
+    }
+   },
+   "DependsOn": [
+    "SkillsnapApijobsjobidDELETE7538A211",
+    "SkillsnapApijobsjobidfinalcoverhtmlOPTIONS83A7429E",
+    "SkillsnapApijobsjobidfinalcoverhtmlPOST2D7E0CF8",
+    "SkillsnapApijobsjobidfinalcoverhtmlBD83F790",
+    "SkillsnapApijobsjobidfinalcoverpdfOPTIONSD3A9B8EA",
+    "SkillsnapApijobsjobidfinalcoverpdfPOSTA17E8586",
+    "SkillsnapApijobsjobidfinalcoverpdf94FA8C6A",
+    "SkillsnapApijobsjobidfinalOPTIONSDA5083E4",
+    "SkillsnapApijobsjobidfinalE7A9CFA0",
+    "SkillsnapApijobsjobidfinalresumehtmlOPTIONSF78A5593",
+    "SkillsnapApijobsjobidfinalresumehtmlPOST416495C4",
+    "SkillsnapApijobsjobidfinalresumehtmlBA87C4E3",
+    "SkillsnapApijobsjobidfinalresumepdfOPTIONS4AEDEB40",
+    "SkillsnapApijobsjobidfinalresumepdfPOST98EFBC91",
+    "SkillsnapApijobsjobidfinalresumepdf0A83E0F0",
+    "SkillsnapApijobsjobidgenerateallOPTIONS235FDF00",
+    "SkillsnapApijobsjobidgenerateallPOST1CB27072",
+    "SkillsnapApijobsjobidgenerateallE4926360",
+    "SkillsnapApijobsjobidgeneratecomponentOPTIONSF2157B04",
+    "SkillsnapApijobsjobidgeneratecomponentPOSTE3F9A83D",
+    "SkillsnapApijobsjobidgeneratecomponentB899954B",
+    "SkillsnapApijobsjobidgenerateOPTIONSF93EF81C",
+    "SkillsnapApijobsjobidgenerateD1548238",
+    "SkillsnapApijobsjobidGET1D19E557",
+    "SkillsnapApijobsjobidOPTIONS36B34400",
+    "SkillsnapApijobsjobidphaseOPTIONS116C1189",
+    "SkillsnapApijobsjobidphasePUTE690B923",
+    "SkillsnapApijobsjobidphase954ADD8E",
+    "SkillsnapApijobsjobidD1A1920E",
+    "SkillsnapApijobsjobidstatusGET4F937CE3",
+    "SkillsnapApijobsjobidstatusOPTIONS41341912",
+    "SkillsnapApijobsjobidstatus7F8DF5D3",
+    "SkillsnapApijobsjobidtypecomponentOPTIONS0B29F7B8",
+    "SkillsnapApijobsjobidtypecomponentPUTBD09AD73",
+    "SkillsnapApijobsjobidtypecomponentD57A3326",
+    "SkillsnapApijobsjobidtypeOPTIONSC08D428A",
+    "SkillsnapApijobsjobidtype8ADADEE9",
+    "SkillsnapApijobsGETB4E66D34",
+    "SkillsnapApijobsmanualOPTIONS9A315246",
+    "SkillsnapApijobsmanualPOSTEAAE5EE8",
+    "SkillsnapApijobsmanual86B0265F",
+    "SkillsnapApijobsOPTIONS2D00956F",
+    "SkillsnapApijobs838F02CF",
+    "SkillsnapApiOPTIONS331668AF",
+    "SkillsnapApipreferencesGET2DFC9A5B",
+    "SkillsnapApipreferencesOPTIONS7E8DC133",
+    "SkillsnapApipreferencesPUTC88C2201",
+    "SkillsnapApipreferences3D894DE4",
+    "SkillsnapApiresumesresumenameDELETE387350E9",
+    "SkillsnapApiresumesresumenameGET9058B110",
+    "SkillsnapApiresumesresumenameOPTIONSB25B1000",
+    "SkillsnapApiresumesresumenamePUT2097AB7A",
+    "SkillsnapApiresumesresumename24921021",
+    "SkillsnapApiresumesGET01372CA1",
+    "SkillsnapApiresumesOPTIONS5D68B7D4",
+    "SkillsnapApiresumesPOST06CA4B43",
+    "SkillsnapApiresumes71F5E991"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Deployment/Resource",
+    "aws:cdk:do-not-refactor": true
+   }
+  },
+  "SkillsnapApiDeploymentStagev1612D213D": {
+   "Type": "AWS::ApiGateway::Stage",
+   "Properties": {
+    "DeploymentId": {
+     "Ref": "SkillsnapApiDeploymentAB8A18FA51435aaa9c59856f056e97560f60defd"
+    },
+    "MethodSettings": [
+     {
+      "DataTraceEnabled": false,
+      "HttpMethod": "*",
+      "ResourcePath": "/*",
+      "ThrottlingBurstLimit": 500,
+      "ThrottlingRateLimit": 1000
+     }
+    ],
+    "RestApiId": {
+     "Ref": "SkillsnapApiF7A267EA"
+    },
+    "StageName": "v1"
+   },
+   "DependsOn": [
+    "SkillsnapApiAccount05DB7D36"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/DeploymentStage.v1/Resource"
+   }
+  },
+  "SkillsnapApiOPTIONS331668AF": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'",
+        "method.response.header.Access-Control-Allow-Origin": "'https://app.skillsnap.me'",
+        "method.response.header.Vary": "'Origin'",
+        "method.response.header.Access-Control-Allow-Methods": "'GET,POST,PUT,DELETE,OPTIONS'",
+        "method.response.header.Access-Control-Allow-Credentials": "'true'"
+       },
+       "ResponseTemplates": {
+        "application/json": "#set($origin = $input.params().header.get(\"Origin\"))\n#if($origin == \"\")\n  #set($origin = $input.params().header.get(\"origin\"))\n#end\n#if($origin == \"http://localhost:3000\" || $origin == \"http://localhost:5173\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Vary": true,
+       "method.response.header.Access-Control-Allow-Methods": true,
+       "method.response.header.Access-Control-Allow-Credentials": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Fn::GetAtt": [
+      "SkillsnapApiF7A267EA",
+      "RootResourceId"
+     ]
+    },
+    "RestApiId": {
+     "Ref": "SkillsnapApiF7A267EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/OPTIONS/Resource"
+   }
+  },
+  "SkillsnapApiresumes71F5E991": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Fn::GetAtt": [
+      "SkillsnapApiF7A267EA",
+      "RootResourceId"
+     ]
+    },
+    "PathPart": "resumes",
+    "RestApiId": {
+     "Ref": "SkillsnapApiF7A267EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/resumes/Resource"
+   }
+  },
+  "SkillsnapApiresumesOPTIONS5D68B7D4": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'",
+        "method.response.header.Access-Control-Allow-Origin": "'https://app.skillsnap.me'",
+        "method.response.header.Vary": "'Origin'",
+        "method.response.header.Access-Control-Allow-Methods": "'GET,POST,PUT,DELETE,OPTIONS'",
+        "method.response.header.Access-Control-Allow-Credentials": "'true'"
+       },
+       "ResponseTemplates": {
+        "application/json": "#set($origin = $input.params().header.get(\"Origin\"))\n#if($origin == \"\")\n  #set($origin = $input.params().header.get(\"origin\"))\n#end\n#if($origin == \"http://localhost:3000\" || $origin == \"http://localhost:5173\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Vary": true,
+       "method.response.header.Access-Control-Allow-Methods": true,
+       "method.response.header.Access-Control-Allow-Credentials": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "SkillsnapApiresumes71F5E991"
+    },
+    "RestApiId": {
+     "Ref": "SkillsnapApiF7A267EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/resumes/OPTIONS/Resource"
+   }
+  },
+  "SkillsnapApiresumesGETApiPermissionSkillsnapApiGatewaySkillsnapApi2B803F78GETresumes89123230": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::ImportValue": "SkillsnapLambda:ExportsOutputFnGetAttResumeListEB720027ArnEA848C39"
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-west-2:132437448720:",
+       {
+        "Ref": "SkillsnapApiF7A267EA"
+       },
+       "/",
+       {
+        "Ref": "SkillsnapApiDeploymentStagev1612D213D"
+       },
+       "/GET/resumes"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/resumes/GET/ApiPermission.SkillsnapApiGatewaySkillsnapApi2B803F78.GET..resumes"
+   }
+  },
+  "SkillsnapApiresumesGETApiPermissionTestSkillsnapApiGatewaySkillsnapApi2B803F78GETresumes7996E204": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::ImportValue": "SkillsnapLambda:ExportsOutputFnGetAttResumeListEB720027ArnEA848C39"
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-west-2:132437448720:",
+       {
+        "Ref": "SkillsnapApiF7A267EA"
+       },
+       "/test-invoke-stage/GET/resumes"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/resumes/GET/ApiPermission.Test.SkillsnapApiGatewaySkillsnapApi2B803F78.GET..resumes"
+   }
+  },
+  "SkillsnapApiresumesGET01372CA1": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "COGNITO_USER_POOLS",
+    "AuthorizerId": {
+     "Ref": "CognitoAuthorizerF3215DBC"
+    },
+    "HttpMethod": "GET",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:us-west-2:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::ImportValue": "SkillsnapLambda:ExportsOutputFnGetAttResumeListEB720027ArnEA848C39"
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "SkillsnapApiresumes71F5E991"
+    },
+    "RestApiId": {
+     "Ref": "SkillsnapApiF7A267EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/resumes/GET/Resource"
+   }
+  },
+  "SkillsnapApiresumesPOSTApiPermissionSkillsnapApiGatewaySkillsnapApi2B803F78POSTresumesD7CA6BA6": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::ImportValue": "SkillsnapLambda:ExportsOutputFnGetAttResumeCreate719ED15CArn70DE46E8"
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-west-2:132437448720:",
+       {
+        "Ref": "SkillsnapApiF7A267EA"
+       },
+       "/",
+       {
+        "Ref": "SkillsnapApiDeploymentStagev1612D213D"
+       },
+       "/POST/resumes"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/resumes/POST/ApiPermission.SkillsnapApiGatewaySkillsnapApi2B803F78.POST..resumes"
+   }
+  },
+  "SkillsnapApiresumesPOSTApiPermissionTestSkillsnapApiGatewaySkillsnapApi2B803F78POSTresumesC8B1D515": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::ImportValue": "SkillsnapLambda:ExportsOutputFnGetAttResumeCreate719ED15CArn70DE46E8"
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-west-2:132437448720:",
+       {
+        "Ref": "SkillsnapApiF7A267EA"
+       },
+       "/test-invoke-stage/POST/resumes"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/resumes/POST/ApiPermission.Test.SkillsnapApiGatewaySkillsnapApi2B803F78.POST..resumes"
+   }
+  },
+  "SkillsnapApiresumesPOST06CA4B43": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "COGNITO_USER_POOLS",
+    "AuthorizerId": {
+     "Ref": "CognitoAuthorizerF3215DBC"
+    },
+    "HttpMethod": "POST",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:us-west-2:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::ImportValue": "SkillsnapLambda:ExportsOutputFnGetAttResumeCreate719ED15CArn70DE46E8"
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "SkillsnapApiresumes71F5E991"
+    },
+    "RestApiId": {
+     "Ref": "SkillsnapApiF7A267EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/resumes/POST/Resource"
+   }
+  },
+  "SkillsnapApiresumesresumename24921021": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Ref": "SkillsnapApiresumes71F5E991"
+    },
+    "PathPart": "{resumename}",
+    "RestApiId": {
+     "Ref": "SkillsnapApiF7A267EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/resumes/{resumename}/Resource"
+   }
+  },
+  "SkillsnapApiresumesresumenameOPTIONSB25B1000": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'",
+        "method.response.header.Access-Control-Allow-Origin": "'https://app.skillsnap.me'",
+        "method.response.header.Vary": "'Origin'",
+        "method.response.header.Access-Control-Allow-Methods": "'GET,POST,PUT,DELETE,OPTIONS'",
+        "method.response.header.Access-Control-Allow-Credentials": "'true'"
+       },
+       "ResponseTemplates": {
+        "application/json": "#set($origin = $input.params().header.get(\"Origin\"))\n#if($origin == \"\")\n  #set($origin = $input.params().header.get(\"origin\"))\n#end\n#if($origin == \"http://localhost:3000\" || $origin == \"http://localhost:5173\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Vary": true,
+       "method.response.header.Access-Control-Allow-Methods": true,
+       "method.response.header.Access-Control-Allow-Credentials": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "SkillsnapApiresumesresumename24921021"
+    },
+    "RestApiId": {
+     "Ref": "SkillsnapApiF7A267EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/resumes/{resumename}/OPTIONS/Resource"
+   }
+  },
+  "SkillsnapApiresumesresumenameGETApiPermissionSkillsnapApiGatewaySkillsnapApi2B803F78GETresumesresumename1B8A4FCC": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::ImportValue": "SkillsnapLambda:ExportsOutputFnGetAttResumeGet355FCFDBArn81BDD707"
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-west-2:132437448720:",
+       {
+        "Ref": "SkillsnapApiF7A267EA"
+       },
+       "/",
+       {
+        "Ref": "SkillsnapApiDeploymentStagev1612D213D"
+       },
+       "/GET/resumes/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/resumes/{resumename}/GET/ApiPermission.SkillsnapApiGatewaySkillsnapApi2B803F78.GET..resumes.{resumename}"
+   }
+  },
+  "SkillsnapApiresumesresumenameGETApiPermissionTestSkillsnapApiGatewaySkillsnapApi2B803F78GETresumesresumename2F96F019": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::ImportValue": "SkillsnapLambda:ExportsOutputFnGetAttResumeGet355FCFDBArn81BDD707"
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-west-2:132437448720:",
+       {
+        "Ref": "SkillsnapApiF7A267EA"
+       },
+       "/test-invoke-stage/GET/resumes/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/resumes/{resumename}/GET/ApiPermission.Test.SkillsnapApiGatewaySkillsnapApi2B803F78.GET..resumes.{resumename}"
+   }
+  },
+  "SkillsnapApiresumesresumenameGET9058B110": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "COGNITO_USER_POOLS",
+    "AuthorizerId": {
+     "Ref": "CognitoAuthorizerF3215DBC"
+    },
+    "HttpMethod": "GET",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:us-west-2:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::ImportValue": "SkillsnapLambda:ExportsOutputFnGetAttResumeGet355FCFDBArn81BDD707"
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "SkillsnapApiresumesresumename24921021"
+    },
+    "RestApiId": {
+     "Ref": "SkillsnapApiF7A267EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/resumes/{resumename}/GET/Resource"
+   }
+  },
+  "SkillsnapApiresumesresumenamePUTApiPermissionSkillsnapApiGatewaySkillsnapApi2B803F78PUTresumesresumenameC89B6D81": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::ImportValue": "SkillsnapLambda:ExportsOutputFnGetAttResumeUpdate283515A9Arn5DCE02C3"
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-west-2:132437448720:",
+       {
+        "Ref": "SkillsnapApiF7A267EA"
+       },
+       "/",
+       {
+        "Ref": "SkillsnapApiDeploymentStagev1612D213D"
+       },
+       "/PUT/resumes/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/resumes/{resumename}/PUT/ApiPermission.SkillsnapApiGatewaySkillsnapApi2B803F78.PUT..resumes.{resumename}"
+   }
+  },
+  "SkillsnapApiresumesresumenamePUTApiPermissionTestSkillsnapApiGatewaySkillsnapApi2B803F78PUTresumesresumename2454E36C": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::ImportValue": "SkillsnapLambda:ExportsOutputFnGetAttResumeUpdate283515A9Arn5DCE02C3"
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-west-2:132437448720:",
+       {
+        "Ref": "SkillsnapApiF7A267EA"
+       },
+       "/test-invoke-stage/PUT/resumes/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/resumes/{resumename}/PUT/ApiPermission.Test.SkillsnapApiGatewaySkillsnapApi2B803F78.PUT..resumes.{resumename}"
+   }
+  },
+  "SkillsnapApiresumesresumenamePUT2097AB7A": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "COGNITO_USER_POOLS",
+    "AuthorizerId": {
+     "Ref": "CognitoAuthorizerF3215DBC"
+    },
+    "HttpMethod": "PUT",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:us-west-2:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::ImportValue": "SkillsnapLambda:ExportsOutputFnGetAttResumeUpdate283515A9Arn5DCE02C3"
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "SkillsnapApiresumesresumename24921021"
+    },
+    "RestApiId": {
+     "Ref": "SkillsnapApiF7A267EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/resumes/{resumename}/PUT/Resource"
+   }
+  },
+  "SkillsnapApiresumesresumenameDELETEApiPermissionSkillsnapApiGatewaySkillsnapApi2B803F78DELETEresumesresumename95F6A859": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::ImportValue": "SkillsnapLambda:ExportsOutputFnGetAttResumeDeleteF477CA47ArnD2529957"
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-west-2:132437448720:",
+       {
+        "Ref": "SkillsnapApiF7A267EA"
+       },
+       "/",
+       {
+        "Ref": "SkillsnapApiDeploymentStagev1612D213D"
+       },
+       "/DELETE/resumes/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/resumes/{resumename}/DELETE/ApiPermission.SkillsnapApiGatewaySkillsnapApi2B803F78.DELETE..resumes.{resumename}"
+   }
+  },
+  "SkillsnapApiresumesresumenameDELETEApiPermissionTestSkillsnapApiGatewaySkillsnapApi2B803F78DELETEresumesresumenameEBB2F086": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::ImportValue": "SkillsnapLambda:ExportsOutputFnGetAttResumeDeleteF477CA47ArnD2529957"
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-west-2:132437448720:",
+       {
+        "Ref": "SkillsnapApiF7A267EA"
+       },
+       "/test-invoke-stage/DELETE/resumes/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/resumes/{resumename}/DELETE/ApiPermission.Test.SkillsnapApiGatewaySkillsnapApi2B803F78.DELETE..resumes.{resumename}"
+   }
+  },
+  "SkillsnapApiresumesresumenameDELETE387350E9": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "COGNITO_USER_POOLS",
+    "AuthorizerId": {
+     "Ref": "CognitoAuthorizerF3215DBC"
+    },
+    "HttpMethod": "DELETE",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:us-west-2:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::ImportValue": "SkillsnapLambda:ExportsOutputFnGetAttResumeDeleteF477CA47ArnD2529957"
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "SkillsnapApiresumesresumename24921021"
+    },
+    "RestApiId": {
+     "Ref": "SkillsnapApiF7A267EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/resumes/{resumename}/DELETE/Resource"
+   }
+  },
+  "SkillsnapApijobs838F02CF": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Fn::GetAtt": [
+      "SkillsnapApiF7A267EA",
+      "RootResourceId"
+     ]
+    },
+    "PathPart": "jobs",
+    "RestApiId": {
+     "Ref": "SkillsnapApiF7A267EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/Resource"
+   }
+  },
+  "SkillsnapApijobsOPTIONS2D00956F": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'",
+        "method.response.header.Access-Control-Allow-Origin": "'https://app.skillsnap.me'",
+        "method.response.header.Vary": "'Origin'",
+        "method.response.header.Access-Control-Allow-Methods": "'GET,POST,PUT,DELETE,OPTIONS'",
+        "method.response.header.Access-Control-Allow-Credentials": "'true'"
+       },
+       "ResponseTemplates": {
+        "application/json": "#set($origin = $input.params().header.get(\"Origin\"))\n#if($origin == \"\")\n  #set($origin = $input.params().header.get(\"origin\"))\n#end\n#if($origin == \"http://localhost:3000\" || $origin == \"http://localhost:5173\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Vary": true,
+       "method.response.header.Access-Control-Allow-Methods": true,
+       "method.response.header.Access-Control-Allow-Credentials": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "SkillsnapApijobs838F02CF"
+    },
+    "RestApiId": {
+     "Ref": "SkillsnapApiF7A267EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/OPTIONS/Resource"
+   }
+  },
+  "SkillsnapApijobsGETApiPermissionSkillsnapApiGatewaySkillsnapApi2B803F78GETjobsA3EF7BCC": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::ImportValue": "SkillsnapLambda:ExportsOutputFnGetAttJobList29E39595Arn007CAFD6"
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-west-2:132437448720:",
+       {
+        "Ref": "SkillsnapApiF7A267EA"
+       },
+       "/",
+       {
+        "Ref": "SkillsnapApiDeploymentStagev1612D213D"
+       },
+       "/GET/jobs"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/GET/ApiPermission.SkillsnapApiGatewaySkillsnapApi2B803F78.GET..jobs"
+   }
+  },
+  "SkillsnapApijobsGETApiPermissionTestSkillsnapApiGatewaySkillsnapApi2B803F78GETjobs87C71653": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::ImportValue": "SkillsnapLambda:ExportsOutputFnGetAttJobList29E39595Arn007CAFD6"
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-west-2:132437448720:",
+       {
+        "Ref": "SkillsnapApiF7A267EA"
+       },
+       "/test-invoke-stage/GET/jobs"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/GET/ApiPermission.Test.SkillsnapApiGatewaySkillsnapApi2B803F78.GET..jobs"
+   }
+  },
+  "SkillsnapApijobsGETB4E66D34": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "COGNITO_USER_POOLS",
+    "AuthorizerId": {
+     "Ref": "CognitoAuthorizerF3215DBC"
+    },
+    "HttpMethod": "GET",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:us-west-2:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::ImportValue": "SkillsnapLambda:ExportsOutputFnGetAttJobList29E39595Arn007CAFD6"
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "SkillsnapApijobs838F02CF"
+    },
+    "RestApiId": {
+     "Ref": "SkillsnapApiF7A267EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/GET/Resource"
+   }
+  },
+  "SkillsnapApijobsmanual86B0265F": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Ref": "SkillsnapApijobs838F02CF"
+    },
+    "PathPart": "manual",
+    "RestApiId": {
+     "Ref": "SkillsnapApiF7A267EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/manual/Resource"
+   }
+  },
+  "SkillsnapApijobsmanualOPTIONS9A315246": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'",
+        "method.response.header.Access-Control-Allow-Origin": "'https://app.skillsnap.me'",
+        "method.response.header.Vary": "'Origin'",
+        "method.response.header.Access-Control-Allow-Methods": "'GET,POST,PUT,DELETE,OPTIONS'",
+        "method.response.header.Access-Control-Allow-Credentials": "'true'"
+       },
+       "ResponseTemplates": {
+        "application/json": "#set($origin = $input.params().header.get(\"Origin\"))\n#if($origin == \"\")\n  #set($origin = $input.params().header.get(\"origin\"))\n#end\n#if($origin == \"http://localhost:3000\" || $origin == \"http://localhost:5173\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Vary": true,
+       "method.response.header.Access-Control-Allow-Methods": true,
+       "method.response.header.Access-Control-Allow-Credentials": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "SkillsnapApijobsmanual86B0265F"
+    },
+    "RestApiId": {
+     "Ref": "SkillsnapApiF7A267EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/manual/OPTIONS/Resource"
+   }
+  },
+  "SkillsnapApijobsmanualPOSTApiPermissionSkillsnapApiGatewaySkillsnapApi2B803F78POSTjobsmanual06F1C6F2": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::ImportValue": "SkillsnapLambda:ExportsOutputFnGetAttJobCreateManual0BA660BCArn5A34E2C6"
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-west-2:132437448720:",
+       {
+        "Ref": "SkillsnapApiF7A267EA"
+       },
+       "/",
+       {
+        "Ref": "SkillsnapApiDeploymentStagev1612D213D"
+       },
+       "/POST/jobs/manual"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/manual/POST/ApiPermission.SkillsnapApiGatewaySkillsnapApi2B803F78.POST..jobs.manual"
+   }
+  },
+  "SkillsnapApijobsmanualPOSTApiPermissionTestSkillsnapApiGatewaySkillsnapApi2B803F78POSTjobsmanual812BB856": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::ImportValue": "SkillsnapLambda:ExportsOutputFnGetAttJobCreateManual0BA660BCArn5A34E2C6"
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-west-2:132437448720:",
+       {
+        "Ref": "SkillsnapApiF7A267EA"
+       },
+       "/test-invoke-stage/POST/jobs/manual"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/manual/POST/ApiPermission.Test.SkillsnapApiGatewaySkillsnapApi2B803F78.POST..jobs.manual"
+   }
+  },
+  "SkillsnapApijobsmanualPOSTEAAE5EE8": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "COGNITO_USER_POOLS",
+    "AuthorizerId": {
+     "Ref": "CognitoAuthorizerF3215DBC"
+    },
+    "HttpMethod": "POST",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:us-west-2:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::ImportValue": "SkillsnapLambda:ExportsOutputFnGetAttJobCreateManual0BA660BCArn5A34E2C6"
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "SkillsnapApijobsmanual86B0265F"
+    },
+    "RestApiId": {
+     "Ref": "SkillsnapApiF7A267EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/manual/POST/Resource"
+   }
+  },
+  "SkillsnapApijobsjobidD1A1920E": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Ref": "SkillsnapApijobs838F02CF"
+    },
+    "PathPart": "{jobid}",
+    "RestApiId": {
+     "Ref": "SkillsnapApiF7A267EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/Resource"
+   }
+  },
+  "SkillsnapApijobsjobidOPTIONS36B34400": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'",
+        "method.response.header.Access-Control-Allow-Origin": "'https://app.skillsnap.me'",
+        "method.response.header.Vary": "'Origin'",
+        "method.response.header.Access-Control-Allow-Methods": "'GET,POST,PUT,DELETE,OPTIONS'",
+        "method.response.header.Access-Control-Allow-Credentials": "'true'"
+       },
+       "ResponseTemplates": {
+        "application/json": "#set($origin = $input.params().header.get(\"Origin\"))\n#if($origin == \"\")\n  #set($origin = $input.params().header.get(\"origin\"))\n#end\n#if($origin == \"http://localhost:3000\" || $origin == \"http://localhost:5173\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Vary": true,
+       "method.response.header.Access-Control-Allow-Methods": true,
+       "method.response.header.Access-Control-Allow-Credentials": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "SkillsnapApijobsjobidD1A1920E"
+    },
+    "RestApiId": {
+     "Ref": "SkillsnapApiF7A267EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/OPTIONS/Resource"
+   }
+  },
+  "SkillsnapApijobsjobidGETApiPermissionSkillsnapApiGatewaySkillsnapApi2B803F78GETjobsjobidC1B77041": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::ImportValue": "SkillsnapLambda:ExportsOutputFnGetAttJobGetA0FBD44BArnA5A6862D"
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-west-2:132437448720:",
+       {
+        "Ref": "SkillsnapApiF7A267EA"
+       },
+       "/",
+       {
+        "Ref": "SkillsnapApiDeploymentStagev1612D213D"
+       },
+       "/GET/jobs/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/GET/ApiPermission.SkillsnapApiGatewaySkillsnapApi2B803F78.GET..jobs.{jobid}"
+   }
+  },
+  "SkillsnapApijobsjobidGETApiPermissionTestSkillsnapApiGatewaySkillsnapApi2B803F78GETjobsjobidB659BAF6": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::ImportValue": "SkillsnapLambda:ExportsOutputFnGetAttJobGetA0FBD44BArnA5A6862D"
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-west-2:132437448720:",
+       {
+        "Ref": "SkillsnapApiF7A267EA"
+       },
+       "/test-invoke-stage/GET/jobs/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/GET/ApiPermission.Test.SkillsnapApiGatewaySkillsnapApi2B803F78.GET..jobs.{jobid}"
+   }
+  },
+  "SkillsnapApijobsjobidGET1D19E557": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "COGNITO_USER_POOLS",
+    "AuthorizerId": {
+     "Ref": "CognitoAuthorizerF3215DBC"
+    },
+    "HttpMethod": "GET",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:us-west-2:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::ImportValue": "SkillsnapLambda:ExportsOutputFnGetAttJobGetA0FBD44BArnA5A6862D"
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "SkillsnapApijobsjobidD1A1920E"
+    },
+    "RestApiId": {
+     "Ref": "SkillsnapApiF7A267EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/GET/Resource"
+   }
+  },
+  "SkillsnapApijobsjobidDELETEApiPermissionSkillsnapApiGatewaySkillsnapApi2B803F78DELETEjobsjobid84F418C5": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::ImportValue": "SkillsnapLambda:ExportsOutputFnGetAttJobDelete304AA975ArnF244296F"
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-west-2:132437448720:",
+       {
+        "Ref": "SkillsnapApiF7A267EA"
+       },
+       "/",
+       {
+        "Ref": "SkillsnapApiDeploymentStagev1612D213D"
+       },
+       "/DELETE/jobs/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/DELETE/ApiPermission.SkillsnapApiGatewaySkillsnapApi2B803F78.DELETE..jobs.{jobid}"
+   }
+  },
+  "SkillsnapApijobsjobidDELETEApiPermissionTestSkillsnapApiGatewaySkillsnapApi2B803F78DELETEjobsjobid9A54CDE4": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::ImportValue": "SkillsnapLambda:ExportsOutputFnGetAttJobDelete304AA975ArnF244296F"
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-west-2:132437448720:",
+       {
+        "Ref": "SkillsnapApiF7A267EA"
+       },
+       "/test-invoke-stage/DELETE/jobs/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/DELETE/ApiPermission.Test.SkillsnapApiGatewaySkillsnapApi2B803F78.DELETE..jobs.{jobid}"
+   }
+  },
+  "SkillsnapApijobsjobidDELETE7538A211": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "COGNITO_USER_POOLS",
+    "AuthorizerId": {
+     "Ref": "CognitoAuthorizerF3215DBC"
+    },
+    "HttpMethod": "DELETE",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:us-west-2:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::ImportValue": "SkillsnapLambda:ExportsOutputFnGetAttJobDelete304AA975ArnF244296F"
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "SkillsnapApijobsjobidD1A1920E"
+    },
+    "RestApiId": {
+     "Ref": "SkillsnapApiF7A267EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/DELETE/Resource"
+   }
+  },
+  "SkillsnapApijobsjobidphase954ADD8E": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Ref": "SkillsnapApijobsjobidD1A1920E"
+    },
+    "PathPart": "phase",
+    "RestApiId": {
+     "Ref": "SkillsnapApiF7A267EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/phase/Resource"
+   }
+  },
+  "SkillsnapApijobsjobidphaseOPTIONS116C1189": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'",
+        "method.response.header.Access-Control-Allow-Origin": "'https://app.skillsnap.me'",
+        "method.response.header.Vary": "'Origin'",
+        "method.response.header.Access-Control-Allow-Methods": "'GET,POST,PUT,DELETE,OPTIONS'",
+        "method.response.header.Access-Control-Allow-Credentials": "'true'"
+       },
+       "ResponseTemplates": {
+        "application/json": "#set($origin = $input.params().header.get(\"Origin\"))\n#if($origin == \"\")\n  #set($origin = $input.params().header.get(\"origin\"))\n#end\n#if($origin == \"http://localhost:3000\" || $origin == \"http://localhost:5173\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Vary": true,
+       "method.response.header.Access-Control-Allow-Methods": true,
+       "method.response.header.Access-Control-Allow-Credentials": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "SkillsnapApijobsjobidphase954ADD8E"
+    },
+    "RestApiId": {
+     "Ref": "SkillsnapApiF7A267EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/phase/OPTIONS/Resource"
+   }
+  },
+  "SkillsnapApijobsjobidphasePUTApiPermissionSkillsnapApiGatewaySkillsnapApi2B803F78PUTjobsjobidphase245FE3D0": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::ImportValue": "SkillsnapLambda:ExportsOutputFnGetAttJobUpdatePhaseEA0653ADArn52ABC8DA"
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-west-2:132437448720:",
+       {
+        "Ref": "SkillsnapApiF7A267EA"
+       },
+       "/",
+       {
+        "Ref": "SkillsnapApiDeploymentStagev1612D213D"
+       },
+       "/PUT/jobs/*/phase"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/phase/PUT/ApiPermission.SkillsnapApiGatewaySkillsnapApi2B803F78.PUT..jobs.{jobid}.phase"
+   }
+  },
+  "SkillsnapApijobsjobidphasePUTApiPermissionTestSkillsnapApiGatewaySkillsnapApi2B803F78PUTjobsjobidphase861A913F": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::ImportValue": "SkillsnapLambda:ExportsOutputFnGetAttJobUpdatePhaseEA0653ADArn52ABC8DA"
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-west-2:132437448720:",
+       {
+        "Ref": "SkillsnapApiF7A267EA"
+       },
+       "/test-invoke-stage/PUT/jobs/*/phase"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/phase/PUT/ApiPermission.Test.SkillsnapApiGatewaySkillsnapApi2B803F78.PUT..jobs.{jobid}.phase"
+   }
+  },
+  "SkillsnapApijobsjobidphasePUTE690B923": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "COGNITO_USER_POOLS",
+    "AuthorizerId": {
+     "Ref": "CognitoAuthorizerF3215DBC"
+    },
+    "HttpMethod": "PUT",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:us-west-2:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::ImportValue": "SkillsnapLambda:ExportsOutputFnGetAttJobUpdatePhaseEA0653ADArn52ABC8DA"
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "SkillsnapApijobsjobidphase954ADD8E"
+    },
+    "RestApiId": {
+     "Ref": "SkillsnapApiF7A267EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/phase/PUT/Resource"
+   }
+  },
+  "SkillsnapApijobsjobidgenerateallE4926360": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Ref": "SkillsnapApijobsjobidD1A1920E"
+    },
+    "PathPart": "generate-all",
+    "RestApiId": {
+     "Ref": "SkillsnapApiF7A267EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/generate-all/Resource"
+   }
+  },
+  "SkillsnapApijobsjobidgenerateallOPTIONS235FDF00": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'",
+        "method.response.header.Access-Control-Allow-Origin": "'https://app.skillsnap.me'",
+        "method.response.header.Vary": "'Origin'",
+        "method.response.header.Access-Control-Allow-Methods": "'GET,POST,PUT,DELETE,OPTIONS'",
+        "method.response.header.Access-Control-Allow-Credentials": "'true'"
+       },
+       "ResponseTemplates": {
+        "application/json": "#set($origin = $input.params().header.get(\"Origin\"))\n#if($origin == \"\")\n  #set($origin = $input.params().header.get(\"origin\"))\n#end\n#if($origin == \"http://localhost:3000\" || $origin == \"http://localhost:5173\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Vary": true,
+       "method.response.header.Access-Control-Allow-Methods": true,
+       "method.response.header.Access-Control-Allow-Credentials": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "SkillsnapApijobsjobidgenerateallE4926360"
+    },
+    "RestApiId": {
+     "Ref": "SkillsnapApiF7A267EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/generate-all/OPTIONS/Resource"
+   }
+  },
+  "SkillsnapApijobsjobidgenerateallPOSTApiPermissionSkillsnapApiGatewaySkillsnapApi2B803F78POSTjobsjobidgenerateall5DE56279": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::ImportValue": "SkillsnapLambda:ExportsOutputFnGetAttGenAllC294B57EArn7DF5D4E8"
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-west-2:132437448720:",
+       {
+        "Ref": "SkillsnapApiF7A267EA"
+       },
+       "/",
+       {
+        "Ref": "SkillsnapApiDeploymentStagev1612D213D"
+       },
+       "/POST/jobs/*/generate-all"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/generate-all/POST/ApiPermission.SkillsnapApiGatewaySkillsnapApi2B803F78.POST..jobs.{jobid}.generate-all"
+   }
+  },
+  "SkillsnapApijobsjobidgenerateallPOSTApiPermissionTestSkillsnapApiGatewaySkillsnapApi2B803F78POSTjobsjobidgenerateall9DE87836": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::ImportValue": "SkillsnapLambda:ExportsOutputFnGetAttGenAllC294B57EArn7DF5D4E8"
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-west-2:132437448720:",
+       {
+        "Ref": "SkillsnapApiF7A267EA"
+       },
+       "/test-invoke-stage/POST/jobs/*/generate-all"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/generate-all/POST/ApiPermission.Test.SkillsnapApiGatewaySkillsnapApi2B803F78.POST..jobs.{jobid}.generate-all"
+   }
+  },
+  "SkillsnapApijobsjobidgenerateallPOST1CB27072": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "COGNITO_USER_POOLS",
+    "AuthorizerId": {
+     "Ref": "CognitoAuthorizerF3215DBC"
+    },
+    "HttpMethod": "POST",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:us-west-2:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::ImportValue": "SkillsnapLambda:ExportsOutputFnGetAttGenAllC294B57EArn7DF5D4E8"
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "SkillsnapApijobsjobidgenerateallE4926360"
+    },
+    "RestApiId": {
+     "Ref": "SkillsnapApiF7A267EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/generate-all/POST/Resource"
+   }
+  },
+  "SkillsnapApijobsjobidgenerateD1548238": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Ref": "SkillsnapApijobsjobidD1A1920E"
+    },
+    "PathPart": "generate",
+    "RestApiId": {
+     "Ref": "SkillsnapApiF7A267EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/generate/Resource"
+   }
+  },
+  "SkillsnapApijobsjobidgenerateOPTIONSF93EF81C": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'",
+        "method.response.header.Access-Control-Allow-Origin": "'https://app.skillsnap.me'",
+        "method.response.header.Vary": "'Origin'",
+        "method.response.header.Access-Control-Allow-Methods": "'GET,POST,PUT,DELETE,OPTIONS'",
+        "method.response.header.Access-Control-Allow-Credentials": "'true'"
+       },
+       "ResponseTemplates": {
+        "application/json": "#set($origin = $input.params().header.get(\"Origin\"))\n#if($origin == \"\")\n  #set($origin = $input.params().header.get(\"origin\"))\n#end\n#if($origin == \"http://localhost:3000\" || $origin == \"http://localhost:5173\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Vary": true,
+       "method.response.header.Access-Control-Allow-Methods": true,
+       "method.response.header.Access-Control-Allow-Credentials": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "SkillsnapApijobsjobidgenerateD1548238"
+    },
+    "RestApiId": {
+     "Ref": "SkillsnapApiF7A267EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/generate/OPTIONS/Resource"
+   }
+  },
+  "SkillsnapApijobsjobidgeneratecomponentB899954B": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Ref": "SkillsnapApijobsjobidgenerateD1548238"
+    },
+    "PathPart": "{component}",
+    "RestApiId": {
+     "Ref": "SkillsnapApiF7A267EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/generate/{component}/Resource"
+   }
+  },
+  "SkillsnapApijobsjobidgeneratecomponentOPTIONSF2157B04": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'",
+        "method.response.header.Access-Control-Allow-Origin": "'https://app.skillsnap.me'",
+        "method.response.header.Vary": "'Origin'",
+        "method.response.header.Access-Control-Allow-Methods": "'GET,POST,PUT,DELETE,OPTIONS'",
+        "method.response.header.Access-Control-Allow-Credentials": "'true'"
+       },
+       "ResponseTemplates": {
+        "application/json": "#set($origin = $input.params().header.get(\"Origin\"))\n#if($origin == \"\")\n  #set($origin = $input.params().header.get(\"origin\"))\n#end\n#if($origin == \"http://localhost:3000\" || $origin == \"http://localhost:5173\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Vary": true,
+       "method.response.header.Access-Control-Allow-Methods": true,
+       "method.response.header.Access-Control-Allow-Credentials": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "SkillsnapApijobsjobidgeneratecomponentB899954B"
+    },
+    "RestApiId": {
+     "Ref": "SkillsnapApiF7A267EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/generate/{component}/OPTIONS/Resource"
+   }
+  },
+  "SkillsnapApijobsjobidgeneratecomponentPOSTApiPermissionSkillsnapApiGatewaySkillsnapApi2B803F78POSTjobsjobidgeneratecomponent71F79118": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::ImportValue": "SkillsnapLambda:ExportsOutputFnGetAttGenSingle027F0260ArnB7A9BEAE"
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-west-2:132437448720:",
+       {
+        "Ref": "SkillsnapApiF7A267EA"
+       },
+       "/",
+       {
+        "Ref": "SkillsnapApiDeploymentStagev1612D213D"
+       },
+       "/POST/jobs/*/generate/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/generate/{component}/POST/ApiPermission.SkillsnapApiGatewaySkillsnapApi2B803F78.POST..jobs.{jobid}.generate.{component}"
+   }
+  },
+  "SkillsnapApijobsjobidgeneratecomponentPOSTApiPermissionTestSkillsnapApiGatewaySkillsnapApi2B803F78POSTjobsjobidgeneratecomponentA6045537": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::ImportValue": "SkillsnapLambda:ExportsOutputFnGetAttGenSingle027F0260ArnB7A9BEAE"
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-west-2:132437448720:",
+       {
+        "Ref": "SkillsnapApiF7A267EA"
+       },
+       "/test-invoke-stage/POST/jobs/*/generate/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/generate/{component}/POST/ApiPermission.Test.SkillsnapApiGatewaySkillsnapApi2B803F78.POST..jobs.{jobid}.generate.{component}"
+   }
+  },
+  "SkillsnapApijobsjobidgeneratecomponentPOSTE3F9A83D": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "COGNITO_USER_POOLS",
+    "AuthorizerId": {
+     "Ref": "CognitoAuthorizerF3215DBC"
+    },
+    "HttpMethod": "POST",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:us-west-2:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::ImportValue": "SkillsnapLambda:ExportsOutputFnGetAttGenSingle027F0260ArnB7A9BEAE"
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "SkillsnapApijobsjobidgeneratecomponentB899954B"
+    },
+    "RestApiId": {
+     "Ref": "SkillsnapApiF7A267EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/generate/{component}/POST/Resource"
+   }
+  },
+  "SkillsnapApijobsjobidstatus7F8DF5D3": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Ref": "SkillsnapApijobsjobidD1A1920E"
+    },
+    "PathPart": "status",
+    "RestApiId": {
+     "Ref": "SkillsnapApiF7A267EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/status/Resource"
+   }
+  },
+  "SkillsnapApijobsjobidstatusOPTIONS41341912": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'",
+        "method.response.header.Access-Control-Allow-Origin": "'https://app.skillsnap.me'",
+        "method.response.header.Vary": "'Origin'",
+        "method.response.header.Access-Control-Allow-Methods": "'GET,POST,PUT,DELETE,OPTIONS'",
+        "method.response.header.Access-Control-Allow-Credentials": "'true'"
+       },
+       "ResponseTemplates": {
+        "application/json": "#set($origin = $input.params().header.get(\"Origin\"))\n#if($origin == \"\")\n  #set($origin = $input.params().header.get(\"origin\"))\n#end\n#if($origin == \"http://localhost:3000\" || $origin == \"http://localhost:5173\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Vary": true,
+       "method.response.header.Access-Control-Allow-Methods": true,
+       "method.response.header.Access-Control-Allow-Credentials": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "SkillsnapApijobsjobidstatus7F8DF5D3"
+    },
+    "RestApiId": {
+     "Ref": "SkillsnapApiF7A267EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/status/OPTIONS/Resource"
+   }
+  },
+  "SkillsnapApijobsjobidstatusGETApiPermissionSkillsnapApiGatewaySkillsnapApi2B803F78GETjobsjobidstatus1FCC038D": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::ImportValue": "SkillsnapLambda:ExportsOutputFnGetAttGenStatus5E5ACC01Arn2151ADBA"
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-west-2:132437448720:",
+       {
+        "Ref": "SkillsnapApiF7A267EA"
+       },
+       "/",
+       {
+        "Ref": "SkillsnapApiDeploymentStagev1612D213D"
+       },
+       "/GET/jobs/*/status"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/status/GET/ApiPermission.SkillsnapApiGatewaySkillsnapApi2B803F78.GET..jobs.{jobid}.status"
+   }
+  },
+  "SkillsnapApijobsjobidstatusGETApiPermissionTestSkillsnapApiGatewaySkillsnapApi2B803F78GETjobsjobidstatus7D05BD04": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::ImportValue": "SkillsnapLambda:ExportsOutputFnGetAttGenStatus5E5ACC01Arn2151ADBA"
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-west-2:132437448720:",
+       {
+        "Ref": "SkillsnapApiF7A267EA"
+       },
+       "/test-invoke-stage/GET/jobs/*/status"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/status/GET/ApiPermission.Test.SkillsnapApiGatewaySkillsnapApi2B803F78.GET..jobs.{jobid}.status"
+   }
+  },
+  "SkillsnapApijobsjobidstatusGET4F937CE3": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "COGNITO_USER_POOLS",
+    "AuthorizerId": {
+     "Ref": "CognitoAuthorizerF3215DBC"
+    },
+    "HttpMethod": "GET",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:us-west-2:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::ImportValue": "SkillsnapLambda:ExportsOutputFnGetAttGenStatus5E5ACC01Arn2151ADBA"
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "SkillsnapApijobsjobidstatus7F8DF5D3"
+    },
+    "RestApiId": {
+     "Ref": "SkillsnapApiF7A267EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/status/GET/Resource"
+   }
+  },
+  "SkillsnapApijobsjobidtype8ADADEE9": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Ref": "SkillsnapApijobsjobidD1A1920E"
+    },
+    "PathPart": "type",
+    "RestApiId": {
+     "Ref": "SkillsnapApiF7A267EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/type/Resource"
+   }
+  },
+  "SkillsnapApijobsjobidtypeOPTIONSC08D428A": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'",
+        "method.response.header.Access-Control-Allow-Origin": "'https://app.skillsnap.me'",
+        "method.response.header.Vary": "'Origin'",
+        "method.response.header.Access-Control-Allow-Methods": "'GET,POST,PUT,DELETE,OPTIONS'",
+        "method.response.header.Access-Control-Allow-Credentials": "'true'"
+       },
+       "ResponseTemplates": {
+        "application/json": "#set($origin = $input.params().header.get(\"Origin\"))\n#if($origin == \"\")\n  #set($origin = $input.params().header.get(\"origin\"))\n#end\n#if($origin == \"http://localhost:3000\" || $origin == \"http://localhost:5173\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Vary": true,
+       "method.response.header.Access-Control-Allow-Methods": true,
+       "method.response.header.Access-Control-Allow-Credentials": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "SkillsnapApijobsjobidtype8ADADEE9"
+    },
+    "RestApiId": {
+     "Ref": "SkillsnapApiF7A267EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/type/OPTIONS/Resource"
+   }
+  },
+  "SkillsnapApijobsjobidtypecomponentD57A3326": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Ref": "SkillsnapApijobsjobidtype8ADADEE9"
+    },
+    "PathPart": "{component}",
+    "RestApiId": {
+     "Ref": "SkillsnapApiF7A267EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/type/{component}/Resource"
+   }
+  },
+  "SkillsnapApijobsjobidtypecomponentOPTIONS0B29F7B8": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'",
+        "method.response.header.Access-Control-Allow-Origin": "'https://app.skillsnap.me'",
+        "method.response.header.Vary": "'Origin'",
+        "method.response.header.Access-Control-Allow-Methods": "'GET,POST,PUT,DELETE,OPTIONS'",
+        "method.response.header.Access-Control-Allow-Credentials": "'true'"
+       },
+       "ResponseTemplates": {
+        "application/json": "#set($origin = $input.params().header.get(\"Origin\"))\n#if($origin == \"\")\n  #set($origin = $input.params().header.get(\"origin\"))\n#end\n#if($origin == \"http://localhost:3000\" || $origin == \"http://localhost:5173\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Vary": true,
+       "method.response.header.Access-Control-Allow-Methods": true,
+       "method.response.header.Access-Control-Allow-Credentials": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "SkillsnapApijobsjobidtypecomponentD57A3326"
+    },
+    "RestApiId": {
+     "Ref": "SkillsnapApiF7A267EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/type/{component}/OPTIONS/Resource"
+   }
+  },
+  "SkillsnapApijobsjobidtypecomponentPUTApiPermissionSkillsnapApiGatewaySkillsnapApi2B803F78PUTjobsjobidtypecomponent2B8C864C": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::ImportValue": "SkillsnapLambda:ExportsOutputFnGetAttGenToggleTypeB05E1F0CArn18B16398"
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-west-2:132437448720:",
+       {
+        "Ref": "SkillsnapApiF7A267EA"
+       },
+       "/",
+       {
+        "Ref": "SkillsnapApiDeploymentStagev1612D213D"
+       },
+       "/PUT/jobs/*/type/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/type/{component}/PUT/ApiPermission.SkillsnapApiGatewaySkillsnapApi2B803F78.PUT..jobs.{jobid}.type.{component}"
+   }
+  },
+  "SkillsnapApijobsjobidtypecomponentPUTApiPermissionTestSkillsnapApiGatewaySkillsnapApi2B803F78PUTjobsjobidtypecomponent66F46E6A": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::ImportValue": "SkillsnapLambda:ExportsOutputFnGetAttGenToggleTypeB05E1F0CArn18B16398"
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-west-2:132437448720:",
+       {
+        "Ref": "SkillsnapApiF7A267EA"
+       },
+       "/test-invoke-stage/PUT/jobs/*/type/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/type/{component}/PUT/ApiPermission.Test.SkillsnapApiGatewaySkillsnapApi2B803F78.PUT..jobs.{jobid}.type.{component}"
+   }
+  },
+  "SkillsnapApijobsjobidtypecomponentPUTBD09AD73": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "COGNITO_USER_POOLS",
+    "AuthorizerId": {
+     "Ref": "CognitoAuthorizerF3215DBC"
+    },
+    "HttpMethod": "PUT",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:us-west-2:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::ImportValue": "SkillsnapLambda:ExportsOutputFnGetAttGenToggleTypeB05E1F0CArn18B16398"
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "SkillsnapApijobsjobidtypecomponentD57A3326"
+    },
+    "RestApiId": {
+     "Ref": "SkillsnapApiF7A267EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/type/{component}/PUT/Resource"
+   }
+  },
+  "SkillsnapApijobsjobidfinalE7A9CFA0": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Ref": "SkillsnapApijobsjobidD1A1920E"
+    },
+    "PathPart": "final",
+    "RestApiId": {
+     "Ref": "SkillsnapApiF7A267EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/final/Resource"
+   }
+  },
+  "SkillsnapApijobsjobidfinalOPTIONSDA5083E4": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'",
+        "method.response.header.Access-Control-Allow-Origin": "'https://app.skillsnap.me'",
+        "method.response.header.Vary": "'Origin'",
+        "method.response.header.Access-Control-Allow-Methods": "'GET,POST,PUT,DELETE,OPTIONS'",
+        "method.response.header.Access-Control-Allow-Credentials": "'true'"
+       },
+       "ResponseTemplates": {
+        "application/json": "#set($origin = $input.params().header.get(\"Origin\"))\n#if($origin == \"\")\n  #set($origin = $input.params().header.get(\"origin\"))\n#end\n#if($origin == \"http://localhost:3000\" || $origin == \"http://localhost:5173\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Vary": true,
+       "method.response.header.Access-Control-Allow-Methods": true,
+       "method.response.header.Access-Control-Allow-Credentials": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "SkillsnapApijobsjobidfinalE7A9CFA0"
+    },
+    "RestApiId": {
+     "Ref": "SkillsnapApiF7A267EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/final/OPTIONS/Resource"
+   }
+  },
+  "SkillsnapApijobsjobidfinalresumehtmlBA87C4E3": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Ref": "SkillsnapApijobsjobidfinalE7A9CFA0"
+    },
+    "PathPart": "resume-html",
+    "RestApiId": {
+     "Ref": "SkillsnapApiF7A267EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/final/resume-html/Resource"
+   }
+  },
+  "SkillsnapApijobsjobidfinalresumehtmlOPTIONSF78A5593": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'",
+        "method.response.header.Access-Control-Allow-Origin": "'https://app.skillsnap.me'",
+        "method.response.header.Vary": "'Origin'",
+        "method.response.header.Access-Control-Allow-Methods": "'GET,POST,PUT,DELETE,OPTIONS'",
+        "method.response.header.Access-Control-Allow-Credentials": "'true'"
+       },
+       "ResponseTemplates": {
+        "application/json": "#set($origin = $input.params().header.get(\"Origin\"))\n#if($origin == \"\")\n  #set($origin = $input.params().header.get(\"origin\"))\n#end\n#if($origin == \"http://localhost:3000\" || $origin == \"http://localhost:5173\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Vary": true,
+       "method.response.header.Access-Control-Allow-Methods": true,
+       "method.response.header.Access-Control-Allow-Credentials": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "SkillsnapApijobsjobidfinalresumehtmlBA87C4E3"
+    },
+    "RestApiId": {
+     "Ref": "SkillsnapApiF7A267EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/final/resume-html/OPTIONS/Resource"
+   }
+  },
+  "SkillsnapApijobsjobidfinalresumehtmlPOSTApiPermissionSkillsnapApiGatewaySkillsnapApi2B803F78POSTjobsjobidfinalresumehtmlDCEF2301": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::ImportValue": "SkillsnapLambda:ExportsOutputFnGetAttGenFinalHtml68C97BA2Arn2D97365A"
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-west-2:132437448720:",
+       {
+        "Ref": "SkillsnapApiF7A267EA"
+       },
+       "/",
+       {
+        "Ref": "SkillsnapApiDeploymentStagev1612D213D"
+       },
+       "/POST/jobs/*/final/resume-html"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/final/resume-html/POST/ApiPermission.SkillsnapApiGatewaySkillsnapApi2B803F78.POST..jobs.{jobid}.final.resume-html"
+   }
+  },
+  "SkillsnapApijobsjobidfinalresumehtmlPOSTApiPermissionTestSkillsnapApiGatewaySkillsnapApi2B803F78POSTjobsjobidfinalresumehtml57C55466": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::ImportValue": "SkillsnapLambda:ExportsOutputFnGetAttGenFinalHtml68C97BA2Arn2D97365A"
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-west-2:132437448720:",
+       {
+        "Ref": "SkillsnapApiF7A267EA"
+       },
+       "/test-invoke-stage/POST/jobs/*/final/resume-html"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/final/resume-html/POST/ApiPermission.Test.SkillsnapApiGatewaySkillsnapApi2B803F78.POST..jobs.{jobid}.final.resume-html"
+   }
+  },
+  "SkillsnapApijobsjobidfinalresumehtmlPOST416495C4": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "COGNITO_USER_POOLS",
+    "AuthorizerId": {
+     "Ref": "CognitoAuthorizerF3215DBC"
+    },
+    "HttpMethod": "POST",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:us-west-2:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::ImportValue": "SkillsnapLambda:ExportsOutputFnGetAttGenFinalHtml68C97BA2Arn2D97365A"
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "SkillsnapApijobsjobidfinalresumehtmlBA87C4E3"
+    },
+    "RestApiId": {
+     "Ref": "SkillsnapApiF7A267EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/final/resume-html/POST/Resource"
+   }
+  },
+  "SkillsnapApijobsjobidfinalresumepdf0A83E0F0": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Ref": "SkillsnapApijobsjobidfinalE7A9CFA0"
+    },
+    "PathPart": "resume-pdf",
+    "RestApiId": {
+     "Ref": "SkillsnapApiF7A267EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/final/resume-pdf/Resource"
+   }
+  },
+  "SkillsnapApijobsjobidfinalresumepdfOPTIONS4AEDEB40": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'",
+        "method.response.header.Access-Control-Allow-Origin": "'https://app.skillsnap.me'",
+        "method.response.header.Vary": "'Origin'",
+        "method.response.header.Access-Control-Allow-Methods": "'GET,POST,PUT,DELETE,OPTIONS'",
+        "method.response.header.Access-Control-Allow-Credentials": "'true'"
+       },
+       "ResponseTemplates": {
+        "application/json": "#set($origin = $input.params().header.get(\"Origin\"))\n#if($origin == \"\")\n  #set($origin = $input.params().header.get(\"origin\"))\n#end\n#if($origin == \"http://localhost:3000\" || $origin == \"http://localhost:5173\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Vary": true,
+       "method.response.header.Access-Control-Allow-Methods": true,
+       "method.response.header.Access-Control-Allow-Credentials": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "SkillsnapApijobsjobidfinalresumepdf0A83E0F0"
+    },
+    "RestApiId": {
+     "Ref": "SkillsnapApiF7A267EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/final/resume-pdf/OPTIONS/Resource"
+   }
+  },
+  "SkillsnapApijobsjobidfinalresumepdfPOSTApiPermissionSkillsnapApiGatewaySkillsnapApi2B803F78POSTjobsjobidfinalresumepdfECAA2E45": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::ImportValue": "SkillsnapLambda:ExportsOutputFnGetAttGenFinalPdfD4CD6F23Arn9986CBCE"
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-west-2:132437448720:",
+       {
+        "Ref": "SkillsnapApiF7A267EA"
+       },
+       "/",
+       {
+        "Ref": "SkillsnapApiDeploymentStagev1612D213D"
+       },
+       "/POST/jobs/*/final/resume-pdf"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/final/resume-pdf/POST/ApiPermission.SkillsnapApiGatewaySkillsnapApi2B803F78.POST..jobs.{jobid}.final.resume-pdf"
+   }
+  },
+  "SkillsnapApijobsjobidfinalresumepdfPOSTApiPermissionTestSkillsnapApiGatewaySkillsnapApi2B803F78POSTjobsjobidfinalresumepdfD60DCDE9": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::ImportValue": "SkillsnapLambda:ExportsOutputFnGetAttGenFinalPdfD4CD6F23Arn9986CBCE"
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-west-2:132437448720:",
+       {
+        "Ref": "SkillsnapApiF7A267EA"
+       },
+       "/test-invoke-stage/POST/jobs/*/final/resume-pdf"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/final/resume-pdf/POST/ApiPermission.Test.SkillsnapApiGatewaySkillsnapApi2B803F78.POST..jobs.{jobid}.final.resume-pdf"
+   }
+  },
+  "SkillsnapApijobsjobidfinalresumepdfPOST98EFBC91": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "COGNITO_USER_POOLS",
+    "AuthorizerId": {
+     "Ref": "CognitoAuthorizerF3215DBC"
+    },
+    "HttpMethod": "POST",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:us-west-2:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::ImportValue": "SkillsnapLambda:ExportsOutputFnGetAttGenFinalPdfD4CD6F23Arn9986CBCE"
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "SkillsnapApijobsjobidfinalresumepdf0A83E0F0"
+    },
+    "RestApiId": {
+     "Ref": "SkillsnapApiF7A267EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/final/resume-pdf/POST/Resource"
+   }
+  },
+  "SkillsnapApijobsjobidfinalcoverhtmlBD83F790": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Ref": "SkillsnapApijobsjobidfinalE7A9CFA0"
+    },
+    "PathPart": "cover-html",
+    "RestApiId": {
+     "Ref": "SkillsnapApiF7A267EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/final/cover-html/Resource"
+   }
+  },
+  "SkillsnapApijobsjobidfinalcoverhtmlOPTIONS83A7429E": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'",
+        "method.response.header.Access-Control-Allow-Origin": "'https://app.skillsnap.me'",
+        "method.response.header.Vary": "'Origin'",
+        "method.response.header.Access-Control-Allow-Methods": "'GET,POST,PUT,DELETE,OPTIONS'",
+        "method.response.header.Access-Control-Allow-Credentials": "'true'"
+       },
+       "ResponseTemplates": {
+        "application/json": "#set($origin = $input.params().header.get(\"Origin\"))\n#if($origin == \"\")\n  #set($origin = $input.params().header.get(\"origin\"))\n#end\n#if($origin == \"http://localhost:3000\" || $origin == \"http://localhost:5173\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Vary": true,
+       "method.response.header.Access-Control-Allow-Methods": true,
+       "method.response.header.Access-Control-Allow-Credentials": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "SkillsnapApijobsjobidfinalcoverhtmlBD83F790"
+    },
+    "RestApiId": {
+     "Ref": "SkillsnapApiF7A267EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/final/cover-html/OPTIONS/Resource"
+   }
+  },
+  "SkillsnapApijobsjobidfinalcoverhtmlPOSTApiPermissionSkillsnapApiGatewaySkillsnapApi2B803F78POSTjobsjobidfinalcoverhtmlE255A966": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::ImportValue": "SkillsnapLambda:ExportsOutputFnGetAttGenFinalHtml68C97BA2Arn2D97365A"
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-west-2:132437448720:",
+       {
+        "Ref": "SkillsnapApiF7A267EA"
+       },
+       "/",
+       {
+        "Ref": "SkillsnapApiDeploymentStagev1612D213D"
+       },
+       "/POST/jobs/*/final/cover-html"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/final/cover-html/POST/ApiPermission.SkillsnapApiGatewaySkillsnapApi2B803F78.POST..jobs.{jobid}.final.cover-html"
+   }
+  },
+  "SkillsnapApijobsjobidfinalcoverhtmlPOSTApiPermissionTestSkillsnapApiGatewaySkillsnapApi2B803F78POSTjobsjobidfinalcoverhtmlAA317FF4": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::ImportValue": "SkillsnapLambda:ExportsOutputFnGetAttGenFinalHtml68C97BA2Arn2D97365A"
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-west-2:132437448720:",
+       {
+        "Ref": "SkillsnapApiF7A267EA"
+       },
+       "/test-invoke-stage/POST/jobs/*/final/cover-html"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/final/cover-html/POST/ApiPermission.Test.SkillsnapApiGatewaySkillsnapApi2B803F78.POST..jobs.{jobid}.final.cover-html"
+   }
+  },
+  "SkillsnapApijobsjobidfinalcoverhtmlPOST2D7E0CF8": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "COGNITO_USER_POOLS",
+    "AuthorizerId": {
+     "Ref": "CognitoAuthorizerF3215DBC"
+    },
+    "HttpMethod": "POST",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:us-west-2:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::ImportValue": "SkillsnapLambda:ExportsOutputFnGetAttGenFinalHtml68C97BA2Arn2D97365A"
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "SkillsnapApijobsjobidfinalcoverhtmlBD83F790"
+    },
+    "RestApiId": {
+     "Ref": "SkillsnapApiF7A267EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/final/cover-html/POST/Resource"
+   }
+  },
+  "SkillsnapApijobsjobidfinalcoverpdf94FA8C6A": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Ref": "SkillsnapApijobsjobidfinalE7A9CFA0"
+    },
+    "PathPart": "cover-pdf",
+    "RestApiId": {
+     "Ref": "SkillsnapApiF7A267EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/final/cover-pdf/Resource"
+   }
+  },
+  "SkillsnapApijobsjobidfinalcoverpdfOPTIONSD3A9B8EA": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'",
+        "method.response.header.Access-Control-Allow-Origin": "'https://app.skillsnap.me'",
+        "method.response.header.Vary": "'Origin'",
+        "method.response.header.Access-Control-Allow-Methods": "'GET,POST,PUT,DELETE,OPTIONS'",
+        "method.response.header.Access-Control-Allow-Credentials": "'true'"
+       },
+       "ResponseTemplates": {
+        "application/json": "#set($origin = $input.params().header.get(\"Origin\"))\n#if($origin == \"\")\n  #set($origin = $input.params().header.get(\"origin\"))\n#end\n#if($origin == \"http://localhost:3000\" || $origin == \"http://localhost:5173\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Vary": true,
+       "method.response.header.Access-Control-Allow-Methods": true,
+       "method.response.header.Access-Control-Allow-Credentials": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "SkillsnapApijobsjobidfinalcoverpdf94FA8C6A"
+    },
+    "RestApiId": {
+     "Ref": "SkillsnapApiF7A267EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/final/cover-pdf/OPTIONS/Resource"
+   }
+  },
+  "SkillsnapApijobsjobidfinalcoverpdfPOSTApiPermissionSkillsnapApiGatewaySkillsnapApi2B803F78POSTjobsjobidfinalcoverpdfF96103C0": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::ImportValue": "SkillsnapLambda:ExportsOutputFnGetAttGenFinalPdfD4CD6F23Arn9986CBCE"
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-west-2:132437448720:",
+       {
+        "Ref": "SkillsnapApiF7A267EA"
+       },
+       "/",
+       {
+        "Ref": "SkillsnapApiDeploymentStagev1612D213D"
+       },
+       "/POST/jobs/*/final/cover-pdf"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/final/cover-pdf/POST/ApiPermission.SkillsnapApiGatewaySkillsnapApi2B803F78.POST..jobs.{jobid}.final.cover-pdf"
+   }
+  },
+  "SkillsnapApijobsjobidfinalcoverpdfPOSTApiPermissionTestSkillsnapApiGatewaySkillsnapApi2B803F78POSTjobsjobidfinalcoverpdf7CAD6ADE": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::ImportValue": "SkillsnapLambda:ExportsOutputFnGetAttGenFinalPdfD4CD6F23Arn9986CBCE"
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-west-2:132437448720:",
+       {
+        "Ref": "SkillsnapApiF7A267EA"
+       },
+       "/test-invoke-stage/POST/jobs/*/final/cover-pdf"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/final/cover-pdf/POST/ApiPermission.Test.SkillsnapApiGatewaySkillsnapApi2B803F78.POST..jobs.{jobid}.final.cover-pdf"
+   }
+  },
+  "SkillsnapApijobsjobidfinalcoverpdfPOSTA17E8586": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "COGNITO_USER_POOLS",
+    "AuthorizerId": {
+     "Ref": "CognitoAuthorizerF3215DBC"
+    },
+    "HttpMethod": "POST",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:us-west-2:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::ImportValue": "SkillsnapLambda:ExportsOutputFnGetAttGenFinalPdfD4CD6F23Arn9986CBCE"
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "SkillsnapApijobsjobidfinalcoverpdf94FA8C6A"
+    },
+    "RestApiId": {
+     "Ref": "SkillsnapApiF7A267EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/final/cover-pdf/POST/Resource"
+   }
+  },
+  "SkillsnapApipreferences3D894DE4": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Fn::GetAtt": [
+      "SkillsnapApiF7A267EA",
+      "RootResourceId"
+     ]
+    },
+    "PathPart": "preferences",
+    "RestApiId": {
+     "Ref": "SkillsnapApiF7A267EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/preferences/Resource"
+   }
+  },
+  "SkillsnapApipreferencesOPTIONS7E8DC133": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'",
+        "method.response.header.Access-Control-Allow-Origin": "'https://app.skillsnap.me'",
+        "method.response.header.Vary": "'Origin'",
+        "method.response.header.Access-Control-Allow-Methods": "'GET,POST,PUT,DELETE,OPTIONS'",
+        "method.response.header.Access-Control-Allow-Credentials": "'true'"
+       },
+       "ResponseTemplates": {
+        "application/json": "#set($origin = $input.params().header.get(\"Origin\"))\n#if($origin == \"\")\n  #set($origin = $input.params().header.get(\"origin\"))\n#end\n#if($origin == \"http://localhost:3000\" || $origin == \"http://localhost:5173\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Vary": true,
+       "method.response.header.Access-Control-Allow-Methods": true,
+       "method.response.header.Access-Control-Allow-Credentials": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "SkillsnapApipreferences3D894DE4"
+    },
+    "RestApiId": {
+     "Ref": "SkillsnapApiF7A267EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/preferences/OPTIONS/Resource"
+   }
+  },
+  "SkillsnapApipreferencesGETApiPermissionSkillsnapApiGatewaySkillsnapApi2B803F78GETpreferencesD3B2D121": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::ImportValue": "SkillsnapLambda:ExportsOutputFnGetAttUserPrefsGet5C7D104EArn5FC59B21"
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-west-2:132437448720:",
+       {
+        "Ref": "SkillsnapApiF7A267EA"
+       },
+       "/",
+       {
+        "Ref": "SkillsnapApiDeploymentStagev1612D213D"
+       },
+       "/GET/preferences"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/preferences/GET/ApiPermission.SkillsnapApiGatewaySkillsnapApi2B803F78.GET..preferences"
+   }
+  },
+  "SkillsnapApipreferencesGETApiPermissionTestSkillsnapApiGatewaySkillsnapApi2B803F78GETpreferences6170F7A6": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::ImportValue": "SkillsnapLambda:ExportsOutputFnGetAttUserPrefsGet5C7D104EArn5FC59B21"
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-west-2:132437448720:",
+       {
+        "Ref": "SkillsnapApiF7A267EA"
+       },
+       "/test-invoke-stage/GET/preferences"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/preferences/GET/ApiPermission.Test.SkillsnapApiGatewaySkillsnapApi2B803F78.GET..preferences"
+   }
+  },
+  "SkillsnapApipreferencesGET2DFC9A5B": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "COGNITO_USER_POOLS",
+    "AuthorizerId": {
+     "Ref": "CognitoAuthorizerF3215DBC"
+    },
+    "HttpMethod": "GET",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:us-west-2:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::ImportValue": "SkillsnapLambda:ExportsOutputFnGetAttUserPrefsGet5C7D104EArn5FC59B21"
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "SkillsnapApipreferences3D894DE4"
+    },
+    "RestApiId": {
+     "Ref": "SkillsnapApiF7A267EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/preferences/GET/Resource"
+   }
+  },
+  "SkillsnapApipreferencesPUTApiPermissionSkillsnapApiGatewaySkillsnapApi2B803F78PUTpreferences22804B86": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::ImportValue": "SkillsnapLambda:ExportsOutputFnGetAttUserPrefsUpdate9FCA2558Arn7E1306D8"
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-west-2:132437448720:",
+       {
+        "Ref": "SkillsnapApiF7A267EA"
+       },
+       "/",
+       {
+        "Ref": "SkillsnapApiDeploymentStagev1612D213D"
+       },
+       "/PUT/preferences"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/preferences/PUT/ApiPermission.SkillsnapApiGatewaySkillsnapApi2B803F78.PUT..preferences"
+   }
+  },
+  "SkillsnapApipreferencesPUTApiPermissionTestSkillsnapApiGatewaySkillsnapApi2B803F78PUTpreferences4CE29F3B": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::ImportValue": "SkillsnapLambda:ExportsOutputFnGetAttUserPrefsUpdate9FCA2558Arn7E1306D8"
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-west-2:132437448720:",
+       {
+        "Ref": "SkillsnapApiF7A267EA"
+       },
+       "/test-invoke-stage/PUT/preferences"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/preferences/PUT/ApiPermission.Test.SkillsnapApiGatewaySkillsnapApi2B803F78.PUT..preferences"
+   }
+  },
+  "SkillsnapApipreferencesPUTC88C2201": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "COGNITO_USER_POOLS",
+    "AuthorizerId": {
+     "Ref": "CognitoAuthorizerF3215DBC"
+    },
+    "HttpMethod": "PUT",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:us-west-2:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::ImportValue": "SkillsnapLambda:ExportsOutputFnGetAttUserPrefsUpdate9FCA2558Arn7E1306D8"
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "SkillsnapApipreferences3D894DE4"
+    },
+    "RestApiId": {
+     "Ref": "SkillsnapApiF7A267EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/SkillsnapApi/Default/preferences/PUT/Resource"
+   }
+  },
+  "CognitoAuthorizerF3215DBC": {
+   "Type": "AWS::ApiGateway::Authorizer",
+   "Properties": {
+    "IdentitySource": "method.request.header.Authorization",
+    "Name": "skillsnap-authorizer",
+    "ProviderARNs": [
+     {
+      "Fn::ImportValue": "SkillsnapCognito:ExportsOutputFnGetAttUserPool6BA7E5F2Arn686ACC00"
+     }
+    ],
+    "RestApiId": {
+     "Ref": "SkillsnapApiF7A267EA"
+    },
+    "Type": "COGNITO_USER_POOLS"
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/CognitoAuthorizer/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/1WOwW6DQAxEvyX3ZVtS5QNoeq2KiHKOnMUBN8sarb1CFPHvFYVW6clvZmTN7O0+P9jnHQySufqeebra6aTg7gYGuUzQUwOKA4x2qlC06Mkcb+EBC+c4BTVv2HseOwy6uA/qpNDg4q1QoXCKDl9B0Lyjtlwv4Ua/6VayMTeBlM+CsWT2UiRtOdIXxp8Bf2o2BJ2dKvbrP3ucjYfuWoM93kKJsSMR4jD/6/lI2iedTTlqy+Hpxea5Pew+hSiLKSh1aKv1fgMXpUonLgEAAA=="
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapApiGateway/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "SkillsnapApiEndpointBC1823F3": {
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      "https://",
+      {
+       "Ref": "SkillsnapApiF7A267EA"
+      },
+      ".execute-api.us-west-2.",
+      {
+       "Ref": "AWS::URLSuffix"
+      },
+      "/",
+      {
+       "Ref": "SkillsnapApiDeploymentStagev1612D213D"
+      },
+      "/"
+     ]
+    ]
+   }
+  },
+  "ApiUrl": {
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      "https://",
+      {
+       "Ref": "SkillsnapApiF7A267EA"
+      },
+      ".execute-api.us-west-2.",
+      {
+       "Ref": "AWS::URLSuffix"
+      },
+      "/",
+      {
+       "Ref": "SkillsnapApiDeploymentStagev1612D213D"
+      },
+      "/"
+     ]
+    ]
+   }
+  },
+  "ApiId": {
+   "Value": {
+    "Ref": "SkillsnapApiF7A267EA"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

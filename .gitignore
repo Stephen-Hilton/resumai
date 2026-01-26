@@ -1,5 +1,11 @@
 # project adds
 .DS_Store
+
+# CDK specific
+infrastructure/cdk.out/
+infrastructure/.venv/
+*.js.map
+*.d.ts
 logs/
 venv_*
 /jobs/applications

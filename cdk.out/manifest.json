@@ -1,0 +1,2263 @@
+{
+  "version": "48.0.0",
+  "artifacts": {
+    "SkillsnapDynamoDB.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "SkillsnapDynamoDB.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "SkillsnapDynamoDB": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://132437448720/us-west-2",
+      "properties": {
+        "templateFile": "SkillsnapDynamoDB.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::132437448720:role/cdk-hnb659fds-deploy-role-132437448720-us-west-2",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::132437448720:role/cdk-hnb659fds-cfn-exec-role-132437448720-us-west-2",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-132437448720-us-west-2/86033e895e236246c95c0f83599cfb1c20d6634e6328fd4e414eb540cada2614.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "SkillsnapDynamoDB.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::132437448720:role/cdk-hnb659fds-lookup-role-132437448720-us-west-2",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "SkillsnapDynamoDB.assets"
+      ],
+      "metadata": {
+        "/SkillsnapDynamoDB/UserTable": [
+          {
+            "type": "aws:cdk:hasPhysicalName",
+            "data": {
+              "Ref": "UserTableBD4BF69E"
+            }
+          }
+        ],
+        "/SkillsnapDynamoDB/UserTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserTableBD4BF69E"
+          }
+        ],
+        "/SkillsnapDynamoDB/UserEmailTable": [
+          {
+            "type": "aws:cdk:hasPhysicalName",
+            "data": {
+              "Ref": "UserEmailTable25D02B00"
+            }
+          }
+        ],
+        "/SkillsnapDynamoDB/UserEmailTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserEmailTable25D02B00"
+          }
+        ],
+        "/SkillsnapDynamoDB/UserUsernameTable": [
+          {
+            "type": "aws:cdk:hasPhysicalName",
+            "data": {
+              "Ref": "UserUsernameTable1C701706"
+            }
+          }
+        ],
+        "/SkillsnapDynamoDB/UserUsernameTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserUsernameTable1C701706"
+          }
+        ],
+        "/SkillsnapDynamoDB/UserPrefTable": [
+          {
+            "type": "aws:cdk:hasPhysicalName",
+            "data": {
+              "Ref": "UserPrefTableA96AFB04"
+            }
+          }
+        ],
+        "/SkillsnapDynamoDB/UserPrefTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserPrefTableA96AFB04"
+          }
+        ],
+        "/SkillsnapDynamoDB/JobTable": [
+          {
+            "type": "aws:cdk:hasPhysicalName",
+            "data": {
+              "Ref": "JobTable0F869D99"
+            }
+          }
+        ],
+        "/SkillsnapDynamoDB/JobTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "JobTable0F869D99"
+          }
+        ],
+        "/SkillsnapDynamoDB/UserJobTable": [
+          {
+            "type": "aws:cdk:hasPhysicalName",
+            "data": {
+              "Ref": "UserJobTable0427E2D6"
+            }
+          }
+        ],
+        "/SkillsnapDynamoDB/UserJobTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserJobTable0427E2D6"
+          }
+        ],
+        "/SkillsnapDynamoDB/ResumeTable": [
+          {
+            "type": "aws:cdk:hasPhysicalName",
+            "data": {
+              "Ref": "ResumeTable5083EE1E"
+            }
+          }
+        ],
+        "/SkillsnapDynamoDB/ResumeTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ResumeTable5083EE1E"
+          }
+        ],
+        "/SkillsnapDynamoDB/ResumeUrlTable": [
+          {
+            "type": "aws:cdk:hasPhysicalName",
+            "data": {
+              "Ref": "ResumeUrlTableE80B22D3"
+            }
+          }
+        ],
+        "/SkillsnapDynamoDB/ResumeUrlTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ResumeUrlTableE80B22D3"
+          }
+        ],
+        "/SkillsnapDynamoDB/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/SkillsnapDynamoDB/Exports/Output{\"Fn::GetAtt\":[\"UserTableBD4BF69E\",\"Arn\"]}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputFnGetAttUserTableBD4BF69EArn9A5B685A"
+          }
+        ],
+        "/SkillsnapDynamoDB/Exports/Output{\"Fn::GetAtt\":[\"UserEmailTable25D02B00\",\"Arn\"]}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputFnGetAttUserEmailTable25D02B00ArnE6AE6DEB"
+          }
+        ],
+        "/SkillsnapDynamoDB/Exports/Output{\"Fn::GetAtt\":[\"UserUsernameTable1C701706\",\"Arn\"]}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputFnGetAttUserUsernameTable1C701706Arn894E01F8"
+          }
+        ],
+        "/SkillsnapDynamoDB/Exports/Output{\"Fn::GetAtt\":[\"UserPrefTableA96AFB04\",\"Arn\"]}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputFnGetAttUserPrefTableA96AFB04Arn2628E46C"
+          }
+        ],
+        "/SkillsnapDynamoDB/Exports/Output{\"Fn::GetAtt\":[\"JobTable0F869D99\",\"Arn\"]}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputFnGetAttJobTable0F869D99Arn7D3E6A2E"
+          }
+        ],
+        "/SkillsnapDynamoDB/Exports/Output{\"Fn::GetAtt\":[\"UserJobTable0427E2D6\",\"Arn\"]}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputFnGetAttUserJobTable0427E2D6Arn8D96CBB8"
+          }
+        ],
+        "/SkillsnapDynamoDB/Exports/Output{\"Fn::GetAtt\":[\"ResumeTable5083EE1E\",\"Arn\"]}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputFnGetAttResumeTable5083EE1EArn06A6BFB8"
+          }
+        ],
+        "/SkillsnapDynamoDB/Exports/Output{\"Fn::GetAtt\":[\"ResumeUrlTableE80B22D3\",\"Arn\"]}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputFnGetAttResumeUrlTableE80B22D3Arn47E214CC"
+          }
+        ],
+        "/SkillsnapDynamoDB/Exports/Output{\"Ref\":\"UserTableBD4BF69E\"}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputRefUserTableBD4BF69E1F4D2BA4"
+          }
+        ],
+        "/SkillsnapDynamoDB/Exports/Output{\"Ref\":\"UserEmailTable25D02B00\"}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputRefUserEmailTable25D02B009AABD9B8"
+          }
+        ],
+        "/SkillsnapDynamoDB/Exports/Output{\"Ref\":\"UserUsernameTable1C701706\"}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputRefUserUsernameTable1C701706E5FCF516"
+          }
+        ],
+        "/SkillsnapDynamoDB/Exports/Output{\"Ref\":\"UserPrefTableA96AFB04\"}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputRefUserPrefTableA96AFB04A831CCD1"
+          }
+        ],
+        "/SkillsnapDynamoDB/Exports/Output{\"Ref\":\"JobTable0F869D99\"}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputRefJobTable0F869D99A7547D3C"
+          }
+        ],
+        "/SkillsnapDynamoDB/Exports/Output{\"Ref\":\"UserJobTable0427E2D6\"}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputRefUserJobTable0427E2D694832619"
+          }
+        ],
+        "/SkillsnapDynamoDB/Exports/Output{\"Ref\":\"ResumeTable5083EE1E\"}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputRefResumeTable5083EE1E9FF9FDD4"
+          }
+        ],
+        "/SkillsnapDynamoDB/Exports/Output{\"Ref\":\"ResumeUrlTableE80B22D3\"}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputRefResumeUrlTableE80B22D3D606B8EA"
+          }
+        ],
+        "/SkillsnapDynamoDB/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/SkillsnapDynamoDB/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "SkillsnapDynamoDB"
+    },
+    "SkillsnapS3.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "SkillsnapS3.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "SkillsnapS3": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://132437448720/us-west-2",
+      "properties": {
+        "templateFile": "SkillsnapS3.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::132437448720:role/cdk-hnb659fds-deploy-role-132437448720-us-west-2",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::132437448720:role/cdk-hnb659fds-cfn-exec-role-132437448720-us-west-2",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-132437448720-us-west-2/54426eb17dd5ac73cb7255603b91d86d6d5d11ac346c5c4beeb7c7c7c4092f07.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "SkillsnapS3.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::132437448720:role/cdk-hnb659fds-lookup-role-132437448720-us-west-2",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "SkillsnapS3.assets"
+      ],
+      "metadata": {
+        "/SkillsnapS3/LandingBucket/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LandingBucket23FE90FB"
+          }
+        ],
+        "/SkillsnapS3/LandingBucket/Policy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LandingBucketPolicy6504E234"
+          }
+        ],
+        "/SkillsnapS3/LandingBucket/AutoDeleteObjectsCustomResource/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LandingBucketAutoDeleteObjectsCustomResourceFC872580"
+          }
+        ],
+        "/SkillsnapS3/Custom::S3AutoDeleteObjectsCustomResourceProvider": [
+          {
+            "type": "aws:cdk:is-custom-resource-handler-customResourceProvider",
+            "data": true
+          }
+        ],
+        "/SkillsnapS3/Custom::S3AutoDeleteObjectsCustomResourceProvider/Role": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092"
+          }
+        ],
+        "/SkillsnapS3/Custom::S3AutoDeleteObjectsCustomResourceProvider/Handler": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F"
+          }
+        ],
+        "/SkillsnapS3/WebAppBucket/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "WebAppBucket8F6FA179"
+          }
+        ],
+        "/SkillsnapS3/WebAppBucket/Policy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "WebAppBucketPolicy542A2969"
+          }
+        ],
+        "/SkillsnapS3/WebAppBucket/AutoDeleteObjectsCustomResource/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "WebAppBucketAutoDeleteObjectsCustomResourceEF114EAA"
+          }
+        ],
+        "/SkillsnapS3/ResumesBucket/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ResumesBucketF5EE4389"
+          }
+        ],
+        "/SkillsnapS3/ResumesBucket/Policy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ResumesBucketPolicy2E4A268F"
+          }
+        ],
+        "/SkillsnapS3/ResumesBucket/AutoDeleteObjectsCustomResource/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ResumesBucketAutoDeleteObjectsCustomResource3E4B0910"
+          }
+        ],
+        "/SkillsnapS3/LandingBucketName": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LandingBucketName"
+          }
+        ],
+        "/SkillsnapS3/WebAppBucketName": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "WebAppBucketName"
+          }
+        ],
+        "/SkillsnapS3/ResumesBucketName": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ResumesBucketName"
+          }
+        ],
+        "/SkillsnapS3/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/SkillsnapS3/Exports/Output{\"Fn::GetAtt\":[\"LandingBucket23FE90FB\",\"WebsiteURL\"]}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputFnGetAttLandingBucket23FE90FBWebsiteURL784D0DB9"
+          }
+        ],
+        "/SkillsnapS3/Exports/Output{\"Fn::GetAtt\":[\"WebAppBucket8F6FA179\",\"WebsiteURL\"]}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputFnGetAttWebAppBucket8F6FA179WebsiteURLECCBDBCD"
+          }
+        ],
+        "/SkillsnapS3/Exports/Output{\"Fn::GetAtt\":[\"ResumesBucketF5EE4389\",\"WebsiteURL\"]}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputFnGetAttResumesBucketF5EE4389WebsiteURLBC2669A9"
+          }
+        ],
+        "/SkillsnapS3/Exports/Output{\"Ref\":\"ResumesBucketF5EE4389\"}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputRefResumesBucketF5EE4389B9ED6BB0"
+          }
+        ],
+        "/SkillsnapS3/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/SkillsnapS3/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "SkillsnapS3"
+    },
+    "SkillsnapCloudFront.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "SkillsnapCloudFront.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "SkillsnapCloudFront": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://132437448720/us-west-2",
+      "properties": {
+        "templateFile": "SkillsnapCloudFront.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::132437448720:role/cdk-hnb659fds-deploy-role-132437448720-us-west-2",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::132437448720:role/cdk-hnb659fds-cfn-exec-role-132437448720-us-west-2",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-132437448720-us-west-2/8b989a1b2553d5f1f71c3d89c68db53c68d27be23ed84d7ccdbe3d6171a19576.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "SkillsnapCloudFront.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::132437448720:role/cdk-hnb659fds-lookup-role-132437448720-us-west-2",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "SkillsnapS3",
+        "SkillsnapCloudFront.assets"
+      ],
+      "metadata": {
+        "/SkillsnapCloudFront/Certificate/CertificateRequestorFunction": [
+          {
+            "type": "aws:cdk:is-custom-resource-handler-runtime-family",
+            "data": 0
+          }
+        ],
+        "/SkillsnapCloudFront/Certificate/CertificateRequestorFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CertificateCertificateRequestorFunctionServiceRoleC04C13DA"
+          }
+        ],
+        "/SkillsnapCloudFront/Certificate/CertificateRequestorFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CertificateCertificateRequestorFunctionServiceRoleDefaultPolicy3C8845BC"
+          }
+        ],
+        "/SkillsnapCloudFront/Certificate/CertificateRequestorFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CertificateCertificateRequestorFunction5E845413"
+          }
+        ],
+        "/SkillsnapCloudFront/Certificate/CertificateRequestorResource/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CertificateCertificateRequestorResource2890C6B7"
+          }
+        ],
+        "/SkillsnapCloudFront/LandingOAI/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LandingOAIB8376BC0"
+          }
+        ],
+        "/SkillsnapCloudFront/WebAppOAI/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "WebAppOAI5ED67000"
+          }
+        ],
+        "/SkillsnapCloudFront/ResumesOAI/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ResumesOAI624E38E8"
+          }
+        ],
+        "/SkillsnapCloudFront/UrlRewriterFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UrlRewriterFunction6FE6DC0D"
+          }
+        ],
+        "/SkillsnapCloudFront/LandingDistribution/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LandingDistribution9C1CBB20"
+          }
+        ],
+        "/SkillsnapCloudFront/WebAppDistribution/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "WebAppDistribution4473AB7E"
+          }
+        ],
+        "/SkillsnapCloudFront/ResumesDistribution/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ResumesDistribution27143A00"
+          }
+        ],
+        "/SkillsnapCloudFront/LandingARecord/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LandingARecord60EE6632"
+          }
+        ],
+        "/SkillsnapCloudFront/AWSCloudFrontPartitionHostedZoneIdMap": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AWSCloudFrontPartitionHostedZoneIdMap"
+          }
+        ],
+        "/SkillsnapCloudFront/WebAppARecord/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "WebAppARecord253E45B6"
+          }
+        ],
+        "/SkillsnapCloudFront/ResumesWildcardARecord/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ResumesWildcardARecord374EB8AD"
+          }
+        ],
+        "/SkillsnapCloudFront/LandingDistributionDomain": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LandingDistributionDomain"
+          }
+        ],
+        "/SkillsnapCloudFront/WebAppDistributionDomain": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "WebAppDistributionDomain"
+          }
+        ],
+        "/SkillsnapCloudFront/ResumesDistributionDomain": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ResumesDistributionDomain"
+          }
+        ],
+        "/SkillsnapCloudFront/LandingDistributionId": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LandingDistributionId"
+          }
+        ],
+        "/SkillsnapCloudFront/WebAppDistributionId": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "WebAppDistributionId"
+          }
+        ],
+        "/SkillsnapCloudFront/ResumesDistributionId": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ResumesDistributionId"
+          }
+        ],
+        "/SkillsnapCloudFront/LandingUrl": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LandingUrl"
+          }
+        ],
+        "/SkillsnapCloudFront/WebAppUrl": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "WebAppUrl"
+          }
+        ],
+        "/SkillsnapCloudFront/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/SkillsnapCloudFront/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/SkillsnapCloudFront/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "SkillsnapCloudFront"
+    },
+    "SkillsnapCognito.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "SkillsnapCognito.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "SkillsnapCognito": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://132437448720/us-west-2",
+      "properties": {
+        "templateFile": "SkillsnapCognito.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::132437448720:role/cdk-hnb659fds-deploy-role-132437448720-us-west-2",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::132437448720:role/cdk-hnb659fds-cfn-exec-role-132437448720-us-west-2",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-132437448720-us-west-2/2feec5f15847299f38fe6114faee9d2e97bd1787a8a1b3b5b22370696eaf56bf.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "SkillsnapCognito.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::132437448720:role/cdk-hnb659fds-lookup-role-132437448720-us-west-2",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "SkillsnapLambda",
+        "SkillsnapCognito.assets"
+      ],
+      "metadata": {
+        "/SkillsnapCognito/UserPool/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserPool6BA7E5F2"
+          }
+        ],
+        "/SkillsnapCognito/UserPool/PostConfirmationCognito": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserPoolPostConfirmationCognito0E6001F8"
+          }
+        ],
+        "/SkillsnapCognito/UserPoolDomain/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserPoolDomain5479B217"
+          }
+        ],
+        "/SkillsnapCognito/AppClient/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AppClient4AE61178"
+          }
+        ],
+        "/SkillsnapCognito/UserPoolId": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserPoolId"
+          }
+        ],
+        "/SkillsnapCognito/UserPoolArn": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserPoolArn"
+          }
+        ],
+        "/SkillsnapCognito/AppClientId": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AppClientId"
+          }
+        ],
+        "/SkillsnapCognito/UserPoolDomainUrl": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserPoolDomainUrl"
+          }
+        ],
+        "/SkillsnapCognito/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/SkillsnapCognito/Exports/Output{\"Fn::GetAtt\":[\"UserPool6BA7E5F2\",\"Arn\"]}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputFnGetAttUserPool6BA7E5F2Arn686ACC00"
+          }
+        ],
+        "/SkillsnapCognito/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/SkillsnapCognito/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "SkillsnapCognito"
+    },
+    "SkillsnapSQS.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "SkillsnapSQS.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "SkillsnapSQS": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://132437448720/us-west-2",
+      "properties": {
+        "templateFile": "SkillsnapSQS.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::132437448720:role/cdk-hnb659fds-deploy-role-132437448720-us-west-2",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::132437448720:role/cdk-hnb659fds-cfn-exec-role-132437448720-us-west-2",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-132437448720-us-west-2/c9e7aa72b9e9d51fd160e82cafb7d6a9da4b9573dc42f6850b20d0153d1aba29.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "SkillsnapSQS.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::132437448720:role/cdk-hnb659fds-lookup-role-132437448720-us-west-2",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "SkillsnapSQS.assets"
+      ],
+      "metadata": {
+        "/SkillsnapSQS/GenerationDLQ/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GenerationDLQA9097A42"
+          }
+        ],
+        "/SkillsnapSQS/GenerationQueue/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GenerationQueueCB918172"
+          }
+        ],
+        "/SkillsnapSQS/GenerationQueueUrl": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GenerationQueueUrl"
+          }
+        ],
+        "/SkillsnapSQS/GenerationQueueArn": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GenerationQueueArn"
+          }
+        ],
+        "/SkillsnapSQS/GenerationDLQUrl": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GenerationDLQUrl"
+          }
+        ],
+        "/SkillsnapSQS/GenerationDLQArn": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GenerationDLQArn"
+          }
+        ],
+        "/SkillsnapSQS/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/SkillsnapSQS/Exports/Output{\"Fn::GetAtt\":[\"GenerationQueueCB918172\",\"Arn\"]}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputFnGetAttGenerationQueueCB918172ArnC4B14536"
+          }
+        ],
+        "/SkillsnapSQS/Exports/Output{\"Ref\":\"GenerationQueueCB918172\"}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputRefGenerationQueueCB91817206961842"
+          }
+        ],
+        "/SkillsnapSQS/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/SkillsnapSQS/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "SkillsnapSQS"
+    },
+    "SkillsnapLambda.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "SkillsnapLambda.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "SkillsnapLambda": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://132437448720/us-west-2",
+      "properties": {
+        "templateFile": "SkillsnapLambda.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::132437448720:role/cdk-hnb659fds-deploy-role-132437448720-us-west-2",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::132437448720:role/cdk-hnb659fds-cfn-exec-role-132437448720-us-west-2",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-132437448720-us-west-2/270773051b70b2b117906963bb5b8752d987e91eac5fcd8c4379496b144c19ea.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "SkillsnapLambda.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::132437448720:role/cdk-hnb659fds-lookup-role-132437448720-us-west-2",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "SkillsnapDynamoDB",
+        "SkillsnapSQS",
+        "SkillsnapS3",
+        "SkillsnapLambda.assets"
+      ],
+      "metadata": {
+        "/SkillsnapLambda/SharedLayer/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SharedLayer27DFABF0"
+          }
+        ],
+        "/SkillsnapLambda/LambdaRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LambdaRole3A44B857"
+          }
+        ],
+        "/SkillsnapLambda/LambdaRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LambdaRoleDefaultPolicy75625A82"
+          }
+        ],
+        "/SkillsnapLambda/AuthPostConfirmation/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AuthPostConfirmation7522E229"
+          }
+        ],
+        "/SkillsnapLambda/ResumeCreate/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ResumeCreate719ED15C"
+          }
+        ],
+        "/SkillsnapLambda/ResumeGet/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ResumeGet355FCFDB"
+          }
+        ],
+        "/SkillsnapLambda/ResumeList/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ResumeListEB720027"
+          }
+        ],
+        "/SkillsnapLambda/ResumeUpdate/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ResumeUpdate283515A9"
+          }
+        ],
+        "/SkillsnapLambda/ResumeDelete/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ResumeDeleteF477CA47"
+          }
+        ],
+        "/SkillsnapLambda/JobCreateManual/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "JobCreateManual0BA660BC"
+          }
+        ],
+        "/SkillsnapLambda/JobGet/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "JobGetA0FBD44B"
+          }
+        ],
+        "/SkillsnapLambda/JobList/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "JobList29E39595"
+          }
+        ],
+        "/SkillsnapLambda/JobUpdatePhase/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "JobUpdatePhaseEA0653AD"
+          }
+        ],
+        "/SkillsnapLambda/JobDelete/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "JobDelete304AA975"
+          }
+        ],
+        "/SkillsnapLambda/UserPrefsGet/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserPrefsGet5C7D104E"
+          }
+        ],
+        "/SkillsnapLambda/UserPrefsUpdate/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserPrefsUpdate9FCA2558"
+          }
+        ],
+        "/SkillsnapLambda/GenSubcomponent/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GenSubcomponent4B3FB59C"
+          }
+        ],
+        "/SkillsnapLambda/GenSubcomponent/SqsEventSource:SkillsnapSQSGenerationQueue6805F28D/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GenSubcomponentSqsEventSourceSkillsnapSQSGenerationQueue6805F28DB7572F73"
+          }
+        ],
+        "/SkillsnapLambda/GenAll/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GenAllC294B57E"
+          }
+        ],
+        "/SkillsnapLambda/GenSingle/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GenSingle027F0260"
+          }
+        ],
+        "/SkillsnapLambda/GenStatus/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GenStatus5E5ACC01"
+          }
+        ],
+        "/SkillsnapLambda/GenToggleType/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GenToggleTypeB05E1F0C"
+          }
+        ],
+        "/SkillsnapLambda/GenFinalHtml/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GenFinalHtml68C97BA2"
+          }
+        ],
+        "/SkillsnapLambda/GenFinalPdf/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GenFinalPdfD4CD6F23"
+          }
+        ],
+        "/SkillsnapLambda/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/SkillsnapLambda/Exports/Output{\"Fn::GetAtt\":[\"AuthPostConfirmation7522E229\",\"Arn\"]}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputFnGetAttAuthPostConfirmation7522E229Arn70C8A86A"
+          }
+        ],
+        "/SkillsnapLambda/Exports/Output{\"Fn::GetAtt\":[\"ResumeListEB720027\",\"Arn\"]}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputFnGetAttResumeListEB720027ArnEA848C39"
+          }
+        ],
+        "/SkillsnapLambda/Exports/Output{\"Fn::GetAtt\":[\"ResumeCreate719ED15C\",\"Arn\"]}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputFnGetAttResumeCreate719ED15CArn70DE46E8"
+          }
+        ],
+        "/SkillsnapLambda/Exports/Output{\"Fn::GetAtt\":[\"ResumeGet355FCFDB\",\"Arn\"]}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputFnGetAttResumeGet355FCFDBArn81BDD707"
+          }
+        ],
+        "/SkillsnapLambda/Exports/Output{\"Fn::GetAtt\":[\"ResumeUpdate283515A9\",\"Arn\"]}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputFnGetAttResumeUpdate283515A9Arn5DCE02C3"
+          }
+        ],
+        "/SkillsnapLambda/Exports/Output{\"Fn::GetAtt\":[\"ResumeDeleteF477CA47\",\"Arn\"]}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputFnGetAttResumeDeleteF477CA47ArnD2529957"
+          }
+        ],
+        "/SkillsnapLambda/Exports/Output{\"Fn::GetAtt\":[\"JobList29E39595\",\"Arn\"]}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputFnGetAttJobList29E39595Arn007CAFD6"
+          }
+        ],
+        "/SkillsnapLambda/Exports/Output{\"Fn::GetAtt\":[\"JobCreateManual0BA660BC\",\"Arn\"]}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputFnGetAttJobCreateManual0BA660BCArn5A34E2C6"
+          }
+        ],
+        "/SkillsnapLambda/Exports/Output{\"Fn::GetAtt\":[\"JobGetA0FBD44B\",\"Arn\"]}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputFnGetAttJobGetA0FBD44BArnA5A6862D"
+          }
+        ],
+        "/SkillsnapLambda/Exports/Output{\"Fn::GetAtt\":[\"JobDelete304AA975\",\"Arn\"]}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputFnGetAttJobDelete304AA975ArnF244296F"
+          }
+        ],
+        "/SkillsnapLambda/Exports/Output{\"Fn::GetAtt\":[\"JobUpdatePhaseEA0653AD\",\"Arn\"]}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputFnGetAttJobUpdatePhaseEA0653ADArn52ABC8DA"
+          }
+        ],
+        "/SkillsnapLambda/Exports/Output{\"Fn::GetAtt\":[\"GenAllC294B57E\",\"Arn\"]}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputFnGetAttGenAllC294B57EArn7DF5D4E8"
+          }
+        ],
+        "/SkillsnapLambda/Exports/Output{\"Fn::GetAtt\":[\"GenSingle027F0260\",\"Arn\"]}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputFnGetAttGenSingle027F0260ArnB7A9BEAE"
+          }
+        ],
+        "/SkillsnapLambda/Exports/Output{\"Fn::GetAtt\":[\"GenStatus5E5ACC01\",\"Arn\"]}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputFnGetAttGenStatus5E5ACC01Arn2151ADBA"
+          }
+        ],
+        "/SkillsnapLambda/Exports/Output{\"Fn::GetAtt\":[\"GenToggleTypeB05E1F0C\",\"Arn\"]}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputFnGetAttGenToggleTypeB05E1F0CArn18B16398"
+          }
+        ],
+        "/SkillsnapLambda/Exports/Output{\"Fn::GetAtt\":[\"GenFinalHtml68C97BA2\",\"Arn\"]}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputFnGetAttGenFinalHtml68C97BA2Arn2D97365A"
+          }
+        ],
+        "/SkillsnapLambda/Exports/Output{\"Fn::GetAtt\":[\"GenFinalPdfD4CD6F23\",\"Arn\"]}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputFnGetAttGenFinalPdfD4CD6F23Arn9986CBCE"
+          }
+        ],
+        "/SkillsnapLambda/Exports/Output{\"Fn::GetAtt\":[\"UserPrefsGet5C7D104E\",\"Arn\"]}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputFnGetAttUserPrefsGet5C7D104EArn5FC59B21"
+          }
+        ],
+        "/SkillsnapLambda/Exports/Output{\"Fn::GetAtt\":[\"UserPrefsUpdate9FCA2558\",\"Arn\"]}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputFnGetAttUserPrefsUpdate9FCA2558Arn7E1306D8"
+          }
+        ],
+        "/SkillsnapLambda/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/SkillsnapLambda/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "SkillsnapLambda"
+    },
+    "SkillsnapApiGateway.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "SkillsnapApiGateway.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "SkillsnapApiGateway": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://132437448720/us-west-2",
+      "properties": {
+        "templateFile": "SkillsnapApiGateway.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::132437448720:role/cdk-hnb659fds-deploy-role-132437448720-us-west-2",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::132437448720:role/cdk-hnb659fds-cfn-exec-role-132437448720-us-west-2",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-132437448720-us-west-2/e3c34b9ea3880fca22e474d552fac934457d7a7113844c7b788936f37aa601c4.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "SkillsnapApiGateway.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::132437448720:role/cdk-hnb659fds-lookup-role-132437448720-us-west-2",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "SkillsnapCognito",
+        "SkillsnapLambda",
+        "SkillsnapApiGateway.assets"
+      ],
+      "metadata": {
+        "/SkillsnapApiGateway/SkillsnapApi/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApiF7A267EA"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/CloudWatchRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApiCloudWatchRoleE49EA458"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Account": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApiAccount05DB7D36"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Deployment/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApiDeploymentAB8A18FA51435aaa9c59856f056e97560f60defd"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/DeploymentStage.v1/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApiDeploymentStagev1612D213D"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Endpoint": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApiEndpointBC1823F3"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApiOPTIONS331668AF"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/resumes/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApiresumes71F5E991"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/resumes/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApiresumesOPTIONS5D68B7D4"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/resumes/GET/ApiPermission.SkillsnapApiGatewaySkillsnapApi2B803F78.GET..resumes": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApiresumesGETApiPermissionSkillsnapApiGatewaySkillsnapApi2B803F78GETresumes89123230"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/resumes/GET/ApiPermission.Test.SkillsnapApiGatewaySkillsnapApi2B803F78.GET..resumes": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApiresumesGETApiPermissionTestSkillsnapApiGatewaySkillsnapApi2B803F78GETresumes7996E204"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/resumes/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApiresumesGET01372CA1"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/resumes/POST/ApiPermission.SkillsnapApiGatewaySkillsnapApi2B803F78.POST..resumes": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApiresumesPOSTApiPermissionSkillsnapApiGatewaySkillsnapApi2B803F78POSTresumesD7CA6BA6"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/resumes/POST/ApiPermission.Test.SkillsnapApiGatewaySkillsnapApi2B803F78.POST..resumes": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApiresumesPOSTApiPermissionTestSkillsnapApiGatewaySkillsnapApi2B803F78POSTresumesC8B1D515"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/resumes/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApiresumesPOST06CA4B43"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/resumes/{resumename}/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApiresumesresumename24921021"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/resumes/{resumename}/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApiresumesresumenameOPTIONSB25B1000"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/resumes/{resumename}/GET/ApiPermission.SkillsnapApiGatewaySkillsnapApi2B803F78.GET..resumes.{resumename}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApiresumesresumenameGETApiPermissionSkillsnapApiGatewaySkillsnapApi2B803F78GETresumesresumename1B8A4FCC"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/resumes/{resumename}/GET/ApiPermission.Test.SkillsnapApiGatewaySkillsnapApi2B803F78.GET..resumes.{resumename}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApiresumesresumenameGETApiPermissionTestSkillsnapApiGatewaySkillsnapApi2B803F78GETresumesresumename2F96F019"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/resumes/{resumename}/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApiresumesresumenameGET9058B110"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/resumes/{resumename}/PUT/ApiPermission.SkillsnapApiGatewaySkillsnapApi2B803F78.PUT..resumes.{resumename}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApiresumesresumenamePUTApiPermissionSkillsnapApiGatewaySkillsnapApi2B803F78PUTresumesresumenameC89B6D81"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/resumes/{resumename}/PUT/ApiPermission.Test.SkillsnapApiGatewaySkillsnapApi2B803F78.PUT..resumes.{resumename}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApiresumesresumenamePUTApiPermissionTestSkillsnapApiGatewaySkillsnapApi2B803F78PUTresumesresumename2454E36C"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/resumes/{resumename}/PUT/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApiresumesresumenamePUT2097AB7A"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/resumes/{resumename}/DELETE/ApiPermission.SkillsnapApiGatewaySkillsnapApi2B803F78.DELETE..resumes.{resumename}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApiresumesresumenameDELETEApiPermissionSkillsnapApiGatewaySkillsnapApi2B803F78DELETEresumesresumename95F6A859"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/resumes/{resumename}/DELETE/ApiPermission.Test.SkillsnapApiGatewaySkillsnapApi2B803F78.DELETE..resumes.{resumename}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApiresumesresumenameDELETEApiPermissionTestSkillsnapApiGatewaySkillsnapApi2B803F78DELETEresumesresumenameEBB2F086"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/resumes/{resumename}/DELETE/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApiresumesresumenameDELETE387350E9"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobs838F02CF"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsOPTIONS2D00956F"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/GET/ApiPermission.SkillsnapApiGatewaySkillsnapApi2B803F78.GET..jobs": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsGETApiPermissionSkillsnapApiGatewaySkillsnapApi2B803F78GETjobsA3EF7BCC"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/GET/ApiPermission.Test.SkillsnapApiGatewaySkillsnapApi2B803F78.GET..jobs": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsGETApiPermissionTestSkillsnapApiGatewaySkillsnapApi2B803F78GETjobs87C71653"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsGETB4E66D34"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/manual/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsmanual86B0265F"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/manual/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsmanualOPTIONS9A315246"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/manual/POST/ApiPermission.SkillsnapApiGatewaySkillsnapApi2B803F78.POST..jobs.manual": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsmanualPOSTApiPermissionSkillsnapApiGatewaySkillsnapApi2B803F78POSTjobsmanual06F1C6F2"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/manual/POST/ApiPermission.Test.SkillsnapApiGatewaySkillsnapApi2B803F78.POST..jobs.manual": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsmanualPOSTApiPermissionTestSkillsnapApiGatewaySkillsnapApi2B803F78POSTjobsmanual812BB856"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/manual/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsmanualPOSTEAAE5EE8"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsjobidD1A1920E"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsjobidOPTIONS36B34400"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/GET/ApiPermission.SkillsnapApiGatewaySkillsnapApi2B803F78.GET..jobs.{jobid}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsjobidGETApiPermissionSkillsnapApiGatewaySkillsnapApi2B803F78GETjobsjobidC1B77041"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/GET/ApiPermission.Test.SkillsnapApiGatewaySkillsnapApi2B803F78.GET..jobs.{jobid}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsjobidGETApiPermissionTestSkillsnapApiGatewaySkillsnapApi2B803F78GETjobsjobidB659BAF6"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsjobidGET1D19E557"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/DELETE/ApiPermission.SkillsnapApiGatewaySkillsnapApi2B803F78.DELETE..jobs.{jobid}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsjobidDELETEApiPermissionSkillsnapApiGatewaySkillsnapApi2B803F78DELETEjobsjobid84F418C5"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/DELETE/ApiPermission.Test.SkillsnapApiGatewaySkillsnapApi2B803F78.DELETE..jobs.{jobid}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsjobidDELETEApiPermissionTestSkillsnapApiGatewaySkillsnapApi2B803F78DELETEjobsjobid9A54CDE4"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/DELETE/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsjobidDELETE7538A211"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/phase/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsjobidphase954ADD8E"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/phase/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsjobidphaseOPTIONS116C1189"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/phase/PUT/ApiPermission.SkillsnapApiGatewaySkillsnapApi2B803F78.PUT..jobs.{jobid}.phase": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsjobidphasePUTApiPermissionSkillsnapApiGatewaySkillsnapApi2B803F78PUTjobsjobidphase245FE3D0"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/phase/PUT/ApiPermission.Test.SkillsnapApiGatewaySkillsnapApi2B803F78.PUT..jobs.{jobid}.phase": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsjobidphasePUTApiPermissionTestSkillsnapApiGatewaySkillsnapApi2B803F78PUTjobsjobidphase861A913F"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/phase/PUT/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsjobidphasePUTE690B923"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/generate-all/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsjobidgenerateallE4926360"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/generate-all/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsjobidgenerateallOPTIONS235FDF00"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/generate-all/POST/ApiPermission.SkillsnapApiGatewaySkillsnapApi2B803F78.POST..jobs.{jobid}.generate-all": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsjobidgenerateallPOSTApiPermissionSkillsnapApiGatewaySkillsnapApi2B803F78POSTjobsjobidgenerateall5DE56279"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/generate-all/POST/ApiPermission.Test.SkillsnapApiGatewaySkillsnapApi2B803F78.POST..jobs.{jobid}.generate-all": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsjobidgenerateallPOSTApiPermissionTestSkillsnapApiGatewaySkillsnapApi2B803F78POSTjobsjobidgenerateall9DE87836"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/generate-all/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsjobidgenerateallPOST1CB27072"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/generate/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsjobidgenerateD1548238"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/generate/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsjobidgenerateOPTIONSF93EF81C"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/generate/{component}/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsjobidgeneratecomponentB899954B"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/generate/{component}/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsjobidgeneratecomponentOPTIONSF2157B04"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/generate/{component}/POST/ApiPermission.SkillsnapApiGatewaySkillsnapApi2B803F78.POST..jobs.{jobid}.generate.{component}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsjobidgeneratecomponentPOSTApiPermissionSkillsnapApiGatewaySkillsnapApi2B803F78POSTjobsjobidgeneratecomponent71F79118"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/generate/{component}/POST/ApiPermission.Test.SkillsnapApiGatewaySkillsnapApi2B803F78.POST..jobs.{jobid}.generate.{component}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsjobidgeneratecomponentPOSTApiPermissionTestSkillsnapApiGatewaySkillsnapApi2B803F78POSTjobsjobidgeneratecomponentA6045537"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/generate/{component}/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsjobidgeneratecomponentPOSTE3F9A83D"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/status/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsjobidstatus7F8DF5D3"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/status/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsjobidstatusOPTIONS41341912"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/status/GET/ApiPermission.SkillsnapApiGatewaySkillsnapApi2B803F78.GET..jobs.{jobid}.status": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsjobidstatusGETApiPermissionSkillsnapApiGatewaySkillsnapApi2B803F78GETjobsjobidstatus1FCC038D"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/status/GET/ApiPermission.Test.SkillsnapApiGatewaySkillsnapApi2B803F78.GET..jobs.{jobid}.status": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsjobidstatusGETApiPermissionTestSkillsnapApiGatewaySkillsnapApi2B803F78GETjobsjobidstatus7D05BD04"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/status/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsjobidstatusGET4F937CE3"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/type/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsjobidtype8ADADEE9"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/type/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsjobidtypeOPTIONSC08D428A"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/type/{component}/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsjobidtypecomponentD57A3326"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/type/{component}/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsjobidtypecomponentOPTIONS0B29F7B8"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/type/{component}/PUT/ApiPermission.SkillsnapApiGatewaySkillsnapApi2B803F78.PUT..jobs.{jobid}.type.{component}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsjobidtypecomponentPUTApiPermissionSkillsnapApiGatewaySkillsnapApi2B803F78PUTjobsjobidtypecomponent2B8C864C"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/type/{component}/PUT/ApiPermission.Test.SkillsnapApiGatewaySkillsnapApi2B803F78.PUT..jobs.{jobid}.type.{component}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsjobidtypecomponentPUTApiPermissionTestSkillsnapApiGatewaySkillsnapApi2B803F78PUTjobsjobidtypecomponent66F46E6A"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/type/{component}/PUT/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsjobidtypecomponentPUTBD09AD73"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/final/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsjobidfinalE7A9CFA0"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/final/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsjobidfinalOPTIONSDA5083E4"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/final/resume-html/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsjobidfinalresumehtmlBA87C4E3"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/final/resume-html/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsjobidfinalresumehtmlOPTIONSF78A5593"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/final/resume-html/POST/ApiPermission.SkillsnapApiGatewaySkillsnapApi2B803F78.POST..jobs.{jobid}.final.resume-html": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsjobidfinalresumehtmlPOSTApiPermissionSkillsnapApiGatewaySkillsnapApi2B803F78POSTjobsjobidfinalresumehtmlDCEF2301"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/final/resume-html/POST/ApiPermission.Test.SkillsnapApiGatewaySkillsnapApi2B803F78.POST..jobs.{jobid}.final.resume-html": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsjobidfinalresumehtmlPOSTApiPermissionTestSkillsnapApiGatewaySkillsnapApi2B803F78POSTjobsjobidfinalresumehtml57C55466"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/final/resume-html/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsjobidfinalresumehtmlPOST416495C4"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/final/resume-pdf/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsjobidfinalresumepdf0A83E0F0"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/final/resume-pdf/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsjobidfinalresumepdfOPTIONS4AEDEB40"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/final/resume-pdf/POST/ApiPermission.SkillsnapApiGatewaySkillsnapApi2B803F78.POST..jobs.{jobid}.final.resume-pdf": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsjobidfinalresumepdfPOSTApiPermissionSkillsnapApiGatewaySkillsnapApi2B803F78POSTjobsjobidfinalresumepdfECAA2E45"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/final/resume-pdf/POST/ApiPermission.Test.SkillsnapApiGatewaySkillsnapApi2B803F78.POST..jobs.{jobid}.final.resume-pdf": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsjobidfinalresumepdfPOSTApiPermissionTestSkillsnapApiGatewaySkillsnapApi2B803F78POSTjobsjobidfinalresumepdfD60DCDE9"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/final/resume-pdf/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsjobidfinalresumepdfPOST98EFBC91"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/final/cover-html/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsjobidfinalcoverhtmlBD83F790"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/final/cover-html/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsjobidfinalcoverhtmlOPTIONS83A7429E"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/final/cover-html/POST/ApiPermission.SkillsnapApiGatewaySkillsnapApi2B803F78.POST..jobs.{jobid}.final.cover-html": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsjobidfinalcoverhtmlPOSTApiPermissionSkillsnapApiGatewaySkillsnapApi2B803F78POSTjobsjobidfinalcoverhtmlE255A966"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/final/cover-html/POST/ApiPermission.Test.SkillsnapApiGatewaySkillsnapApi2B803F78.POST..jobs.{jobid}.final.cover-html": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsjobidfinalcoverhtmlPOSTApiPermissionTestSkillsnapApiGatewaySkillsnapApi2B803F78POSTjobsjobidfinalcoverhtmlAA317FF4"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/final/cover-html/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsjobidfinalcoverhtmlPOST2D7E0CF8"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/final/cover-pdf/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsjobidfinalcoverpdf94FA8C6A"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/final/cover-pdf/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsjobidfinalcoverpdfOPTIONSD3A9B8EA"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/final/cover-pdf/POST/ApiPermission.SkillsnapApiGatewaySkillsnapApi2B803F78.POST..jobs.{jobid}.final.cover-pdf": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsjobidfinalcoverpdfPOSTApiPermissionSkillsnapApiGatewaySkillsnapApi2B803F78POSTjobsjobidfinalcoverpdfF96103C0"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/final/cover-pdf/POST/ApiPermission.Test.SkillsnapApiGatewaySkillsnapApi2B803F78.POST..jobs.{jobid}.final.cover-pdf": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsjobidfinalcoverpdfPOSTApiPermissionTestSkillsnapApiGatewaySkillsnapApi2B803F78POSTjobsjobidfinalcoverpdf7CAD6ADE"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/jobs/{jobid}/final/cover-pdf/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApijobsjobidfinalcoverpdfPOSTA17E8586"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/preferences/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApipreferences3D894DE4"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/preferences/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApipreferencesOPTIONS7E8DC133"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/preferences/GET/ApiPermission.SkillsnapApiGatewaySkillsnapApi2B803F78.GET..preferences": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApipreferencesGETApiPermissionSkillsnapApiGatewaySkillsnapApi2B803F78GETpreferencesD3B2D121"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/preferences/GET/ApiPermission.Test.SkillsnapApiGatewaySkillsnapApi2B803F78.GET..preferences": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApipreferencesGETApiPermissionTestSkillsnapApiGatewaySkillsnapApi2B803F78GETpreferences6170F7A6"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/preferences/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApipreferencesGET2DFC9A5B"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/preferences/PUT/ApiPermission.SkillsnapApiGatewaySkillsnapApi2B803F78.PUT..preferences": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApipreferencesPUTApiPermissionSkillsnapApiGatewaySkillsnapApi2B803F78PUTpreferences22804B86"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/preferences/PUT/ApiPermission.Test.SkillsnapApiGatewaySkillsnapApi2B803F78.PUT..preferences": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApipreferencesPUTApiPermissionTestSkillsnapApiGatewaySkillsnapApi2B803F78PUTpreferences4CE29F3B"
+          }
+        ],
+        "/SkillsnapApiGateway/SkillsnapApi/Default/preferences/PUT/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SkillsnapApipreferencesPUTC88C2201"
+          }
+        ],
+        "/SkillsnapApiGateway/CognitoAuthorizer/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CognitoAuthorizerF3215DBC"
+          }
+        ],
+        "/SkillsnapApiGateway/ApiUrl": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiUrl"
+          }
+        ],
+        "/SkillsnapApiGateway/ApiId": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiId"
+          }
+        ],
+        "/SkillsnapApiGateway/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/SkillsnapApiGateway/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/SkillsnapApiGateway/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "SkillsnapApiGateway"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    },
+    "aws-cdk-lib/feature-flag-report": {
+      "type": "cdk:feature-flag-report",
+      "properties": {
+        "module": "aws-cdk-lib",
+        "flags": {
+          "@aws-cdk/aws-signer:signingProfileNamePassedToCfn": {
+            "recommendedValue": true,
+            "explanation": "Pass signingProfileName to CfnSigningProfile"
+          },
+          "@aws-cdk/core:newStyleStackSynthesis": {
+            "recommendedValue": true,
+            "explanation": "Switch to new stack synthesis method which enables CI/CD",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "@aws-cdk/core:stackRelativeExports": {
+            "recommendedValue": true,
+            "explanation": "Name exports based on the construct paths relative to the stack, rather than the global construct path",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "@aws-cdk/aws-ecs-patterns:secGroupsDisablesImplicitOpenListener": {
+            "recommendedValue": true,
+            "explanation": "Disable implicit openListener when custom security groups are provided"
+          },
+          "@aws-cdk/aws-rds:lowercaseDbIdentifier": {
+            "recommendedValue": true,
+            "explanation": "Force lowercasing of RDS Cluster names in CDK",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "@aws-cdk/aws-apigateway:usagePlanKeyOrderInsensitiveId": {
+            "recommendedValue": true,
+            "explanation": "Allow adding/removing multiple UsagePlanKeys independently",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "@aws-cdk/aws-lambda:recognizeVersionProps": {
+            "recommendedValue": true,
+            "explanation": "Enable this feature flag to opt in to the updated logical id calculation for Lambda Version created using the  `fn.currentVersion`.",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "@aws-cdk/aws-lambda:recognizeLayerVersion": {
+            "recommendedValue": true,
+            "explanation": "Enable this feature flag to opt in to the updated logical id calculation for Lambda Version created using the `fn.currentVersion`."
+          },
+          "@aws-cdk/aws-cloudfront:defaultSecurityPolicyTLSv1.2_2021": {
+            "recommendedValue": true,
+            "explanation": "Enable this feature flag to have cloudfront distributions use the security policy TLSv1.2_2021 by default.",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "@aws-cdk/core:checkSecretUsage": {
+            "recommendedValue": true,
+            "explanation": "Enable this flag to make it impossible to accidentally use SecretValues in unsafe locations"
+          },
+          "@aws-cdk/core:target-partitions": {
+            "recommendedValue": [
+              "aws",
+              "aws-cn"
+            ],
+            "explanation": "What regions to include in lookup tables of environment agnostic stacks"
+          },
+          "@aws-cdk-containers/ecs-service-extensions:enableDefaultLogDriver": {
+            "recommendedValue": true,
+            "explanation": "ECS extensions will automatically add an `awslogs` driver if no logging is specified"
+          },
+          "@aws-cdk/aws-ec2:uniqueImdsv2TemplateName": {
+            "recommendedValue": true,
+            "explanation": "Enable this feature flag to have Launch Templates generated by the `InstanceRequireImdsv2Aspect` use unique names."
+          },
+          "@aws-cdk/aws-ecs:arnFormatIncludesClusterName": {
+            "recommendedValue": true,
+            "explanation": "ARN format used by ECS. In the new ARN format, the cluster name is part of the resource ID."
+          },
+          "@aws-cdk/aws-iam:minimizePolicies": {
+            "recommendedValue": true,
+            "explanation": "Minimize IAM policies by combining Statements"
+          },
+          "@aws-cdk/core:validateSnapshotRemovalPolicy": {
+            "recommendedValue": true,
+            "explanation": "Error on snapshot removal policies on resources that do not support it."
+          },
+          "@aws-cdk/aws-codepipeline:crossAccountKeyAliasStackSafeResourceName": {
+            "recommendedValue": true,
+            "explanation": "Generate key aliases that include the stack name"
+          },
+          "@aws-cdk/aws-s3:createDefaultLoggingPolicy": {
+            "recommendedValue": true,
+            "explanation": "Enable this feature flag to create an S3 bucket policy by default in cases where an AWS service would automatically create the Policy if one does not exist."
+          },
+          "@aws-cdk/aws-sns-subscriptions:restrictSqsDescryption": {
+            "recommendedValue": true,
+            "explanation": "Restrict KMS key policy for encrypted Queues a bit more"
+          },
+          "@aws-cdk/aws-apigateway:disableCloudWatchRole": {
+            "recommendedValue": true,
+            "explanation": "Make default CloudWatch Role behavior safe for multiple API Gateways in one environment"
+          },
+          "@aws-cdk/core:enablePartitionLiterals": {
+            "recommendedValue": true,
+            "explanation": "Make ARNs concrete if AWS partition is known"
+          },
+          "@aws-cdk/aws-events:eventsTargetQueueSameAccount": {
+            "recommendedValue": true,
+            "explanation": "Event Rules may only push to encrypted SQS queues in the same account"
+          },
+          "@aws-cdk/aws-ecs:disableExplicitDeploymentControllerForCircuitBreaker": {
+            "recommendedValue": true,
+            "explanation": "Avoid setting the \"ECS\" deployment controller when adding a circuit breaker"
+          },
+          "@aws-cdk/aws-iam:importedRoleStackSafeDefaultPolicyName": {
+            "recommendedValue": true,
+            "explanation": "Enable this feature to by default create default policy names for imported roles that depend on the stack the role is in."
+          },
+          "@aws-cdk/aws-s3:serverAccessLogsUseBucketPolicy": {
+            "recommendedValue": true,
+            "explanation": "Use S3 Bucket Policy instead of ACLs for Server Access Logging"
+          },
+          "@aws-cdk/aws-route53-patters:useCertificate": {
+            "recommendedValue": true,
+            "explanation": "Use the official `Certificate` resource instead of `DnsValidatedCertificate`"
+          },
+          "@aws-cdk/customresources:installLatestAwsSdkDefault": {
+            "recommendedValue": false,
+            "explanation": "Whether to install the latest SDK by default in AwsCustomResource"
+          },
+          "@aws-cdk/aws-rds:databaseProxyUniqueResourceName": {
+            "recommendedValue": true,
+            "explanation": "Use unique resource name for Database Proxy"
+          },
+          "@aws-cdk/aws-codedeploy:removeAlarmsFromDeploymentGroup": {
+            "recommendedValue": true,
+            "explanation": "Remove CloudWatch alarms from deployment group"
+          },
+          "@aws-cdk/aws-apigateway:authorizerChangeDeploymentLogicalId": {
+            "recommendedValue": true,
+            "explanation": "Include authorizer configuration in the calculation of the API deployment logical ID."
+          },
+          "@aws-cdk/aws-ec2:launchTemplateDefaultUserData": {
+            "recommendedValue": true,
+            "explanation": "Define user data for a launch template by default when a machine image is provided."
+          },
+          "@aws-cdk/aws-secretsmanager:useAttachedSecretResourcePolicyForSecretTargetAttachments": {
+            "recommendedValue": true,
+            "explanation": "SecretTargetAttachments uses the ResourcePolicy of the attached Secret."
+          },
+          "@aws-cdk/aws-redshift:columnId": {
+            "recommendedValue": true,
+            "explanation": "Whether to use an ID to track Redshift column changes"
+          },
+          "@aws-cdk/aws-stepfunctions-tasks:enableEmrServicePolicyV2": {
+            "recommendedValue": true,
+            "explanation": "Enable AmazonEMRServicePolicy_v2 managed policies"
+          },
+          "@aws-cdk/aws-ec2:restrictDefaultSecurityGroup": {
+            "recommendedValue": true,
+            "explanation": "Restrict access to the VPC default security group"
+          },
+          "@aws-cdk/aws-apigateway:requestValidatorUniqueId": {
+            "recommendedValue": true,
+            "explanation": "Generate a unique id for each RequestValidator added to a method"
+          },
+          "@aws-cdk/aws-kms:aliasNameRef": {
+            "recommendedValue": true,
+            "explanation": "KMS Alias name and keyArn will have implicit reference to KMS Key"
+          },
+          "@aws-cdk/aws-kms:applyImportedAliasPermissionsToPrincipal": {
+            "recommendedValue": true,
+            "explanation": "Enable grant methods on Aliases imported by name to use kms:ResourceAliases condition"
+          },
+          "@aws-cdk/aws-autoscaling:generateLaunchTemplateInsteadOfLaunchConfig": {
+            "recommendedValue": true,
+            "explanation": "Generate a launch template when creating an AutoScalingGroup"
+          },
+          "@aws-cdk/core:includePrefixInUniqueNameGeneration": {
+            "recommendedValue": true,
+            "explanation": "Include the stack prefix in the stack name generation process"
+          },
+          "@aws-cdk/aws-efs:denyAnonymousAccess": {
+            "recommendedValue": true,
+            "explanation": "EFS denies anonymous clients accesses"
+          },
+          "@aws-cdk/aws-opensearchservice:enableOpensearchMultiAzWithStandby": {
+            "recommendedValue": true,
+            "explanation": "Enables support for Multi-AZ with Standby deployment for opensearch domains"
+          },
+          "@aws-cdk/aws-lambda-nodejs:useLatestRuntimeVersion": {
+            "recommendedValue": true,
+            "explanation": "Enables aws-lambda-nodejs.Function to use the latest available NodeJs runtime as the default"
+          },
+          "@aws-cdk/aws-efs:mountTargetOrderInsensitiveLogicalId": {
+            "recommendedValue": true,
+            "explanation": "When enabled, mount targets will have a stable logicalId that is linked to the associated subnet."
+          },
+          "@aws-cdk/aws-rds:auroraClusterChangeScopeOfInstanceParameterGroupWithEachParameters": {
+            "recommendedValue": true,
+            "explanation": "When enabled, a scope of InstanceParameterGroup for AuroraClusterInstance with each parameters will change."
+          },
+          "@aws-cdk/aws-appsync:useArnForSourceApiAssociationIdentifier": {
+            "recommendedValue": true,
+            "explanation": "When enabled, will always use the arn for identifiers for CfnSourceApiAssociation in the GraphqlApi construct rather than id."
+          },
+          "@aws-cdk/aws-rds:preventRenderingDeprecatedCredentials": {
+            "recommendedValue": true,
+            "explanation": "When enabled, creating an RDS database cluster from a snapshot will only render credentials for snapshot credentials."
+          },
+          "@aws-cdk/aws-codepipeline-actions:useNewDefaultBranchForCodeCommitSource": {
+            "recommendedValue": true,
+            "explanation": "When enabled, the CodeCommit source action is using the default branch name 'main'."
+          },
+          "@aws-cdk/aws-cloudwatch-actions:changeLambdaPermissionLogicalIdForLambdaAction": {
+            "recommendedValue": true,
+            "explanation": "When enabled, the logical ID of a Lambda permission for a Lambda action includes an alarm ID."
+          },
+          "@aws-cdk/aws-codepipeline:crossAccountKeysDefaultValueToFalse": {
+            "recommendedValue": true,
+            "explanation": "Enables Pipeline to set the default value for crossAccountKeys to false."
+          },
+          "@aws-cdk/aws-codepipeline:defaultPipelineTypeToV2": {
+            "recommendedValue": true,
+            "explanation": "Enables Pipeline to set the default pipeline type to V2."
+          },
+          "@aws-cdk/aws-kms:reduceCrossAccountRegionPolicyScope": {
+            "recommendedValue": true,
+            "explanation": "When enabled, IAM Policy created from KMS key grant will reduce the resource scope to this key only."
+          },
+          "@aws-cdk/pipelines:reduceAssetRoleTrustScope": {
+            "recommendedValue": true,
+            "explanation": "Remove the root account principal from PipelineAssetsFileRole trust policy",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "@aws-cdk/aws-eks:nodegroupNameAttribute": {
+            "recommendedValue": true,
+            "explanation": "When enabled, nodegroupName attribute of the provisioned EKS NodeGroup will not have the cluster name prefix."
+          },
+          "@aws-cdk/aws-ec2:ebsDefaultGp3Volume": {
+            "recommendedValue": true,
+            "explanation": "When enabled, the default volume type of the EBS volume will be GP3"
+          },
+          "@aws-cdk/aws-ecs:removeDefaultDeploymentAlarm": {
+            "recommendedValue": true,
+            "explanation": "When enabled, remove default deployment alarm settings"
+          },
+          "@aws-cdk/custom-resources:logApiResponseDataPropertyTrueDefault": {
+            "recommendedValue": false,
+            "explanation": "When enabled, the custom resource used for `AwsCustomResource` will configure the `logApiResponseData` property as true by default"
+          },
+          "@aws-cdk/aws-s3:keepNotificationInImportedBucket": {
+            "recommendedValue": false,
+            "explanation": "When enabled, Adding notifications to a bucket in the current stack will not remove notification from imported stack."
+          },
+          "@aws-cdk/aws-stepfunctions-tasks:useNewS3UriParametersForBedrockInvokeModelTask": {
+            "recommendedValue": true,
+            "explanation": "When enabled, use new props for S3 URI field in task definition of state machine for bedrock invoke model.",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "@aws-cdk/core:explicitStackTags": {
+            "recommendedValue": true,
+            "explanation": "When enabled, stack tags need to be assigned explicitly on a Stack."
+          },
+          "@aws-cdk/aws-ecs:enableImdsBlockingDeprecatedFeature": {
+            "recommendedValue": false,
+            "explanation": "When set to true along with canContainersAccessInstanceRole=false in ECS cluster, new updated commands will be added to UserData to block container accessing IMDS. **Applicable to Linux only. IMPORTANT: See [details.](#aws-cdkaws-ecsenableImdsBlockingDeprecatedFeature)**"
+          },
+          "@aws-cdk/aws-ecs:disableEcsImdsBlocking": {
+            "recommendedValue": true,
+            "explanation": "When set to true, CDK synth will throw exception if canContainersAccessInstanceRole is false. **IMPORTANT: See [details.](#aws-cdkaws-ecsdisableEcsImdsBlocking)**"
+          },
+          "@aws-cdk/aws-ecs:reduceEc2FargateCloudWatchPermissions": {
+            "recommendedValue": true,
+            "explanation": "When enabled, we will only grant the necessary permissions when users specify cloudwatch log group through logConfiguration"
+          },
+          "@aws-cdk/aws-dynamodb:resourcePolicyPerReplica": {
+            "recommendedValue": true,
+            "explanation": "When enabled will allow you to specify a resource policy per replica, and not copy the source table policy to all replicas"
+          },
+          "@aws-cdk/aws-ec2:ec2SumTImeoutEnabled": {
+            "recommendedValue": true,
+            "explanation": "When enabled, initOptions.timeout and resourceSignalTimeout values will be summed together."
+          },
+          "@aws-cdk/aws-appsync:appSyncGraphQLAPIScopeLambdaPermission": {
+            "recommendedValue": true,
+            "explanation": "When enabled, a Lambda authorizer Permission created when using GraphqlApi will be properly scoped with a SourceArn."
+          },
+          "@aws-cdk/aws-rds:setCorrectValueForDatabaseInstanceReadReplicaInstanceResourceId": {
+            "recommendedValue": true,
+            "explanation": "When enabled, the value of property `instanceResourceId` in construct `DatabaseInstanceReadReplica` will be set to the correct value which is `DbiResourceId` instead of currently `DbInstanceArn`"
+          },
+          "@aws-cdk/core:cfnIncludeRejectComplexResourceUpdateCreatePolicyIntrinsics": {
+            "recommendedValue": true,
+            "explanation": "When enabled, CFN templates added with `cfn-include` will error if the template contains Resource Update or Create policies with CFN Intrinsics that include non-primitive values."
+          },
+          "@aws-cdk/aws-lambda-nodejs:sdkV3ExcludeSmithyPackages": {
+            "recommendedValue": true,
+            "explanation": "When enabled, both `@aws-sdk` and `@smithy` packages will be excluded from the Lambda Node.js 18.x runtime to prevent version mismatches in bundled applications."
+          },
+          "@aws-cdk/aws-stepfunctions-tasks:fixRunEcsTaskPolicy": {
+            "recommendedValue": true,
+            "explanation": "When enabled, the resource of IAM Run Ecs policy generated by SFN EcsRunTask will reference the definition, instead of constructing ARN."
+          },
+          "@aws-cdk/aws-ec2:bastionHostUseAmazonLinux2023ByDefault": {
+            "recommendedValue": true,
+            "explanation": "When enabled, the BastionHost construct will use the latest Amazon Linux 2023 AMI, instead of Amazon Linux 2."
+          },
+          "@aws-cdk/core:aspectStabilization": {
+            "recommendedValue": true,
+            "explanation": "When enabled, a stabilization loop will be run when invoking Aspects during synthesis.",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "@aws-cdk/aws-route53-targets:userPoolDomainNameMethodWithoutCustomResource": {
+            "recommendedValue": true,
+            "explanation": "When enabled, use a new method for DNS Name of user pool domain target without creating a custom resource."
+          },
+          "@aws-cdk/aws-elasticloadbalancingV2:albDualstackWithoutPublicIpv4SecurityGroupRulesDefault": {
+            "recommendedValue": true,
+            "explanation": "When enabled, the default security group ingress rules will allow IPv6 ingress from anywhere"
+          },
+          "@aws-cdk/aws-iam:oidcRejectUnauthorizedConnections": {
+            "recommendedValue": true,
+            "explanation": "When enabled, the default behaviour of OIDC provider will reject unauthorized connections"
+          },
+          "@aws-cdk/core:enableAdditionalMetadataCollection": {
+            "recommendedValue": true,
+            "explanation": "When enabled, CDK will expand the scope of usage data collected to better inform CDK development and improve communication for security concerns and emerging issues."
+          },
+          "@aws-cdk/aws-lambda:createNewPoliciesWithAddToRolePolicy": {
+            "recommendedValue": false,
+            "explanation": "[Deprecated] When enabled, Lambda will create new inline policies with AddToRolePolicy instead of adding to the Default Policy Statement"
+          },
+          "@aws-cdk/aws-s3:setUniqueReplicationRoleName": {
+            "recommendedValue": true,
+            "explanation": "When enabled, CDK will automatically generate a unique role name that is used for s3 object replication."
+          },
+          "@aws-cdk/pipelines:reduceStageRoleTrustScope": {
+            "recommendedValue": true,
+            "explanation": "Remove the root account principal from Stage addActions trust policy",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "@aws-cdk/aws-events:requireEventBusPolicySid": {
+            "recommendedValue": true,
+            "explanation": "When enabled, grantPutEventsTo() will use resource policies with Statement IDs for service principals."
+          },
+          "@aws-cdk/core:aspectPrioritiesMutating": {
+            "recommendedValue": true,
+            "explanation": "When set to true, Aspects added by the construct library on your behalf will be given a priority of MUTATING."
+          },
+          "@aws-cdk/aws-dynamodb:retainTableReplica": {
+            "recommendedValue": true,
+            "explanation": "When enabled, table replica will be default to the removal policy of source table unless specified otherwise."
+          },
+          "@aws-cdk/cognito:logUserPoolClientSecretValue": {
+            "recommendedValue": false,
+            "explanation": "When disabled, the value of the user pool client secret will not be logged in the custom resource lambda function logs."
+          },
+          "@aws-cdk/pipelines:reduceCrossAccountActionRoleTrustScope": {
+            "recommendedValue": true,
+            "explanation": "When enabled, scopes down the trust policy for the cross-account action role",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "@aws-cdk/aws-stepfunctions:useDistributedMapResultWriterV2": {
+            "recommendedValue": true,
+            "explanation": "When enabled, the resultWriterV2 property of DistributedMap will be used insted of resultWriter"
+          },
+          "@aws-cdk/s3-notifications:addS3TrustKeyPolicyForSnsSubscriptions": {
+            "recommendedValue": true,
+            "explanation": "Add an S3 trust policy to a KMS key resource policy for SNS subscriptions."
+          },
+          "@aws-cdk/aws-ec2:requirePrivateSubnetsForEgressOnlyInternetGateway": {
+            "recommendedValue": true,
+            "explanation": "When enabled, the EgressOnlyGateway resource is only created if private subnets are defined in the dual-stack VPC."
+          },
+          "@aws-cdk/aws-ec2-alpha:useResourceIdForVpcV2Migration": {
+            "recommendedValue": false,
+            "explanation": "When enabled, use resource IDs for VPC V2 migration"
+          },
+          "@aws-cdk/aws-s3:publicAccessBlockedByDefault": {
+            "recommendedValue": true,
+            "explanation": "When enabled, setting any combination of options for BlockPublicAccess will automatically set true for any options not defined."
+          },
+          "@aws-cdk/aws-lambda:useCdkManagedLogGroup": {
+            "recommendedValue": true,
+            "explanation": "When enabled, CDK creates and manages loggroup for the lambda function"
+          }
+        }
+      }
+    }
+  },
+  "minimumCliVersion": "2.1032.0"
+}

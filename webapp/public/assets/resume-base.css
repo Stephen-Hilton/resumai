@@ -1,0 +1,307 @@
+/**
+ * Resume Base CSS
+ * Requirements: 11.6
+ * 
+ * Base styling for generated resumes.
+ * Professional, clean layout with print-friendly styles.
+ */
+
+/* Reset and base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+  background: #fff;
+}
+
+/* Resume container */
+.resume {
+  max-width: 8.5in;
+  margin: 0 auto;
+  padding: 0.5in;
+  background: #fff;
+}
+
+/* Section styling */
+section {
+  margin-bottom: 1.5rem;
+}
+
+section:last-child {
+  margin-bottom: 0;
+}
+
+/* Headings */
+h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 0.25rem;
+}
+
+h2 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #2563eb;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 2px solid #2563eb;
+  padding-bottom: 0.25rem;
+  margin-bottom: 0.75rem;
+}
+
+h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 0.25rem;
+}
+
+/* Contact section */
+.contact {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.contact h1 {
+  margin-bottom: 0.5rem;
+}
+
+.contact address {
+  font-style: normal;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  font-size: 0.875rem;
+  color: #666;
+}
+
+.contact a {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.contact a:hover {
+  text-decoration: underline;
+}
+
+/* Summary section */
+.summary p {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: #444;
+}
+
+/* Skills section */
+.skills ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  list-style: none;
+}
+
+.skills li {
+  background: #f3f4f6;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  color: #374151;
+}
+
+/* Highlights section */
+.highlights ul {
+  list-style: disc;
+  padding-left: 1.25rem;
+}
+
+.highlights li {
+  font-size: 0.9375rem;
+  margin-bottom: 0.5rem;
+  color: #444;
+}
+
+/* Experience section */
+.experience .job {
+  margin-bottom: 1.25rem;
+}
+
+.experience .job:last-child {
+  margin-bottom: 0;
+}
+
+.experience .job-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 0.25rem;
+}
+
+.experience .company {
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.experience .dates {
+  font-size: 0.875rem;
+  color: #666;
+}
+
+.experience .title {
+  font-style: italic;
+  color: #444;
+  margin-bottom: 0.5rem;
+}
+
+.experience .description {
+  font-size: 0.9375rem;
+  color: #444;
+  margin-bottom: 0.5rem;
+}
+
+.experience ul {
+  list-style: disc;
+  padding-left: 1.25rem;
+}
+
+.experience li {
+  font-size: 0.875rem;
+  margin-bottom: 0.25rem;
+  color: #444;
+}
+
+/* Education section */
+.education .school {
+  margin-bottom: 1rem;
+}
+
+.education .school:last-child {
+  margin-bottom: 0;
+}
+
+.education .school-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.education .institution {
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.education .graduation {
+  font-size: 0.875rem;
+  color: #666;
+}
+
+.education .degree {
+  font-style: italic;
+  color: #444;
+}
+
+/* Awards section */
+.awards .award {
+  margin-bottom: 0.75rem;
+}
+
+.awards .award:last-child {
+  margin-bottom: 0;
+}
+
+.awards .award-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.awards .award-title {
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.awards .award-date {
+  font-size: 0.875rem;
+  color: #666;
+}
+
+.awards .issuer {
+  font-style: italic;
+  color: #444;
+  font-size: 0.875rem;
+}
+
+/* Print styles */
+@media print {
+  html {
+    font-size: 11pt;
+  }
+  
+  body {
+    background: none;
+  }
+  
+  .resume {
+    max-width: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  h2 {
+    color: #000;
+    border-color: #000;
+  }
+  
+  a {
+    color: #000;
+    text-decoration: none;
+  }
+  
+  .skills li {
+    background: none;
+    border: 1px solid #ccc;
+  }
+  
+  /* Avoid page breaks inside sections */
+  section {
+    page-break-inside: avoid;
+  }
+  
+  .experience .job,
+  .education .school,
+  .awards .award {
+    page-break-inside: avoid;
+  }
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 640px) {
+  .resume {
+    padding: 1rem;
+  }
+  
+  h1 {
+    font-size: 1.5rem;
+  }
+  
+  .contact address {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  
+  .experience .job-header,
+  .education .school-header,
+  .awards .award-header {
+    flex-direction: column;
+  }
+}

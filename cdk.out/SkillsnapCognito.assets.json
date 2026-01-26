@@ -1,0 +1,21 @@
+{
+  "version": "48.0.0",
+  "files": {
+    "2feec5f15847299f38fe6114faee9d2e97bd1787a8a1b3b5b22370696eaf56bf": {
+      "displayName": "SkillsnapCognito Template",
+      "source": {
+        "path": "SkillsnapCognito.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "132437448720-us-west-2-9821656c": {
+          "bucketName": "cdk-hnb659fds-assets-132437448720-us-west-2",
+          "objectKey": "2feec5f15847299f38fe6114faee9d2e97bd1787a8a1b3b5b22370696eaf56bf.json",
+          "region": "us-west-2",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::132437448720:role/cdk-hnb659fds-file-publishing-role-132437448720-us-west-2"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

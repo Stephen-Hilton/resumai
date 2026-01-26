@@ -1,0 +1,21 @@
+{
+  "version": "48.0.0",
+  "files": {
+    "c9e7aa72b9e9d51fd160e82cafb7d6a9da4b9573dc42f6850b20d0153d1aba29": {
+      "displayName": "SkillsnapSQS Template",
+      "source": {
+        "path": "SkillsnapSQS.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "132437448720-us-west-2-e6c2f161": {
+          "bucketName": "cdk-hnb659fds-assets-132437448720-us-west-2",
+          "objectKey": "c9e7aa72b9e9d51fd160e82cafb7d6a9da4b9573dc42f6850b20d0153d1aba29.json",
+          "region": "us-west-2",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::132437448720:role/cdk-hnb659fds-file-publishing-role-132437448720-us-west-2"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

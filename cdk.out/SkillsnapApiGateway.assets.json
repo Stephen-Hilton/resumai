@@ -1,0 +1,21 @@
+{
+  "version": "48.0.0",
+  "files": {
+    "e3c34b9ea3880fca22e474d552fac934457d7a7113844c7b788936f37aa601c4": {
+      "displayName": "SkillsnapApiGateway Template",
+      "source": {
+        "path": "SkillsnapApiGateway.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "132437448720-us-west-2-041db235": {
+          "bucketName": "cdk-hnb659fds-assets-132437448720-us-west-2",
+          "objectKey": "e3c34b9ea3880fca22e474d552fac934457d7a7113844c7b788936f37aa601c4.json",
+          "region": "us-west-2",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::132437448720:role/cdk-hnb659fds-file-publishing-role-132437448720-us-west-2"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

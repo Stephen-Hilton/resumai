@@ -85,34 +85,51 @@ It will be used to communicate with the backend services, including:
 Provide the compute for API requests, and will be triggered by events from EventBridge or SQS.  Also supports internal-only functions.  
 
 Some examples of lambda functions needed(many of which require API endpoints to faciliate web front-end work):
-- Create Resume
-- Generate Resume
-- Create Job
-- Generate Job
+
+- Create User Resume
+- Get User Resume
+- Edit User Resume
+
+- Get User Prefs
+- Save User Prefs
+
+- Get all jobs
+- Get all jobs by status
+- Get all jobs by filter
+
+- Generate Contact Manual
+- Generate Contact AI
+- Generate Summary Manual
+- Generate Summary AI
+- Generate Skills Manual
+- Generate Skills AI
+- Generate Highlights Manual
+- Generate Highlights AI
+- Generate Experience Manual
+- Generate Experience AI
+- Generate Education Manual
+- Generate Education AI
+- Generate Awards Manual
+- Generate Awards AI
+- Generate CoverLetter Manual
+- Generate CoverLetter AI
+- Generate Bespoke Resume HTML
+- Generate Bespoke Resume PDF
+- Generate Bespoke CoverLetter HTML
+- Generate Bespoke CoverLetter PDF
+- Get job all subcontent status
+- Get job all finalfile location and status
+
 - Update Job Phase
-- Get Job Data
+- Get Job Data 
 - Save Job Data
-- Get User Data
-- Save User Data
-- Get User Resumes
-- Save User Resume
-- Get User Preferences
-- Save User Preferences
-- Get User Jobs
-- Get User Job
-- Get User Job Data
-- Save User Job Data
-- Get User Job Phase
-- Update User Job Phase
-- Get User Job Status
-- Get User Job Files
-- Get User Job File
-- Save User Job File
-- Get User Job Files List
-- Get User Job File List
-- Save User Job File List
+- New Jobs from Gmail
+- New Job from URL
+- New Job from Manual Entry
 
+...And many more as needed.
 
+ 
 ## Simple Queuing Service (SQS)
 Some jobs require async execution, such as generating multiple subcomponents at once.  For these processes, the API can queue up the work to SQS along with needed information or PK to look up information.  
 
@@ -443,3 +460,38 @@ For exmaple,
 `🔒 Resume.html` would mean "dependency not met to generate final html resume file"
 `✅ Resume.html` would mean "finished generating final html resume file" and save to S3 for private resume URL, and updates DDB with URI to files.
 
+
+
+# Appendix C: Initial Kiro Response
+
+Got it! This is a solid foundation. Let me summarize the key decisions and then we'll get building:
+
+Tech Stack Summary:
+
+IaC: AWS CDK (Python) — great fit since you prefer Python and it's more expressive than SAM for complex architectures
+Region: us-west-2
+Auth: Cognito with Google social login (covers Gmail OAuth too) + email/password option
+AI: AWS Bedrock (Nova Lite initially, abstracted for easy model swaps)
+Lambda: Python 3.12
+Frontend: React with a modern component library (I'll use Tailwind + shadcn/ui for that polished, edgy-but-professional look)
+Database: DynamoDB with the schema from requirements.md (I'll fix the RESUME table to use composite key)
+Resume JSON Schema: I'll convert your YAML to JSON as the base structure.
+
+Let me create the project structure. Given this is V1 (not MVP), I'll scaffold the full architecture:
+
+skillsnap/
+├── infrastructure/          # CDK stacks
+│   ├── stacks/
+│   │   ├── auth.py         # Cognito + Google OAuth
+│   │   ├── api.py          # API Gateway + Lambda
+│   │   ├── database.py     # DynamoDB tables
+│   │   ├── storage.py      # S3 buckets + CloudFront
+│   │   └── frontend.py     # Landing page + webapp hosting
+│   └── app.py
+├── backend/
+│   └── lambdas/            # Python Lambda functions
+├── frontend/
+│   ├── landing/            # Static landing page
+│   └── webapp/             # React app
+└── shared/
+    └── schemas/            # JSON schemas (resume, job, etc.)

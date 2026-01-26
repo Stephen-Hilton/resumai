@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skillsnap - AI-Powered Resume Generation</title>
+    <meta name="description" content="Create bespoke resumes in minutes, not hours. Skillsnap uses AI to generate tailored resumes optimized for ATS systems.">
+    <link rel="icon" type="image/png" href="/assets/skillsnap_logo_small.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        },
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #0ea5e9 0%, #0369a1 100%);
+        }
+        .hero-pattern {
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+    </style>
+</head>
+<body class="bg-white">
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-sm border-b border-gray-100 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="/" class="flex items-center space-x-2">
+                    <img src="/assets/skillsnap_logo.png" alt="SkillSnap" class="h-8 w-auto">
+                    <span class="text-xl font-semibold text-primary-600">SkillSnap</span>
+                </a>
+                <div class="flex items-center space-x-4">
+                    <a href="#features" class="text-gray-600 hover:text-gray-900 hidden sm:block">Features</a>
+                    <a href="#how-it-works" class="text-gray-600 hover:text-gray-900 hidden sm:block">How it Works</a>
+                    <a href="https://app.skillsnap.me" class="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors font-medium">
+                        Get Started
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="gradient-bg hero-pattern pt-32 pb-20 px-4">
+        <div class="max-w-7xl mx-auto text-center">
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6">
+                Bespoke Resumes in<br>
+                <span class="text-gray-900">Minutes, Not Hours</span>
+            </h1>
+            <p class="text-xl text-gray-900 max-w-2xl mx-auto mb-8">
+                Stop sending generic resumes. Skillsnap uses AI to generate tailored resumes 
+                optimized for each job posting and ATS systems.
+            </p>
+            <div class="max-w-md mx-auto flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <a href="https://app.skillsnap.me" class="px-8 py-4 bg-white text-primary-600 rounded-lg hover:bg-gray-100 transition-colors font-semibold text-lg shadow-lg">
+                    Start Free Trial
+                </a>
+                <a href="#how-it-works" class="px-8 py-4 border-2 border-white text-white rounded-lg hover:bg-white/10 transition-colors font-semibold text-lg">
+                    See How It Works
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-20 px-4 bg-gray-50">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+                    Everything You Need to Land Your Dream Job
+                </h2>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                    Powerful features designed for senior professionals who value their time.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                    <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">AI-Powered Generation</h3>
+                    <p class="text-gray-600">
+                        Our AI analyzes job descriptions and tailors your resume content to highlight relevant experience.
+                    </p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                    <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">ATS Optimized</h3>
+                    <p class="text-gray-600">
+                        Every resume is optimized for Applicant Tracking Systems to ensure you get past the first filter.
+                    </p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                    <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Gmail Integration</h3>
+                    <p class="text-gray-600">
+                        Import jobs directly from LinkedIn Job Alert emails. No more copy-pasting job descriptions.
+                    </p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                    <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Pipeline Management</h3>
+                    <p class="text-gray-600">
+                        Track every job through your pipeline from search to offer with our intuitive phase system.
+                    </p>
+                </div>
+
+                <!-- Feature 5 -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                    <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Custom URLs</h3>
+                    <p class="text-gray-600">
+                        Share professional resume links like yourname.skillsnap.me/company/position with employers.
+                    </p>
+                </div>
+
+                <!-- Feature 6 -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                    <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Full Control</h3>
+                    <p class="text-gray-600">
+                        Edit any section manually or let AI handle it. You're always in control of your content.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="py-20 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+                    How It Works
+                </h2>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                    Three simple steps to your perfect resume.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-primary-600 rounded-full flex items-center justify-center mx-auto mb-6 text-white text-2xl font-bold">1</div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Create Your Base Resume</h3>
+                    <p class="text-gray-600">
+                        Enter your experience, skills, and achievements once. This becomes your master resume.
+                    </p>
+                </div>
+
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-primary-600 rounded-full flex items-center justify-center mx-auto mb-6 text-white text-2xl font-bold">2</div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Add Job Postings</h3>
+                    <p class="text-gray-600">
+                        Import from Gmail, paste a URL, or enter manually. We extract all the key details.
+                    </p>
+                </div>
+
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-primary-600 rounded-full flex items-center justify-center mx-auto mb-6 text-white text-2xl font-bold">3</div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Generate & Apply</h3>
+                    <p class="text-gray-600">
+                        Click generate and get a tailored resume and cover letter in seconds. Download or share the link.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="gradient-bg py-20 px-4">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-3xl sm:text-4xl font-bold text-white mb-6">
+                Ready to Land Your Dream Job?
+            </h2>
+            <p class="text-xl text-white mb-8">
+                Join thousands of professionals who've streamlined their job search with Skillsnap.
+            </p>
+            <a href="https://app.skillsnap.me" class="inline-block px-8 py-4 bg-white text-primary-600 rounded-lg hover:bg-gray-100 transition-colors font-semibold text-lg shadow-lg">
+                Get Started Free
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 py-12 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <a href="/" class="flex items-center space-x-2 mb-4 md:mb-0">
+                    <img src="/assets/skillsnap_logo.png" alt="SkillSnap" class="h-8 w-auto">
+                    <span class="text-xl font-semibold text-primary-400">SkillSnap</span>
+                </a>
+                <div class="text-sm">
+                    &copy; 2026 Skillsnap. All rights reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

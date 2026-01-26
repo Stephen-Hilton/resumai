@@ -1,0 +1,36 @@
+{
+  "version": "48.0.0",
+  "files": {
+    "b073cebcf4d61fb152a30f5a5e57a94df7f980a549fdf1a79a0b18c5750522d8": {
+      "displayName": "Certificate/CertificateRequestorFunction/Code",
+      "source": {
+        "path": "asset.b073cebcf4d61fb152a30f5a5e57a94df7f980a549fdf1a79a0b18c5750522d8",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "132437448720-us-west-2-1e7f8502": {
+          "bucketName": "cdk-hnb659fds-assets-132437448720-us-west-2",
+          "objectKey": "b073cebcf4d61fb152a30f5a5e57a94df7f980a549fdf1a79a0b18c5750522d8.zip",
+          "region": "us-west-2",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::132437448720:role/cdk-hnb659fds-file-publishing-role-132437448720-us-west-2"
+        }
+      }
+    },
+    "8b989a1b2553d5f1f71c3d89c68db53c68d27be23ed84d7ccdbe3d6171a19576": {
+      "displayName": "SkillsnapCloudFront Template",
+      "source": {
+        "path": "SkillsnapCloudFront.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "132437448720-us-west-2-71b29aa1": {
+          "bucketName": "cdk-hnb659fds-assets-132437448720-us-west-2",
+          "objectKey": "8b989a1b2553d5f1f71c3d89c68db53c68d27be23ed84d7ccdbe3d6171a19576.json",
+          "region": "us-west-2",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::132437448720:role/cdk-hnb659fds-file-publishing-role-132437448720-us-west-2"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

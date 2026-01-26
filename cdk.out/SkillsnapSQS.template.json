@@ -1,0 +1,131 @@
+{
+ "Description": "Skillsnap SQS queues for async processing",
+ "Resources": {
+  "GenerationDLQA9097A42": {
+   "Type": "AWS::SQS::Queue",
+   "Properties": {
+    "MessageRetentionPeriod": 1209600,
+    "QueueName": "skillsnap-generation-dlq",
+    "VisibilityTimeout": 300
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapSQS/GenerationDLQ/Resource"
+   }
+  },
+  "GenerationQueueCB918172": {
+   "Type": "AWS::SQS::Queue",
+   "Properties": {
+    "MessageRetentionPeriod": 345600,
+    "QueueName": "skillsnap-generation-queue",
+    "ReceiveMessageWaitTimeSeconds": 20,
+    "RedrivePolicy": {
+     "deadLetterTargetArn": {
+      "Fn::GetAtt": [
+       "GenerationDLQA9097A42",
+       "Arn"
+      ]
+     },
+     "maxReceiveCount": 3
+    },
+    "VisibilityTimeout": 300
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapSQS/GenerationQueue/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/zPSMzI01TNQTCwv1k1OydbNyUzSqw4uSUzO1kksL44vLizWqw4sTS1N1XFOywMzakEs/9KSgtKSWp2AypKM/Dx9Yz1DQz1TxazizEzdotK8kszcVL0gCA0AqdhGomEAAAA="
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapSQS/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "GenerationQueueUrl": {
+   "Value": {
+    "Ref": "GenerationQueueCB918172"
+   }
+  },
+  "GenerationQueueArn": {
+   "Value": {
+    "Fn::GetAtt": [
+     "GenerationQueueCB918172",
+     "Arn"
+    ]
+   }
+  },
+  "GenerationDLQUrl": {
+   "Value": {
+    "Ref": "GenerationDLQA9097A42"
+   }
+  },
+  "GenerationDLQArn": {
+   "Value": {
+    "Fn::GetAtt": [
+     "GenerationDLQA9097A42",
+     "Arn"
+    ]
+   }
+  },
+  "ExportsOutputFnGetAttGenerationQueueCB918172ArnC4B14536": {
+   "Value": {
+    "Fn::GetAtt": [
+     "GenerationQueueCB918172",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "SkillsnapSQS:ExportsOutputFnGetAttGenerationQueueCB918172ArnC4B14536"
+   }
+  },
+  "ExportsOutputRefGenerationQueueCB91817206961842": {
+   "Value": {
+    "Ref": "GenerationQueueCB918172"
+   },
+   "Export": {
+    "Name": "SkillsnapSQS:ExportsOutputRefGenerationQueueCB91817206961842"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

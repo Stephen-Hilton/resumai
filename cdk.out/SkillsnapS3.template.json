@@ -1,0 +1,527 @@
+{
+ "Description": "Skillsnap S3 buckets for static assets and resumes",
+ "Resources": {
+  "LandingBucket23FE90FB": {
+   "Type": "AWS::S3::Bucket",
+   "Properties": {
+    "BucketName": "skillsnap-landing",
+    "CorsConfiguration": {
+     "CorsRules": [
+      {
+       "AllowedHeaders": [
+        "*"
+       ],
+       "AllowedMethods": [
+        "GET"
+       ],
+       "AllowedOrigins": [
+        "*"
+       ]
+      }
+     ]
+    },
+    "PublicAccessBlockConfiguration": {
+     "BlockPublicAcls": true,
+     "BlockPublicPolicy": true,
+     "IgnorePublicAcls": true,
+     "RestrictPublicBuckets": true
+    },
+    "Tags": [
+     {
+      "Key": "aws-cdk:auto-delete-objects",
+      "Value": "true"
+     }
+    ],
+    "WebsiteConfiguration": {
+     "ErrorDocument": "index.html",
+     "IndexDocument": "index.html"
+    }
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapS3/LandingBucket/Resource"
+   }
+  },
+  "LandingBucketPolicy6504E234": {
+   "Type": "AWS::S3::BucketPolicy",
+   "Properties": {
+    "Bucket": {
+     "Ref": "LandingBucket23FE90FB"
+    },
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "s3:PutBucketPolicy",
+        "s3:GetBucket*",
+        "s3:List*",
+        "s3:DeleteObject*"
+       ],
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": {
+         "Fn::GetAtt": [
+          "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+          "Arn"
+         ]
+        }
+       },
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "LandingBucket23FE90FB",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "LandingBucket23FE90FB",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapS3/LandingBucket/Policy/Resource"
+   }
+  },
+  "LandingBucketAutoDeleteObjectsCustomResourceFC872580": {
+   "Type": "Custom::S3AutoDeleteObjects",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F",
+      "Arn"
+     ]
+    },
+    "BucketName": {
+     "Ref": "LandingBucket23FE90FB"
+    }
+   },
+   "DependsOn": [
+    "LandingBucketPolicy6504E234"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapS3/LandingBucket/AutoDeleteObjectsCustomResource/Default"
+   }
+  },
+  "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Version": "2012-10-17",
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ]
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Sub": "arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapS3/Custom::S3AutoDeleteObjectsCustomResourceProvider/Role"
+   }
+  },
+  "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-132437448720-us-west-2",
+     "S3Key": "faa95a81ae7d7373f3e1f242268f904eb748d8d0fdd306e8a6fe515a1905a7d6.zip"
+    },
+    "Timeout": 900,
+    "MemorySize": 128,
+    "Handler": "index.handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs22.x",
+    "Description": {
+     "Fn::Join": [
+      "",
+      [
+       "Lambda function for auto-deleting objects in ",
+       {
+        "Ref": "LandingBucket23FE90FB"
+       },
+       " S3 bucket."
+      ]
+     ]
+    }
+   },
+   "DependsOn": [
+    "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapS3/Custom::S3AutoDeleteObjectsCustomResourceProvider/Handler",
+    "aws:asset:path": "asset.faa95a81ae7d7373f3e1f242268f904eb748d8d0fdd306e8a6fe515a1905a7d6",
+    "aws:asset:property": "Code"
+   }
+  },
+  "WebAppBucket8F6FA179": {
+   "Type": "AWS::S3::Bucket",
+   "Properties": {
+    "BucketName": "skillsnap-webapp",
+    "CorsConfiguration": {
+     "CorsRules": [
+      {
+       "AllowedHeaders": [
+        "*"
+       ],
+       "AllowedMethods": [
+        "GET"
+       ],
+       "AllowedOrigins": [
+        "*"
+       ]
+      }
+     ]
+    },
+    "PublicAccessBlockConfiguration": {
+     "BlockPublicAcls": true,
+     "BlockPublicPolicy": true,
+     "IgnorePublicAcls": true,
+     "RestrictPublicBuckets": true
+    },
+    "Tags": [
+     {
+      "Key": "aws-cdk:auto-delete-objects",
+      "Value": "true"
+     }
+    ],
+    "WebsiteConfiguration": {
+     "ErrorDocument": "index.html",
+     "IndexDocument": "index.html"
+    }
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapS3/WebAppBucket/Resource"
+   }
+  },
+  "WebAppBucketPolicy542A2969": {
+   "Type": "AWS::S3::BucketPolicy",
+   "Properties": {
+    "Bucket": {
+     "Ref": "WebAppBucket8F6FA179"
+    },
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "s3:PutBucketPolicy",
+        "s3:GetBucket*",
+        "s3:List*",
+        "s3:DeleteObject*"
+       ],
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": {
+         "Fn::GetAtt": [
+          "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+          "Arn"
+         ]
+        }
+       },
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "WebAppBucket8F6FA179",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "WebAppBucket8F6FA179",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapS3/WebAppBucket/Policy/Resource"
+   }
+  },
+  "WebAppBucketAutoDeleteObjectsCustomResourceEF114EAA": {
+   "Type": "Custom::S3AutoDeleteObjects",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F",
+      "Arn"
+     ]
+    },
+    "BucketName": {
+     "Ref": "WebAppBucket8F6FA179"
+    }
+   },
+   "DependsOn": [
+    "WebAppBucketPolicy542A2969"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapS3/WebAppBucket/AutoDeleteObjectsCustomResource/Default"
+   }
+  },
+  "ResumesBucketF5EE4389": {
+   "Type": "AWS::S3::Bucket",
+   "Properties": {
+    "BucketName": "skillsnap-public-resumes",
+    "CorsConfiguration": {
+     "CorsRules": [
+      {
+       "AllowedHeaders": [
+        "*"
+       ],
+       "AllowedMethods": [
+        "GET",
+        "HEAD"
+       ],
+       "AllowedOrigins": [
+        "*"
+       ]
+      }
+     ]
+    },
+    "PublicAccessBlockConfiguration": {
+     "BlockPublicAcls": true,
+     "BlockPublicPolicy": true,
+     "IgnorePublicAcls": true,
+     "RestrictPublicBuckets": true
+    },
+    "Tags": [
+     {
+      "Key": "aws-cdk:auto-delete-objects",
+      "Value": "true"
+     }
+    ],
+    "WebsiteConfiguration": {
+     "IndexDocument": "index.html"
+    }
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapS3/ResumesBucket/Resource"
+   }
+  },
+  "ResumesBucketPolicy2E4A268F": {
+   "Type": "AWS::S3::BucketPolicy",
+   "Properties": {
+    "Bucket": {
+     "Ref": "ResumesBucketF5EE4389"
+    },
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "s3:PutBucketPolicy",
+        "s3:GetBucket*",
+        "s3:List*",
+        "s3:DeleteObject*"
+       ],
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": {
+         "Fn::GetAtt": [
+          "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+          "Arn"
+         ]
+        }
+       },
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "ResumesBucketF5EE4389",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "ResumesBucketF5EE4389",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapS3/ResumesBucket/Policy/Resource"
+   }
+  },
+  "ResumesBucketAutoDeleteObjectsCustomResource3E4B0910": {
+   "Type": "Custom::S3AutoDeleteObjects",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F",
+      "Arn"
+     ]
+    },
+    "BucketName": {
+     "Ref": "ResumesBucketF5EE4389"
+    }
+   },
+   "DependsOn": [
+    "ResumesBucketPolicy2E4A268F"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapS3/ResumesBucket/AutoDeleteObjectsCustomResource/Default"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/1WLUQ6CMBBEz8J/WQXCAYQDSOAAppYVV6A13a2EEO5uCCbEr3kzL5NCmuRwjvTEsWn7eKA7LI1o0ys98Y0zWIpgehRVPuyP9qjcQGY+5r2vqgwsbqyRXfAGN3/wn6q8+1CLvtCM6sKM0ojuyHbb5xrkHWRV1SxPZ08ZJAnk0YuJYh+s0IhQ7/kFO/01JsIAAAA="
+   },
+   "Metadata": {
+    "aws:cdk:path": "SkillsnapS3/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "LandingBucketName": {
+   "Value": {
+    "Ref": "LandingBucket23FE90FB"
+   }
+  },
+  "WebAppBucketName": {
+   "Value": {
+    "Ref": "WebAppBucket8F6FA179"
+   }
+  },
+  "ResumesBucketName": {
+   "Value": {
+    "Ref": "ResumesBucketF5EE4389"
+   }
+  },
+  "ExportsOutputFnGetAttLandingBucket23FE90FBWebsiteURL784D0DB9": {
+   "Value": {
+    "Fn::GetAtt": [
+     "LandingBucket23FE90FB",
+     "WebsiteURL"
+    ]
+   },
+   "Export": {
+    "Name": "SkillsnapS3:ExportsOutputFnGetAttLandingBucket23FE90FBWebsiteURL784D0DB9"
+   }
+  },
+  "ExportsOutputFnGetAttWebAppBucket8F6FA179WebsiteURLECCBDBCD": {
+   "Value": {
+    "Fn::GetAtt": [
+     "WebAppBucket8F6FA179",
+     "WebsiteURL"
+    ]
+   },
+   "Export": {
+    "Name": "SkillsnapS3:ExportsOutputFnGetAttWebAppBucket8F6FA179WebsiteURLECCBDBCD"
+   }
+  },
+  "ExportsOutputFnGetAttResumesBucketF5EE4389WebsiteURLBC2669A9": {
+   "Value": {
+    "Fn::GetAtt": [
+     "ResumesBucketF5EE4389",
+     "WebsiteURL"
+    ]
+   },
+   "Export": {
+    "Name": "SkillsnapS3:ExportsOutputFnGetAttResumesBucketF5EE4389WebsiteURLBC2669A9"
+   }
+  },
+  "ExportsOutputRefResumesBucketF5EE4389B9ED6BB0": {
+   "Value": {
+    "Ref": "ResumesBucketF5EE4389"
+   },
+   "Export": {
+    "Name": "SkillsnapS3:ExportsOutputRefResumesBucketF5EE4389B9ED6BB0"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}
