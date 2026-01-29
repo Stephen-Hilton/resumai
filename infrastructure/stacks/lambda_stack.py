@@ -34,6 +34,7 @@ class LambdaStack(Stack):
         dynamodb_stack: DynamoDBStack,
         sqs_stack: SQSStack,
         resumes_bucket_name: str = "skillsnap-public-resumes",
+        imports_bucket_name: str = "skillsnap-imports-temp",
         **kwargs
     ) -> None:
         super().__init__(scope, construct_id, **kwargs)
@@ -50,6 +51,7 @@ class LambdaStack(Stack):
             'RESUME_URL_TABLE': dynamodb_stack.resume_url_table.table_name,
             'GENERATION_QUEUE_URL': sqs_stack.generation_queue.queue_url,
             'RESUMES_BUCKET': resumes_bucket_name,
+            'IMPORTS_BUCKET': imports_bucket_name,
         }
 
         # Create Lambda layer for shared code
@@ -87,10 +89,16 @@ class LambdaStack(Stack):
         sqs_stack.generation_queue.grant_send_messages(lambda_role)
         sqs_stack.generation_queue.grant_consume_messages(lambda_role)
 
-        # Grant S3 permissions
+        # Grant S3 permissions for resumes bucket
         lambda_role.add_to_policy(iam.PolicyStatement(
             actions=["s3:PutObject", "s3:GetObject", "s3:DeleteObject"],
             resources=[f"arn:aws:s3:::{resumes_bucket_name}/*"],
+        ))
+
+        # Grant S3 permissions for imports temp bucket
+        lambda_role.add_to_policy(iam.PolicyStatement(
+            actions=["s3:PutObject", "s3:GetObject", "s3:DeleteObject"],
+            resources=[f"arn:aws:s3:::{imports_bucket_name}/*"],
         ))
 
         # Grant Bedrock permissions
@@ -125,6 +133,14 @@ class LambdaStack(Stack):
         self.resume_list = create_lambda("ResumeList", "resume.list.handler")
         self.resume_update = create_lambda("ResumeUpdate", "resume.update.handler")
         self.resume_delete = create_lambda("ResumeDelete", "resume.delete.handler")
+
+        # Resume Import Lambdas (Requirements: 4.4)
+        self.resume_import_url = create_lambda("ResumeImportUrl", "resume.import_url.handler")
+        self.resume_import_process = create_lambda(
+            "ResumeImportProcess",
+            "resume.import_process.handler",
+            timeout=60  # Allow time for AI processing
+        )
 
         # Job Lambdas
         self.job_create_manual = create_lambda("JobCreateManual", "job.create_manual.handler")
@@ -177,6 +193,8 @@ class LambdaStack(Stack):
             'resume_list': self.resume_list,
             'resume_update': self.resume_update,
             'resume_delete': self.resume_delete,
+            'resume_import_url': self.resume_import_url,
+            'resume_import_process': self.resume_import_process,
             'job_create_manual': self.job_create_manual,
             'job_create_url': self.job_create_url,
             'job_create_gmail': self.job_create_gmail,

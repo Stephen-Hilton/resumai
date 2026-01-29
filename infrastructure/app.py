@@ -74,6 +74,7 @@ lambda_stack = LambdaStack(
     dynamodb_stack=dynamodb_stack,
     sqs_stack=sqs_stack,
     resumes_bucket_name=s3_stack.resumes_bucket.bucket_name,
+    imports_bucket_name=s3_stack.imports_temp_bucket.bucket_name,
     env=env,
     description="Skillsnap Lambda functions for compute"
 )
@@ -89,7 +90,6 @@ api_gateway_stack = ApiGatewayStack(
 )
 
 # Add dependencies
-cloudfront_stack.add_dependency(s3_stack)
 lambda_stack.add_dependency(dynamodb_stack)
 lambda_stack.add_dependency(sqs_stack)
 api_gateway_stack.add_dependency(cognito_stack)

@@ -1,14 +1,13 @@
 
 # "Job Card" "Subcomponent" Bugs:
 ## Please Fix:
-- clicking on the green arrow to "Manual" "Generate" Summary correctly sets the icon to spin, but does nothing; it never returns and never generates anything.  I clikced "Summary" but please check /fix ALL 9 "Resume Sections".  
+- clicking on the green arrow to "Manual" "Generate" Summary correctly sets the icon to spin, but does nothing; it never returns and never generates anything, until I do a hard-reset of the browser.  I suspect the request is made, but the webpage never returns to ask for an update on progress.  Can you either make a callback when processing is complete (preferable), or have a 2 second timer that will check for updates (if materially easier).
 
 - The "Manual" "Generate" function for "Contacts" generated... just the name, none of the contacts.
-`<section class="contact"><h1>Stephen Hilton</h1><address></address></section>`
+    `<section class="contact"><h1>Stephen Hilton</h1><address></address></section>`
+    This is not the contact section.  The "Manual Engine" needs a dramatic fix.  
 
-- new jobs are not honoring the Default generation types as set out in "Settings" "Preferences" "Default Generation by Section", please fix
-
-- in the Job Card top section, please add a very small "Edit"  button to the end of the 2nd row, behind "URL Added" (or whatever Gen type). 3rd request, please fix
+- in the Job Card top section, there was supposed to be a small "Edit" button added to the end of the 2nd row, behind "URL Added" but I don't see it, please fix
 
 
 

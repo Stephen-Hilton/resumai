@@ -125,3 +125,15 @@ The Resume File Import feature enables users to import resume data from external
 3. THE Temp_Bucket SHALL NOT be publicly accessible
 4. THE Import_Lambda SHALL process files in an isolated environment
 5. THE Import_Lambda SHALL sanitize all extracted text before sending to Nova_Micro
+
+### Requirement 10: Internal Data Structure Alignment
+
+**User Story:** As a developer, I want the internal ResumeJSON format to closely match the input file format, so that field mapping is straightforward and maintainable.
+
+#### Acceptance Criteria
+
+1. THE Resume_Import_System SHALL review the internal ResumeJSON format against the stephen_hilton.yaml structure
+2. WHERE field names differ between input format and internal format, THE Resume_Import_System SHALL document the mapping clearly
+3. IF refactoring the internal format reduces complexity without breaking existing functionality, THEN THE Resume_Import_System SHALL implement the refactor
+4. THE Resume_Import_System SHALL ensure backward compatibility with existing stored resumes during any refactor
+5. THE Resume_Import_System SHALL update TypeScript types, Lambda handlers, and UI components if the internal format changes

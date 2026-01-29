@@ -273,3 +273,16 @@ export interface User {
   email: string;
   username: string;
 }
+
+// Import Types
+export interface ImportUrlResponse {
+  uploadUrl: string;
+  s3Key: string;
+  expiresIn: number;
+}
+
+export interface ImportProcessResponse {
+  resumejson: ResumeJSON;
+  warnings?: string[];
+  source: 'yaml' | 'json' | 'pdf';
+}

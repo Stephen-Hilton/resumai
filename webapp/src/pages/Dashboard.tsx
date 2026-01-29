@@ -13,6 +13,7 @@ import { AddJobFromGmail } from '../components/AddJobFromGmail';
 import { PreferencesModal } from '../components/PreferencesModal';
 import { SubcomponentEditor } from '../components/SubcomponentEditor';
 import { ResumeEditor } from '../components/ResumeEditor';
+import { JobDescriptionEditor } from '../components/JobDescriptionEditor';
 import type { UserJob, JobPhase, SubcomponentType } from '../types';
 import { Loader2, Inbox } from 'lucide-react';
 
@@ -36,6 +37,10 @@ export function Dashboard() {
     jobid: string;
     component: SubcomponentType;
     content: string;
+  } | null>(null);
+  const [editingJob, setEditingJob] = useState<{
+    jobid: string;
+    jobdesc: string;
   } | null>(null);
 
   const loadJobs = useCallback(async () => {
@@ -67,9 +72,19 @@ export function Dashboard() {
 
   // Poll for updates when jobs are generating
   useEffect(() => {
-    const hasGenerating = jobs.some((job) => job.jobphase === 'Generating');
+    const hasGenerating = jobs.some((job) => {
+      // Check if job phase is Generating OR any subcomponent is generating
+      if (job.jobphase === 'Generating') return true;
+
+      const subcomponents: SubcomponentType[] = ['contact', 'summary', 'skills', 'highlights', 'experience', 'education', 'awards', 'keynotes', 'coverletter'];
+      return subcomponents.some(comp => {
+        const state = job[`state${comp}` as keyof UserJob] as string;
+        return state === 'generating';
+      });
+    });
+
     if (hasGenerating) {
-      const interval = setInterval(loadJobs, 5000);
+      const interval = setInterval(loadJobs, 2000); // Poll every 2 seconds for faster updates
       return () => clearInterval(interval);
     }
   }, [jobs, loadJobs]);
@@ -91,6 +106,13 @@ export function Dashboard() {
     if (job) {
       const content = job[`data${component}` as keyof UserJob] as string || '';
       setEditingSubcomponent({ jobid, component, content });
+    }
+  }
+
+  function handleEditJob(jobid: string) {
+    const job = jobs.find((j) => j.jobid === jobid);
+    if (job) {
+      setEditingJob({ jobid, jobdesc: job.jobdesc });
     }
   }
 
@@ -169,6 +191,7 @@ export function Dashboard() {
                   job={job}
                   onRefresh={loadJobs}
                   onEditSubcomponent={handleEditSubcomponent}
+                  onEditJob={handleEditJob}
                 />
               ))}
             </div>
@@ -226,6 +249,15 @@ export function Dashboard() {
           jobid={editingSubcomponent.jobid}
           component={editingSubcomponent.component}
           initialContent={editingSubcomponent.content}
+        />
+      )}
+
+      {editingJob && (
+        <JobDescriptionEditor
+          jobid={editingJob.jobid}
+          initialContent={editingJob.jobdesc}
+          onClose={() => setEditingJob(null)}
+          onSave={loadJobs}
         />
       )}
     </div>

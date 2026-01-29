@@ -1,0 +1,121 @@
+# SkillSnap Resume Template
+# Fill in your information and import using "Load from File".
+# This format matches the expected resume file structure.
+
+name: Your Full Name                    # Required: Your professional name
+location: City, State/Country           # Optional: Your location
+
+summary: |
+  Your professional summary goes here. This should be 2-4 sentences
+  highlighting your key experience, skills, and career objectives.
+
+# Available icons for contacts (use filename without .svg extension):
+#   email-at      - Email address
+#   phone         - Phone number
+#   phone-volume  - Phone (alternate style)
+#   linkedin      - LinkedIn profile
+#   github        - GitHub profile
+#   github-square - GitHub (square style)
+#   globe-solid   - Website/webpage
+#   house-solid   - Location/address
+#   x-twitter     - X (Twitter)
+#   bluesky       - Bluesky
+#   facebook      - Facebook
+#   discord       - Discord
+#   slack         - Slack
+#   telegram      - Telegram
+#   whatsapp      - WhatsApp
+#   signal-chat   - Signal
+
+contacts:                               # List of contact methods
+  - name: Email                         # Contact type name (for display)
+    label: your.email@example.com       # Display text
+    url: mailto:your.email@example.com  # Link URL
+    icon: email-at                      # Icon name (see options above)
+  - name: Mobile
+    label: (555) 123-4567
+    url: tel:+15551234567
+    icon: phone-volume
+  - name: LinkedIn
+    label: linkedin.com/in/yourprofile
+    url: https://linkedin.com/in/yourprofile
+    icon: linkedin
+  - name: GitHub
+    label: github.com/yourusername
+    url: https://github.com/yourusername
+    icon: github
+  - name: Webpage
+    label: yourwebsite.com
+    url: https://yourwebsite.com
+    icon: globe-solid
+
+skills:
+  - Skill 1
+  - Skill 2
+  - Skill 3
+
+# Note: highlights are NOT included - they are always AI-generated
+# based on your experience data during resume generation.
+
+experience:
+  - company_name: Company Name
+    company_urls: https://company.com   # Can be string or array of URLs
+    employees: 1000                     # Optional: number of employees
+    dates: January 2020 - Present       # Date range for company tenure
+    location: City, State               # Optional
+    company_description: |              # Optional: brief company description
+      Brief description of what the company does.
+    
+    roles:
+      - role: Job Title
+        dates: January 2022 - Present
+        location: City, State           # Optional
+        bullets:
+          - text: Achievement or responsibility description
+            tags: [leadership, technical]  # Optional tags for AI matching
+          - text: Another achievement or responsibility
+            tags: []
+
+  - company_name: Previous Company
+    company_urls:
+      - https://company.com
+      - https://alternate-url.com
+    employees: 500
+    dates: 2015 - 2020
+    location: Another City, State
+    company_description: Description of previous company.
+    
+    roles:
+      - role: Senior Role Title
+        dates: 2018 - 2020
+        location: City, State
+        bullets:
+          - text: Key achievement in senior role
+            tags: [management]
+      - role: Junior Role Title
+        dates: 2015 - 2018
+        location: City, State
+        bullets:
+          - text: Achievement in junior role
+            tags: []
+
+education:
+  - course: Degree or Certification Name
+    school: Institution Name
+    dates: 2018                         # Graduation year or date range
+  - course: Another Certification
+    school: Training Provider
+    dates: 2020
+
+awards:
+  - award: Award Title
+    reward: Prize or recognition received  # Optional
+    dates: 2023
+  - award: Another Award
+    reward: Description of reward
+    dates: 2020
+
+keynotes:                               # Optional: speaking engagements
+  - keynote: Presentation Title
+    event: Conference or Event Name
+    dates: 2023

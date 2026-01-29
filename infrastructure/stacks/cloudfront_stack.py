@@ -139,7 +139,7 @@ class CloudFrontStack(Stack):
             domain_names=[domain_name],
             certificate=self.certificate,
             default_behavior=cloudfront.BehaviorOptions(
-                origin=origins.S3BucketOrigin.with_origin_access_identity(
+                origin=origins.S3Origin(
                     s3_stack.landing_bucket,
                     origin_access_identity=self.landing_oai,
                 ),
@@ -171,7 +171,7 @@ class CloudFrontStack(Stack):
             domain_names=[f"app.{domain_name}"],
             certificate=self.certificate,
             default_behavior=cloudfront.BehaviorOptions(
-                origin=origins.S3BucketOrigin.with_origin_access_identity(
+                origin=origins.S3Origin(
                     s3_stack.webapp_bucket,
                     origin_access_identity=self.webapp_oai,
                 ),
@@ -203,7 +203,7 @@ class CloudFrontStack(Stack):
             domain_names=[f"*.{domain_name}"],
             certificate=self.certificate,
             default_behavior=cloudfront.BehaviorOptions(
-                origin=origins.S3BucketOrigin.with_origin_access_identity(
+                origin=origins.S3Origin(
                     s3_stack.resumes_bucket,
                     origin_access_identity=self.resumes_oai,
                 ),

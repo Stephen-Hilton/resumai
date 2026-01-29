@@ -127,6 +127,28 @@ class ApiGatewayStack(Stack):
             authorization_type=apigateway.AuthorizationType.COGNITO,
         )
 
+        # ==================== RESUME IMPORT ENDPOINTS ====================
+        # /resumes/import
+        resumes_import = resumes.add_resource("import")
+        
+        # POST /resumes/import/url - Get presigned URL for file upload
+        import_url = resumes_import.add_resource("url")
+        import_url.add_method(
+            "POST",
+            lambda_integration(lambda_stack.resume_import_url),
+            authorizer=self.authorizer,
+            authorization_type=apigateway.AuthorizationType.COGNITO,
+        )
+        
+        # POST /resumes/import/process - Process uploaded file
+        import_process = resumes_import.add_resource("process")
+        import_process.add_method(
+            "POST",
+            lambda_integration(lambda_stack.resume_import_process),
+            authorizer=self.authorizer,
+            authorization_type=apigateway.AuthorizationType.COGNITO,
+        )
+
         # ==================== JOB ENDPOINTS ====================
         jobs = self.api.root.add_resource("jobs")
         

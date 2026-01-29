@@ -142,20 +142,35 @@ def generate_manual_content(resume_section: Dict, component: str) -> str:
     Requirements: 9.3
     """
     if component == 'contact':
-        contact = resume_section
+        # resume_section contains both name and contacts array
+        name = resume_section.get('name', '')
+        contacts = resume_section.get('contacts', [])
+
         html = '<section class="contact">'
-        html += f'<h1>{contact.get("name", "")}</h1>'
+
+        # Add name as heading
+        if name:
+            html += f'<h1>{name}</h1>'
+
         html += '<address>'
-        if contact.get('email'):
-            html += f'<a href="mailto:{contact["email"]}">{contact["email"]}</a>'
-        if contact.get('phone'):
-            html += f'<span class="phone">{contact["phone"]}</span>'
-        if contact.get('location'):
-            html += f'<span class="location">{contact["location"]}</span>'
-        if contact.get('linkedin'):
-            html += f'<a href="{contact["linkedin"]}" class="linkedin">LinkedIn</a>'
-        if contact.get('website'):
-            html += f'<a href="{contact["website"]}" class="website">Website</a>'
+
+        # Iterate through contacts array and build links
+        for contact_item in contacts:
+            label = contact_item.get('label', '')
+            url = contact_item.get('url', '')
+            if label and url:
+                # Create appropriate HTML based on URL type
+                if url.startswith('mailto:'):
+                    html += f'<a href="{url}">{label}</a>'
+                elif url.startswith('tel:'):
+                    html += f'<span class="phone">{label}</span>'
+                elif 'linkedin.com' in url:
+                    html += f'<a href="{url}" class="linkedin">{label}</a>'
+                elif 'github.com' in url:
+                    html += f'<a href="{url}" class="github">{label}</a>'
+                else:
+                    html += f'<a href="{url}" class="website">{label}</a>'
+
         html += '</address></section>'
         return html
     
@@ -301,7 +316,10 @@ def handler(event, context):
             
             # Get the relevant resume section for this component
             section_map = {
-                'contact': resume_json.get('contact', {}),
+                'contact': {
+                    'name': resume_json.get('name', ''),
+                    'contacts': resume_json.get('contacts', [])
+                },
                 'summary': resume_json.get('summary', ''),
                 'skills': resume_json.get('skills', []),
                 'highlights': resume_json.get('highlights', []),

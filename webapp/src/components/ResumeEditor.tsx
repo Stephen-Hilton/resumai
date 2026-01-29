@@ -1,10 +1,11 @@
 /**
  * Resume Editor Modal Component
- * Requirements: 4.1, 4.2, 4.4
+ * Requirements: 4.1, 4.2, 4.4, 1.1, 1.2, 1.3, 1.4, 2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.2, 3.3, 3.4, 6.1, 6.2, 6.3, 6.4, 6.5, 6.6, 7.1, 7.2, 7.3, 7.4
  */
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { api } from '../services/api';
-import { X, Loader2, Save, Plus, Trash2, ChevronUp, ChevronDown, Edit2, Building2, Briefcase } from 'lucide-react';
+import { X, Loader2, Save, Plus, Trash2, ChevronUp, ChevronDown, Edit2, Building2, Briefcase, Upload, Download } from 'lucide-react';
+import { importResumeFile, ImportValidationError, ImportUploadError, ImportProcessError, ImportAuthError, ImportTimeoutError } from '../services/importService';
 import type { ResumeJSON, ContactItem, Education, Award, Keynote, ExperienceCompany, ExperienceRole, ExperienceBullet } from '../types';
 
 interface ResumeEditorProps {
@@ -75,6 +76,10 @@ export function ResumeEditor({ isOpen, onClose, onSuccess, resumename }: ResumeE
   // Experience editing state
   const [editingCompanyIndex, setEditingCompanyIndex] = useState<number | null>(null);
   const [editingRoleIndex, setEditingRoleIndex] = useState<{ companyIdx: number; roleIdx: number } | null>(null);
+
+  // Import state
+  const [importing, setImporting] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (isOpen) {
@@ -428,6 +433,70 @@ export function ResumeEditor({ isOpen, onClose, onSuccess, resumename }: ResumeE
     return iconConfig?.placeholder || 'https://example.com';
   }
 
+  // Import functions
+  function handleLoadFromFileClick() {
+    fileInputRef.current?.click();
+  }
+
+  async function handleFileSelect(event: React.ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    // Reset file input so the same file can be selected again
+    event.target.value = '';
+
+    setImporting(true);
+    setError(null);
+
+    try {
+      const result = await importResumeFile(file);
+      
+      // Populate form with imported data
+      setResume(result.resumejson);
+      
+      // Show warnings if any
+      if (result.warnings && result.warnings.length > 0) {
+        setError(`Import completed with warnings: ${result.warnings.join(', ')}`);
+      }
+    } catch (err) {
+      // Preserve existing form data on error (Requirement 6.6)
+      // Handle specific error types with user-friendly messages (Requirements 8.1-8.5)
+      if (err instanceof ImportValidationError) {
+        setError(err.message);
+      } else if (err instanceof ImportUploadError) {
+        setError(err.message);
+      } else if (err instanceof ImportProcessError) {
+        setError(err.message);
+      } else if (err instanceof ImportAuthError) {
+        setError(err.message);
+      } else if (err instanceof ImportTimeoutError) {
+        setError(err.message);
+      } else {
+        // Generic fallback error (Requirement 8.4)
+        setError('Could not read file. Please ensure it\'s a valid YAML, JSON, or PDF file.');
+        // Log detailed error for debugging (Requirement 8.5)
+        console.error('Import error:', err);
+      }
+    } finally {
+      setImporting(false);
+    }
+  }
+
+  function handleDownloadTemplate() {
+    const link = document.createElement('a');
+    link.href = '/skillsnap-resume-template.yaml';
+    link.download = 'skillsnap-resume-template.yaml';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
+  // Prevent modal close during import
+  function handleClose() {
+    if (importing) return;
+    onClose();
+  }
+
   if (!isOpen) return null;
 
 
@@ -438,10 +507,27 @@ export function ResumeEditor({ isOpen, onClose, onSuccess, resumename }: ResumeE
           <h2 className="text-lg font-semibold">
             {resumename ? 'Edit Resume' : 'Create Resume'}
           </h2>
-          <button onClick={onClose} className="p-1 hover:bg-gray-100 rounded">
+          <button onClick={handleClose} disabled={importing} className="p-1 hover:bg-gray-100 rounded disabled:opacity-50">
             <X className="w-5 h-5" />
           </button>
         </div>
+
+        {/* Import Progress Overlay */}
+        {importing && (
+          <div className="absolute inset-0 bg-white bg-opacity-80 flex flex-col items-center justify-center z-10">
+            <Loader2 className="w-12 h-12 animate-spin text-primary-600 mb-4" />
+            <p className="text-gray-700 font-medium">Analyzing resume file...</p>
+          </div>
+        )}
+
+        {/* Hidden file input */}
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept=".yaml,.yml,.json,.pdf"
+          onChange={handleFileSelect}
+          className="hidden"
+        />
 
         {loading ? (
           <div className="flex items-center justify-center py-12">
@@ -453,19 +539,64 @@ export function ResumeEditor({ isOpen, onClose, onSuccess, resumename }: ResumeE
               <div className="p-3 bg-red-50 text-red-700 rounded-lg text-sm">{error}</div>
             )}
 
-            {/* Resume Name */}
+            {/* Resume Name with Import Buttons */}
             {!resumename && (
               <div>
                 <label className="block text-base font-bold text-gray-700 mb-1">
                   Resume Name *
                 </label>
-                <input
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg"
-                  placeholder="My Professional Resume"
-                />
+                <div className="flex gap-2 items-center">
+                  <input
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="flex-1 max-w-md px-3 py-2 border border-gray-300 rounded-lg"
+                    placeholder="My Professional Resume"
+                    disabled={importing}
+                  />
+                  <button
+                    onClick={handleLoadFromFileClick}
+                    disabled={importing || loading}
+                    className="flex items-center gap-2 px-3 py-2 bg-gray-100 rounded-lg hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+                    title="Load from File"
+                  >
+                    <Upload className="w-4 h-4" />
+                    <span>Load from File</span>
+                  </button>
+                  <button
+                    onClick={handleDownloadTemplate}
+                    disabled={importing || loading}
+                    className="flex items-center gap-2 px-3 py-2 bg-gray-100 rounded-lg hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+                    title="Download Template"
+                  >
+                    <Download className="w-4 h-4" />
+                    <span>Download Template</span>
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* Import buttons for edit mode */}
+            {resumename && (
+              <div className="flex gap-2 items-center justify-end">
+                <button
+                  onClick={handleLoadFromFileClick}
+                  disabled={importing || loading}
+                  className="flex items-center gap-2 px-3 py-2 bg-gray-100 rounded-lg hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+                  title="Load from File"
+                >
+                  <Upload className="w-4 h-4" />
+                  <span>Load from File</span>
+                </button>
+                <button
+                  onClick={handleDownloadTemplate}
+                  disabled={importing || loading}
+                  className="flex items-center gap-2 px-3 py-2 bg-gray-100 rounded-lg hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+                  title="Download Template"
+                >
+                  <Download className="w-4 h-4" />
+                  <span>Download Template</span>
+                </button>
               </div>
             )}
 
@@ -860,12 +991,12 @@ export function ResumeEditor({ isOpen, onClose, onSuccess, resumename }: ResumeE
         )}
 
         <div className="flex justify-end space-x-3 p-4 border-t">
-          <button onClick={onClose} className="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">
+          <button onClick={handleClose} disabled={importing} className="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg disabled:opacity-50">
             Cancel
           </button>
           <button
             onClick={handleSave}
-            disabled={saving || loading}
+            disabled={saving || loading || importing}
             className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 disabled:opacity-50 flex items-center"
           >
             {saving ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Save className="w-4 h-4 mr-2" />}

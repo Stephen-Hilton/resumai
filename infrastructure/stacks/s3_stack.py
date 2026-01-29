@@ -11,6 +11,7 @@ Requirements: 2.1, 3.1, 10.6
 from aws_cdk import (
     Stack,
     RemovalPolicy,
+    Duration,
     aws_s3 as s3,
     aws_iam as iam,
     CfnOutput,
@@ -96,7 +97,39 @@ class S3Stack(Stack):
             ],
         )
 
+        # Temp imports bucket - for file upload processing
+        # Requirements: 4.1, 4.3
+        self.imports_temp_bucket = s3.Bucket(
+            self, "ImportsTempBucket",
+            bucket_name="skillsnap-imports-temp",
+            public_read_access=False,
+            block_public_access=s3.BlockPublicAccess.BLOCK_ALL,
+            removal_policy=RemovalPolicy.DESTROY,
+            auto_delete_objects=True,
+            lifecycle_rules=[
+                s3.LifecycleRule(
+                    id="delete-temp-imports",
+                    enabled=True,
+                    expiration=Duration.days(1),
+                    prefix="temp-imports/",
+                )
+            ],
+            cors=[
+                s3.CorsRule(
+                    allowed_methods=[s3.HttpMethods.PUT, s3.HttpMethods.GET],
+                    allowed_origins=[
+                        "https://app.skillsnap.me",
+                        "http://localhost:3000",
+                        "http://localhost:5173",
+                    ],
+                    allowed_headers=["*"],
+                    max_age=60,
+                )
+            ],
+        )
+
         # Outputs for reference
         CfnOutput(self, "LandingBucketName", value=self.landing_bucket.bucket_name)
         CfnOutput(self, "WebAppBucketName", value=self.webapp_bucket.bucket_name)
         CfnOutput(self, "ResumesBucketName", value=self.resumes_bucket.bucket_name)
+        CfnOutput(self, "ImportsTempBucketName", value=self.imports_temp_bucket.bucket_name)

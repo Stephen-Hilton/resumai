@@ -16,6 +16,8 @@ import type {
   SubcomponentType,
   GenerationType,
   JobPhase,
+  ImportUrlResponse,
+  ImportProcessResponse,
 } from '../types';
 
 class ApiService {
@@ -174,6 +176,17 @@ class ApiService {
 
   async updatePreferences(preferences: Partial<UserPreferences>): Promise<void> {
     await this.client.put('/preferences', { preferences });
+  }
+
+  // Resume Import endpoints
+  async getImportUrl(filename: string, contentType: string): Promise<ImportUrlResponse> {
+    const response = await this.client.post('/resumes/import/url', { filename, contentType });
+    return response.data;
+  }
+
+  async processImport(s3Key: string): Promise<ImportProcessResponse> {
+    const response = await this.client.post('/resumes/import/process', { s3Key });
+    return response.data;
   }
 }
 

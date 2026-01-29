@@ -204,7 +204,10 @@ TARGET SCHEMA (ResumeJSON):
 FIELD MAPPING RULES:
 1. Map top-level "name" to contact.name
 2. Map top-level "location" to contact.location  
-3. Map "contacts" array to contact.items, converting icon filenames to internal icon names
+3. Map "contacts" array to contact.items:
+   - contacts[].label -> contact.items[].title
+   - contacts[].url -> contact.items[].url
+   - contacts[].icon -> contact.items[].icon (strip .svg extension if present)
 4. Map "experience" with company_name/roles structure to the internal experience format
 5. Parse date ranges like "January 2020 - Present" into startDate/endDate/current fields
 6. Map education course/school/dates to degree/institution/graduationDate
@@ -219,6 +222,80 @@ OUTPUT:
 ```
 
 ## Data Models
+
+### Internal Format Alignment Analysis
+
+Comparing `stephen_hilton.yaml` (input format) with the current internal `ResumeJSON` format to identify alignment opportunities:
+
+#### Contact Information
+
+| Input Format | Current Internal | Recommendation |
+|--------------|------------------|----------------|
+| `name` (top-level) | `contact.name` | Keep internal - nesting is cleaner |
+| `location` (top-level) | `contact.location` | Keep internal - nesting is cleaner |
+| `contacts[].name` | N/A (not stored) | Add for display purposes |
+| `contacts[].label` | `contact.items[].title` | **Rename to `label`** for consistency |
+| `contacts[].url` | `contact.items[].url` | ✓ Already aligned |
+| `contacts[].icon` | `contact.items[].icon` | ✓ Already aligned (map filenames) |
+
+#### Experience
+
+| Input Format | Current Internal | Recommendation |
+|--------------|------------------|----------------|
+| `company_name` | `name` | ✓ Simple rename in mapping |
+| `company_urls` | `url` | ✓ Simple rename in mapping |
+| `employees` | `employees` | ✓ Already aligned |
+| `dates` (string) | `startDate`, `endDate`, `current` | Keep internal - structured is better |
+| `location` | `location` | ✓ Already aligned |
+| `company_description` | `description` | ✓ Simple rename in mapping |
+| `roles[].role` | `roles[].title` | ✓ Simple rename in mapping |
+| `roles[].dates` | `roles[].startDate/endDate/current` | Keep internal - structured is better |
+| `roles[].bullets[].text` | `roles[].bullets[].text` | ✓ Already aligned |
+| `roles[].bullets[].tags` | `roles[].bullets[].tags` | ✓ Already aligned |
+| `roles[].bullets[].id` | N/A | Input has IDs, internal doesn't need them |
+
+#### Education
+
+| Input Format | Current Internal | Recommendation |
+|--------------|------------------|----------------|
+| `course` | `degree` | **Consider renaming to `course`** - more generic |
+| `school` | `institution` | **Consider renaming to `school`** - simpler |
+| `dates` | `graduationDate` | Keep internal - clearer purpose |
+| N/A | `field` | Keep - useful for detailed education |
+| N/A | `gpa` | Keep - useful for recent grads |
+
+#### Awards
+
+| Input Format | Current Internal | Recommendation |
+|--------------|------------------|----------------|
+| `award` | `title` | ✓ Simple rename in mapping |
+| `reward` | `description` | ✓ Simple rename in mapping |
+| `dates` | `date` | ✓ Simple rename in mapping |
+
+#### Keynotes
+
+| Input Format | Current Internal | Recommendation |
+|--------------|------------------|----------------|
+| `keynote` | `title` | ✓ Simple rename in mapping |
+| `event` | `event` | ✓ Already aligned |
+| `dates` | `date` | ✓ Simple rename in mapping |
+| N/A | `location` | Keep - useful addition |
+
+### Refactoring Decision
+
+**Recommendation: Minimal refactoring - use AI mapping instead**
+
+The differences between input and internal formats are primarily naming conventions. Rather than refactoring the entire internal data structure (which would require updating TypeScript types, Lambda handlers, UI components, and migrating existing data), the AI field mapping approach handles these transformations cleanly.
+
+**Benefits of keeping current internal format:**
+1. No migration needed for existing stored resumes
+2. No changes to existing Lambda handlers
+3. No changes to existing UI components
+4. Structured date fields (`startDate`/`endDate`/`current`) are more useful than string dates
+5. Internal naming (`title`, `institution`, `degree`) is more semantically clear
+
+**One minor enhancement to consider:**
+- Add `name` field to `contact.items[]` to store the contact type name (e.g., "Email", "LinkedIn") for display purposes. This is currently derived from the icon type but having it explicit would be cleaner.
 
 ### API Request/Response Types
 
@@ -265,29 +342,45 @@ summary: |
   Your professional summary goes here. This should be 2-4 sentences
   highlighting your key experience, skills, and career objectives.
 
+# Available icons for contacts (use filename without .svg extension):
+#   email-at      - Email address
+#   phone         - Phone number
+#   phone-volume  - Phone (alternate style)
+#   linkedin      - LinkedIn profile
+#   github        - GitHub profile
+#   github-square - GitHub (square style)
+#   globe-solid   - Website/webpage
+#   house-solid   - Location/address
+#   x-twitter     - X (Twitter)
+#   bluesky       - Bluesky
+#   facebook      - Facebook
+#   discord       - Discord
+#   slack         - Slack
+#   telegram      - Telegram
+#   whatsapp      - WhatsApp
+#   signal-chat   - Signal
+
 contacts:                               # List of contact methods
-  - name: Email                         # Contact type name
+  - name: Email                         # Contact type name (for display)
     label: your.email@example.com       # Display text
     url: mailto:your.email@example.com  # Link URL
-    icon: at-solid.svg                  # Icon filename
+    icon: email-at                      # Icon name (see options above)
   - name: Mobile
     label: (555) 123-4567
     url: tel:+15551234567
-    icon: phone-volume-solid.svg
+    icon: phone-volume
   - name: LinkedIn
     label: linkedin.com/in/yourprofile
     url: https://linkedin.com/in/yourprofile
-    icon: linkedin-brands-solid.svg
+    icon: linkedin
   - name: GitHub
     label: github.com/yourusername
     url: https://github.com/yourusername
-    icon: github-brands.svg
+    icon: github
   - name: Webpage
     label: yourwebsite.com
     url: https://yourwebsite.com
-    icon: globe-solid.svg
-  # Icon options: at-solid.svg, phone-volume-solid.svg, linkedin-brands-solid.svg,
-  # github-brands.svg, globe-solid.svg, house-solid.svg, telegram-brands.svg
+    icon: globe-solid
 
 skills:
   - Skill 1
